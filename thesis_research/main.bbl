@@ -1,0 +1,9 @@
+\begin{thebibliography}{1}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{{Jones} {et~al.}(2016){Jones}, {White}, {Quinn}, {Ireland},
+  {Boyajian}, {Schaefer}, \& {Baines}}]{jones_2016}
+{Jones}, J., {White}, R.~J., {Quinn}, S., {Ireland}, M., {Boyajian}, T.,
+  {Schaefer}, G., \& {Baines}, E.~K. 2016, \apjl, 822, L3
+
+\end{thebibliography}

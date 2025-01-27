@@ -1,6 +1,78 @@
-\chapter{CHAPTER 1 TITLE}
+\chapter{INTRODUCTION}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\section{Background}
+The problem of computing eigenvalues and eigenvectors of matrices in numerical linear algebra is a well-studied one. The computation of eigenvalues and eigenvectors plays a central role in scientific computing with applications in structural analysis, quantum mechanics, data science and control theory. However, eigenvalue problems(standard and generalized)  involving dense and sparse matrices present significant computational challenges, especially as the size of the matrices increases. These problems are fundamental in many scientific and engineering disciplines where the underlying mathematical models are often expressed in terms of eigenvalue equations. Historically, methods for solving eigenvalue problems date back to the early 20th century with foundational contributions from David Hilbert, Erhard Schmidt, and John von Neumann, who laid the groundwork for understanding linear operators and their spectral properties.\\
+With the advent of digital computing in the mid-20th century, numerical methods for eigenvalue problems began to flourish. Classical iterative methods, such as the power iteration and inverse iteration, were among the first to be employed due to their simplicity and effectiveness for small-scale problems. However, as computational requirements grew, particularly with the need to solve larger sparse systems, researchers turned to more sophisticated algorithms. The Lanczos method, introduced by Cornelius Lanczos in 1950, represented a significant advancement for efficiently solving eigenvalue problems for large symmetric matrices. The method exploits the sparsity of matrices and reduces the dimensionality of the problem by constructing a tridiagonal matrix whose eigenvalues approximate those of the original matrix.
 
-\section{The First Section of the First Chapter}
-	You should probably introduce some stuff here
-    
-    You should look at the gsudiss.cls file first when you want to change things in how the document is laid out (also, the `Copyright by Your Name' bit is hard-coded there, so you'll have to change that).
+\section{Mathematical Preliminaries}
+In this section, we attempt to introduce some notations and the key mathematical concepts underlying the eigenvalue problems that will be used in this study .
+
+\subsection{Notation}
+Throughout this study, we make use of the following notations:
+\begin{align*}\nonumber
+	&A \in \mathbb{C}^{m\times n}: \text{denotes square or rectangular matrices}\\
+	&Q \in \mathbb{C}^{m\times m}: \text{denotes unitary or orthogonal matrices}\\
+	&a_{ij}: \text{denotes element $(i, j)$ of A}\\
+	&x, q \in \mathbb{C}^{m}: \text{denotes column vectors}\\
+	&\text{Greek letters }\alpha, \beta\text{...} \text{ : denotes scalars in $\mathbb{C}$}\\
+	&A^{T}: \text{denotes the transpose of matrix $A$}\\
+	&\| \cdot \|: \text{denotes a vector or matrix norm }\\
+	& \otimes: \text{ denotes the Kronecker product of two matrices}\\
+	&A_{i:i^\prime, j:j^\prime}: \text{denotes the $(i^\prime - i + 1) \times (j^\prime - j + 1)$ submatrix of $A$}\\
+	&A^{(k)}: \text{denotes the matrix A at the $kth$ step of an iteration}
+\end{align*}
+\subsection{Floating Point Arithmetic}
+We define a \textit{floating point} number system, \textbf{F} as a bounded subset of the real numbers $\mathbb{R}$, such that the elements of $\mathbf{F}$ are the number $0$ together with all numbers of the form
+\begin{align*}
+	x = \pm(m / \beta^t)\beta^e
+\end{align*}
+where $m$ is an integer in the range $1\leq m\leq \beta^t$ known as the significand, $\beta \geq 2$ is known as the \textit{base} or \textit{radix} (typically $2$), $e$ is an arbitrary integer known as the exponent and $t\geq 1$ is known as the precision.\\
+To ensure that a nonzero element $x \in$ \text{F} is unique, we can restrict the range of \textbf{F} to $\beta^{t-1} \leq m \leq \beta^t - 1$. The quantity $\pm(m/\beta^t)$ is then known as the \textit{fraction} or \textit{mantissa} of x. We define the number $u \coloneq \frac{1}{2}\beta^{1-t}$ as the \textit{unit roundoff} or \textit{machine epsilon}. In a relative sense, the \textit{unit roundoff} is as large as the gaps between floating point numbers get.\\
+Let $fl :  \mathbb{R} \rightarrow \mathbf{F}$ be a function that gives the closest floating point approximation to a real number, then the following theorem gives a property of the unit roundoff.
+\begin{theorem}
+	If $x \in \mathbb{R}$ is in the range of $\mathbf{F}$, then $\exists$ $\epsilon$ with $|\epsilon| \le u$ such that $fl(x) = x(1+\epsilon)$.
+\end{theorem}
+One way we could think of this is that, the difference between a real number and its closest floating point approximation is always smaller than $u$ in relative terms.
+\subsection{Vector Norms}
+Norms are generally used to capture the notions of size and distance in a vector space. A norm is a function $ \| \cdot \| : \mathbb{C}^m \rightarrow \mathbb{R} $ satisfying the following properties $\forall$ vectors $x$ and $y$ and scalars $\alpha \in \mathbb{C}$:
+	\begin{align*}
+		&\text{(1) } \| x \| \geq 0, \text{ and } \| x \| = 0 \text{ only if } x = 0,\\
+		&\text{(2) } \| x+y \| \leq \| x \| + \| y \|,\\
+		&\text{(3) } \| \alpha x \| = |\alpha| \| x \|
+	\end{align*}
+The most important class of vector norms are the \textit{p}-norms and are defined as follows:
+\begin{align*}
+	&\| x \|_1 = \sum_{i=1}^{m} |x_i| = 1,\\
+	&\| x \|_2 = \Bigl( \sum_{i=1}^{m} |x_i|^2 \Bigr)^{1/2},\\
+	&\| x \|_\infty = \max_{1\leq i\leq m} |x_i|,\\
+	&\| x \|_p = \Bigl(\sum_{i=1}^{m} |x_i|^p \Bigr)^{1/p}, \qquad(1\leq p<\infty)
+\end{align*}
+\subsection{General Matrix Norms}
+Similar to a vector norm, a matrix norm is a function  $ \| \cdot \| : \mathbb{C}^{m\times n} \rightarrow \mathbb{R} $ satisfying the following properties $\forall$ matrices $A$ and $B$ and scalars $\alpha \in \mathbb{C}$:
+\begin{align*}
+	&\text{(1) } \| A \| \geq 0, \text{ and } \| A \| = 0 \text{ only if } A = 0,\\
+	&\text{(2) } \| A+B \| \leq \| A \| + \| B \|,\\
+	&\text{(3) } \| \alpha A \| = |\alpha| \| A \|
+\end{align*}
+\subsection{Conditioning}
+\subsection{Forward and Backward Errors}
+\subsection{The Standard Eigenvalue Problem}
+Let $A \in \mathbb{C}^{m\times m}$ be a square matrix. A nonzero vector $x \in \mathbb{C}^m$ is an \textit{eigenvector} of $A$, and $\lambda \in \mathbb{C}$ is the corresponding \textit{eigenvalue} if,
+\begin{equation}\label{(1.1)}
+	Ax = \lambda x
+\end{equation}
+The (multi)set of all eigenvalues of $A$ is called the \textit{spectrum} of $A$ and is denoted by $spec(A)$. Equation (\ref{(1.1)}) can be written as $(A-\lambda I)x = 0$. Since $x\neq0$, this is equivalent to $\det(A-\lambda I) = 0$ and the solutions are the roots of the degree $n$ polynomial
+\begin{equation}
+	p_A (\lambda) = det(\lambda I - A)
+\end{equation}
+known as the \textit{characteristic polynomial} of $A$.\\
+We define the eigenspace, $E_\lambda$ of $A$ corresponding to an eigenvalue $\lambda \in spec(A)$ as the set of all eigenvectors associated with $\lambda$ as follows:
+\begin{equation}
+	E_\lambda = \mathcal{N}(A-\lambda I) = \{x \mid (A - \lambda I)x = 0\}
+\end{equation}
+If $A$ is Hermittian, the eigenvalues of $A$ are real and the 
+\subsection{The Generalized Eigenvalue Problem}
+
+\subsection{Lanczos Algorithm}
+ 

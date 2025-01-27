@@ -597,7 +597,7 @@
     Office of Graduate Studies\\
     College of Arts and Sciences\\
     Georgia State University\\
-    \graduate\ \graduation}}
+    May 2025}}
 
 %------------------------Committee Certification Page---------------------
 \ifthenelse{\equal{\printcertifypage}{yes}}{
@@ -663,7 +663,7 @@
   \vspace*{0.7\textheight}
   \begin{center}
     \parbox[]{\textwidth}{\setstretch{1}
-      \begin{center}Copyright by\\Your Name\\\graduation\end{center}}
+      \begin{center}Copyright by\\Ayobami Adebesin\\2025\end{center}}
   \end{center}
 %  \cleardoublepage
 }
