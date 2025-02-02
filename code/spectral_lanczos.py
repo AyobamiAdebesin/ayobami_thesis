@@ -1,45 +1,56 @@
 #!/usr/bin/python3
 
 """
-This script contains the implementation of the Shift-Invert Lanczos algorithm
-for finding the eigenvalues of sparse matrix near a shift. 
-
-Author: Ayobami Adebesin
+Spectral Transformation Lanczos for Dense Symmetric-Definite 
+Generalized Eigenvalue problem Ax = lambda Bx
 """
+
 import numpy as np
-import scipy.sparse as sp
-import argparse
-from scipy.sparse import csr_matrix
-from typing import Callable, List, Sequence, Tuple
-from collections import Counter
+import numpy.linalg as la
+from utils import *
 
-def make_mul_inv(A: csr_matrix, sigma: float, m: int) -> Callable:
-    refine = True
-    F = sp.linalg.splu(A - sigma * sp.eye(m))
-    def mul_invA(B):
-        Y = F.solve(B)
-        if refine:
-            R = A@Y - sigma * Y -B
-            return Y-F.solve(R)
-        else:
-            return Y
-    return mul_invA
 
-def construct_A(l: int):
-    """ Construct the matrix A """
-    # form matrices
-    v = np.ones(l**2)
-    A1 = sp.spdiags([-v, 2*v, -v], [-1, 0, 1], l, l)
-    I_l = sp.eye(l)
-    A = sp.kron(I_l, A1, format='csc') + sp.kron(A1, I_l)
-    return A
-
-def lanczos(mul_invA: Callable, m, n, b=None):
+def generate_matrix(D, delta):
     """
-    Compute the Lanczos decomposition of an mxm symmetric matrix A
+    Generate A (symmetric) and B (symmetric and positive definite) from known eigenvalues D
+    
+    D - diagonal matrix of known eigenvalues
     """
-    if b is None:
-        b = np.random.randn(m)
+    m= D.shape[0]
+    Q, _ = la.qr(np.random.randn(m, m))
+    C = Q @ D @ Q.T
+
+    L0 = np.tril(np.random.randn(m,m))
+    B = (L0 @ L0.T ) + (delta * np.eye(m))
+    L = la.cholesky(B)
+    A = L @ C @ L.T
+    return A, B
+
+
+def eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3):
+    """ Generate eigenvalue distribution.
+    
+    m1 - Number of eigenvalues in the first group.
+    m2 - Number of eigenvalues in the second group.
+    m3 - Number of eigenvalues in the third group.
+    spread1 - (min, max) for the first group.
+    spread2 - (min, max) for the second group.
+    spread3 - (min, max) for the third group.
+    """
+    eig1 = np.random.uniform(spread1[0], spread1[1], m1)
+    eig2 = np.random.uniform(spread2[0], spread2[1], m2)
+    eig3 = np.random.uniform(spread3[0], spread3[1], m3)
+
+    eigenvalues = np.concatenate([eig1, eig2, eig3])
+
+    return np.diag(eigenvalues)
+
+def spectral_lanczos(A, B, m, n, shift):
+    """
+    Compute the Spectral Lanczos decomposition of a Symmetric-Definite GEP
+    """
+    b = np.random.randn(m)
+    L = la.cholesky(B)
 
     # Initialize storage for alpha, beta, and Lanczos vectors
     alphas = np.zeros(n)
@@ -53,7 +64,9 @@ def lanczos(mul_invA: Callable, m, n, b=None):
     # Perform Lanczos iterations
     for j in range(n + 1):
         Q_n_plus_1[:, j] = q_curr
-        v = mul_invA(q_curr)
+        u = L @ q_curr
+        v = la.solve(A-shift*B, u)
+        v = L.T @ v
         if j < n:
             # Compute and store alpha
             alpha = np.dot(q_curr, v)
@@ -104,4 +117,3 @@ def compute_ritz_pairs(T, Q, sigma):
     eigvecs_A = Q @ eigvecs_Tn
     eigvals_A = sigma + 1/eigvals_Tn
     return eigvecs_A, eigvals_A
-

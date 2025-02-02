@@ -4,16 +4,8 @@ import numpy as np
 import numpy.linalg as la
 np.random.seed(256)
 
-def generate_matrix(size):
-    """ Generate a random matrix similar to a diagonal matrix with predetermined eigenvalues """
-    # create a diagonal matrix
-    diagonal_values = np.random.uniform(1, 10, size)
-    D = np.diag(diagonal_values)
-
-    # random orthogonal matrix
-    Q, _ = la.qr(np.random.rand(size, size))
-    A = Q @ D @ Q.T
-    return A, D
+def is_symmetric(matrix, tol=1e-8):
+    return np.allclose(matrix, matrix.T, atol=tol)
 
 def relative_ritz_pair_residual(A, eigenvalues, eigenvectors):
     """Calculate the relative residuals for the Ritz pairs."""
