@@ -7,7 +7,9 @@ Generalized Eigenvalue problem Ax = lambda Bx
 
 import numpy as np
 import numpy.linalg as la
-from utils import *
+from scipy.linalg import lu_factor, lu_solve
+
+np.random.seed(256)
 
 
 def generate_matrix(D, delta):
@@ -16,16 +18,15 @@ def generate_matrix(D, delta):
     
     D - diagonal matrix of known eigenvalues
     """
-    m= D.shape[0]
+    m = D.shape[0]
     Q, _ = la.qr(np.random.randn(m, m))
     C = Q @ D @ Q.T
-
+    
     L0 = np.tril(np.random.randn(m,m))
     B = (L0 @ L0.T ) + (delta * np.eye(m))
     L = la.cholesky(B)
-    A = L @ C @ L.T
-    return A, B
-
+    A = (L @ C ) @ L.T
+    return A, B, L
 
 def eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3):
     """ Generate eigenvalue distribution.
@@ -45,27 +46,30 @@ def eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3):
 
     return np.diag(eigenvalues)
 
-def spectral_lanczos(A, B, m, n, shift):
+def spectral_lanczos(A, B, L, m, n, shift):
     """
     Compute the Spectral Lanczos decomposition of a Symmetric-Definite GEP
     """
     b = np.random.randn(m)
-    L = la.cholesky(B)
 
     # Initialize storage for alpha, beta, and Lanczos vectors
     alphas = np.zeros(n)
     betas = np.zeros(n)
-    Q_n_plus_1 = np.zeros((m, n + 1))
+    Q_n = np.zeros((m, n + 1))
 
     beta_prev = 0
     q_prev = np.zeros(m)
     q_curr = b / np.linalg.norm(b)
 
+    # Precompute the factorization of (A - shift * B)
+    A_shift_B = A - shift * B
+    lu = lu_factor(A_shift_B)
+
     # Perform Lanczos iterations
     for j in range(n + 1):
-        Q_n_plus_1[:, j] = q_curr
+        Q_n[:, j] = q_curr
         u = L @ q_curr
-        v = la.solve(A-shift*B, u)
+        v = lu_solve(lu, u)
         v = L.T @ v
         if j < n:
             # Compute and store alpha
@@ -76,7 +80,7 @@ def spectral_lanczos(A, B, m, n, shift):
             v = v - (beta_prev * q_prev) - (alpha * q_curr)
 
             # reorthogonalization
-            v -= Q_n_plus_1[:, :j+1] @ (Q_n_plus_1[:, :j+1].T @ v)
+            v -= Q_n[:, :j+1] @ (Q_n[:, :j+1].T @ v)
 
             # Compute beta
             beta = np.linalg.norm(v)
@@ -98,22 +102,31 @@ def spectral_lanczos(A, B, m, n, shift):
     np.fill_diagonal(T_n[:-1, 1:], betas[:n - 1])
     np.fill_diagonal(T_n[1:, :-1], betas[:n - 1])
 
-    # Construct the extended tridiagonal matrix T_n_tilde of size (n+1 x n)
-    T_n_tilde = np.zeros((n + 1, n))
-    np.fill_diagonal(T_n_tilde[:n, :], alphas)
-    np.fill_diagonal(T_n_tilde[:n, 1:], betas[:n - 1])
-    np.fill_diagonal(T_n_tilde[1:, :n - 1], betas[:n - 1])
+    Q_n = Q_n[:, :n]
 
-    # Add the last beta_n for q_{n+1}
-    T_n_tilde[n, n - 1] = betas[n - 1] if n > 1 else betas[0] 
+    return T_n, Q_n
 
-    Q_n = Q_n_plus_1[:, :n]
-
-    return T_n, T_n_tilde, Q_n, Q_n_plus_1
-
-def compute_ritz_pairs(T, Q, sigma):
+def compute_eigenvalues(T, Q, L, sigma):
     """ Compute the evalues and evectors of tridiagonal matrix T """ 
     eigvals_Tn, eigvecs_Tn = np.linalg.eigh(T)
-    eigvecs_A = Q @ eigvecs_Tn
-    eigvals_A = sigma + 1/eigvals_Tn
-    return eigvecs_A, eigvals_A
+    theta = eigvals_Tn
+    U = Q @ eigvecs_Tn
+    alphas = 1.0 + (theta *sigma)
+    betas = theta
+    V = la.solve(L.T, U)
+    return V, alphas, betas
+
+def compute_residuals(A, B, alphas, betas):
+    """ Compute relative residuals"""
+    norm_A = la.norm(A)
+    norm_B = la.norm(B)
+    residuals = np.zeros_like(alphas, dtype=float)
+
+    for i in range(len(alphas)):
+        alpha, beta = alphas[i], betas[i]
+        M = beta * A - alpha * B
+        sigma_n = la.svdvals(M)[-1]
+        denominator = abs(beta) * norm_A + abs(alpha) * norm_B
+        
+        residuals[i] = sigma_n / denominator if denominator > 0 else np.inf 
+    return residuals
