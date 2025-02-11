@@ -44,7 +44,7 @@ def eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3):
 
     eigenvalues = np.concatenate([eig1, eig2, eig3])
 
-    return np.diag(eigenvalues)
+    return eigenvalues
 
 def spectral_lanczos(A, B, L, m, n, shift):
     """
@@ -116,17 +116,9 @@ def compute_eigenvalues(T, Q, L, sigma):
     V = la.solve(L.T, U)
     return V, alphas, betas
 
-def compute_residuals(A, B, alphas, betas):
+def compute_residuals(A, B, alphas, betas, V):
     """ Compute relative residuals"""
-    norm_A = la.norm(A)
-    norm_B = la.norm(B)
-    residuals = np.zeros_like(alphas, dtype=float)
-
+    residuals = np.zeros_like(V)
     for i in range(len(alphas)):
-        alpha, beta = alphas[i], betas[i]
-        M = beta * A - alpha * B
-        sigma_n = la.svdvals(M)[-1]
-        denominator = abs(beta) * norm_A + abs(alpha) * norm_B
-        
-        residuals[i] = sigma_n / denominator if denominator > 0 else np.inf 
+        residuals[:, i] = (betas[i]*A - alphas[i]*B)@V[:, i]
     return residuals
