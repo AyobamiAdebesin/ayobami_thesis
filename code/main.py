@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # Compute the converged ritz pairs and their (spectral transformation) relative residuals
     U_converged, theta_converged, residuals = compute_spectral_residuals(A, B, L, T, Q, shift, tol=tol)
 
-    # compute the generalized eigenvalue and eigenvalues and the residuals for the converged ritz pairs 
+    # compute the generalized eigenvectors and eigenvalues and the residuals for the converged ritz pairs 
     ritz_residuals, v, alpha, beta = compute_ritz_pair_residuals(A, B, L, U_converged, theta_converged, shift)
     
     print(f"Eigenvalues computed by Spectral Lanczos: \n{alphas/betas}\n")
