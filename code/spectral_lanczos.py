@@ -6,6 +6,7 @@ Generalized Eigenvalue problem Ax = lambda Bx
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 import sys
 import numpy.linalg as la
 from scipy.linalg import lu_factor, lu_solve
@@ -127,48 +128,62 @@ def compute_residuals(A, B, alphas, betas, V):
             abs(betas[i]) * nrma + abs(alphas[i]) * nrmb) / la.norm(V[:,i])
     return residuals
 
-def compute_spectral_residuals(A, B, L, T, Q, shift, tol):
-    """
-    Compute relative residuals for the spectral transformation
-    problem to obtain converged Ritz pairs based on tolerance
-    """
+def compute_ritz_residuals(A, B, L, T, Q, shift, tol):
+    """ Compute relative residuals for the spectral transformation problem to obtain converged Ritz pairs based on tolerance """
     eigvals_T, eigvecs_T = la.eigh(T)
     theta = eigvals_T
     U = Q @ eigvecs_T
-    residuals = []
+    ritz_residuals = []
     U_converged = []
     theta_converged = []
 
     # Precompute the factorization of (A - shift * B)
     A_shift_B = A - shift * B
     lu = lu_factor(A_shift_B)
+    
+    # Compute the norm of L.T @ (inv(A - shift * B) @ L)
+    norm_matrix = la.norm(L.T @ lu_solve(lu, L))
 
     for i in range(U.shape[1]):
         q = L @ U[:, i]
         v = lu_solve(lu, q)
         v = L.T @ v
         num = la.norm(v - theta[i] * U[:, i])
-        den = (la.norm(v) + la.norm(theta)) * la.norm(U[:, i])
+        den = (norm_matrix + abs(theta[i])) * la.norm(U[:, i])
         residual = num / den if den != 0 else np.inf
-
         # Check if the residual is within the tolerance
         if residual <= tol:
-            residuals.append(residual)
+            ritz_residuals.append(residual)
             U_converged.append(U[:, i])
             theta_converged.append(theta[i])
-
-    residuals = np.array(residuals)
+    ritz_residuals = np.array(ritz_residuals)
     U_converged = np.array(U_converged).T
     theta_converged = np.array(theta_converged)
+    return U_converged, theta_converged, ritz_residuals
 
-    return U_converged, theta_converged, residuals
 
-def compute_ritz_pair_residuals(A, B, L, U_converged, theta_converged, sigma):
-    """ Compute the residuals and generalized eigvalues and eigvectors for the converged Ritz pairs """
-    converged_alphas = 1.0 + (theta_converged * sigma)
+def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
+    """ Compute the residuals, generalized eigvalues and eigvectors for the converged Ritz pairs """
+    converged_alphas = 1.0 + (theta_converged * shift)
     converged_betas = theta_converged
     converged_V = la.solve(L.T, U_converged)
-
     residuals = compute_residuals(A, B, converged_alphas, converged_betas, converged_V)
     return residuals, converged_V, converged_alphas, converged_betas
 
+def plot_residuals(eigenvalues, residuals, save_path=None):
+    
+    fig, ax1 = plt.subplots(1, 1, figsize=(12, 6), sharey=True)
+    
+    # Plot for the residuals of computed eigenvalues
+    ax1.scatter(eigenvalues, residuals, color='blue', label='λ', s=10)
+    ax1.set_yscale('log')
+    ax1.set_xlabel(r'$\lambda$', fontsize=12)
+    ax1.set_ylabel('Residual', fontsize=12)
+    ax1.set_title('Residual vs $\lambda$', fontsize=12)
+    ax1.legend()
+
+    plt.tight_layout()
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        print(f"Plot saved to {save_path}")
