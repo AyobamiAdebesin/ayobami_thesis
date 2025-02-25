@@ -6,20 +6,13 @@ from spectral_lanczos import *
 from scipy.linalg import eigh
 
 if __name__ == "__main__":
-    # m1, m2, m3 = 1500, 20, 3
-    # spread1 = (1, 3)
-    # spread2 = (59, 60)
-    # spread3 = (94.9999, 95.0001)
-    # shift = 96
-    # n = 100
-    # tol = 1e-10
-    m1, m2, m3 = 1500, 20, 3
-    spread1 = (1, 10)
-    spread2 = (50, 60)
-    spread3 = (74.9999, 75.0001)
-    shift = 76
-    n=50
-    tol = 1e-7
+    m1, m2, m3 = 1500, 400, 100
+    spread1 = (1, 200)
+    spread2 = (200, 300)
+    spread3 = (301, 400)
+    shift = 201
+    n=1200
+    tol = 1e-10
 
     D = eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3)
     D = np.diag(D)
@@ -40,4 +33,5 @@ if __name__ == "__main__":
     print(f"Generalized Relative Residuals for converged ritz pair: \n{la.norm(gen_residuals, axis=0)}\n")
     print(f"Relative Ritz Residuals for Spectral Transformation: \n{ritz_residuals}\n")
 
-    plot_residuals(eigenvalues=alphas/betas, residuals=la.norm(residuals, axis=0), save_path="residuals")
+    plot_residuals(eigenvalues=theta_converged, residuals=ritz_residuals, save_path="ritz_residuals")
+    plot_residuals(eigenvalues=alpha/beta, residuals=la.norm(gen_residuals, axis=0), save_path="converged_ritz_residuals")

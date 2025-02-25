@@ -176,6 +176,7 @@ def plot_residuals(eigenvalues, residuals, save_path=None):
     
     # Plot for the residuals of computed eigenvalues
     ax1.scatter(eigenvalues, residuals, color='blue', label='λ', s=10)
+    #ax1.set_xscale('log')
     ax1.set_yscale('log')
     ax1.set_xlabel(r'$\lambda$', fontsize=12)
     ax1.set_ylabel('Residual', fontsize=12)
