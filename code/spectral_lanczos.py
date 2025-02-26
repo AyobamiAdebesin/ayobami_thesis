@@ -58,6 +58,7 @@ def spectral_lanczos(A, B, L, m, n, shift):
     alphas = np.zeros(n)
     betas = np.zeros(n)
     Q_n = np.zeros((m, n + 1))
+    x = np.zeros(n)
 
     beta_prev = 0
     q_prev = np.zeros(m)
@@ -105,8 +106,19 @@ def spectral_lanczos(A, B, L, m, n, shift):
     np.fill_diagonal(T_n[1:, :-1], betas[:n - 1])
 
     Q_n = Q_n[:, :n]
+    x[n-1] = beta
 
-    return T_n, Q_n
+    return T_n, Q_n, q_curr, x
+
+def compute_decomp_residual(A, B, L, T, Q, q, x, shift):
+    """ Compute the Lanczos decomposition residual """
+    lu = lu_factor(A - shift*B)
+    norm_matrix = la.norm(L.T @ lu_solve(lu, L))
+    aq = L.T @ lu_solve(lu, L @ Q)
+    qt = Q @ T
+    qx = np.outer(q, x.T)
+    decomp_res = la.norm(aq - qt - qx) / norm_matrix
+    return decomp_res
 
 def compute_eigenvalues(T, Q, L, sigma):
     """ Compute the evalues and evectors of tridiagonal matrix T """ 
