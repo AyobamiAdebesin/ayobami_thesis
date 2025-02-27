@@ -64,16 +64,20 @@ def spectral_lanczos(A, B, L, m, n, shift):
     q_prev = np.zeros(m)
     q_curr = b / np.linalg.norm(b)
 
-    # Precompute the factorization of (A - shift * B)
-    A_shift_B = A - shift * B
-    lu = lu_factor(A_shift_B)
+    # # Precompute the factorization of (A - shift * B)
+    # A_shift_B = A - shift * B
+    # lu = lu_factor(A_shift_B)
+
+    # spectral transformation matrix
+    C = L.T @ la.inv(A - shift*B) @ L
 
     # Perform Lanczos iterations
     for j in range(n + 1):
         Q_n[:, j] = q_curr
-        u = L @ q_curr
-        v = lu_solve(lu, u)
-        v = L.T @ v
+        v = C @ q_curr
+        # u = L @ q_curr
+        # v = lu_solve(lu, u)
+        # v = L.T @ v
         if j < n:
             # Compute and store alpha
             alpha = np.dot(q_curr, v)
@@ -108,16 +112,19 @@ def spectral_lanczos(A, B, L, m, n, shift):
     Q_n = Q_n[:, :n]
     x[n-1] = beta
 
-    return T_n, Q_n, q_curr, x
+    return T_n, Q_n, q_curr, x, C
 
-def compute_decomp_residual(A, B, L, T, Q, q, x, shift):
+def compute_decomp_residual(A, B, L, T, Q, q, x, shift, C):
     """ Compute the Lanczos decomposition residual """
-    lu = lu_factor(A - shift*B)
-    norm_matrix = la.norm(L.T @ lu_solve(lu, L))
-    aq = L.T @ lu_solve(lu, L @ Q)
-    qt = Q @ T
-    qx = np.outer(q, x.T)
-    decomp_res = la.norm(aq - qt - qx) / norm_matrix
+    # lu = lu_factor(A - shift*B)
+    # norm_matrix = la.norm(L.T @ lu_solve(lu, L))
+    # aq = L.T @ lu_solve(lu, L @ Q)
+    # qt = Q @ T
+    # qx = np.outer(q, x.T)
+    # decomp_res = la.norm(aq - qt - qx) / norm_matrix
+    num = la.norm(C@Q - Q@T - np.outer(q, x.T))
+    den = la.norm(C)
+    decomp_res = num/den
     return decomp_res
 
 def compute_eigenvalues(T, Q, L, sigma):
@@ -140,7 +147,7 @@ def compute_residuals(A, B, alphas, betas, V):
             abs(betas[i]) * nrma + abs(alphas[i]) * nrmb) / la.norm(V[:,i])
     return residuals
 
-def compute_ritz_residuals(A, B, L, T, Q, shift, tol):
+def compute_ritz_residuals(A, B, L, T, Q, shift, tol, C):
     """ Compute relative residuals for the spectral transformation problem to obtain converged Ritz pairs based on tolerance """
     eigvals_T, eigvecs_T = la.eigh(T)
     theta = eigvals_T
@@ -149,17 +156,19 @@ def compute_ritz_residuals(A, B, L, T, Q, shift, tol):
     U_converged = []
     theta_converged = []
 
-    # Precompute the factorization of (A - shift * B)
-    A_shift_B = A - shift * B
-    lu = lu_factor(A_shift_B)
+    # # Precompute the factorization of (A - shift * B)
+    # A_shift_B = A - shift * B
+    # lu = lu_factor(A_shift_B)
     
-    # Compute the norm of L.T @ (inv(A - shift * B) @ L)
-    norm_matrix = la.norm(L.T @ lu_solve(lu, L))
+    # # Compute the norm of L.T @ (inv(A - shift * B) @ L)
+    # norm_matrix = la.norm(L.T @ lu_solve(lu, L))
+    norm_matrix = la.norm(C)
 
     for i in range(U.shape[1]):
-        q = L @ U[:, i]
-        v = lu_solve(lu, q)
-        v = L.T @ v
+        # q = L @ U[:, i]
+        # v = lu_solve(lu, q)
+        # v = L.T @ v
+        v = C @ U[:, i]
         num = la.norm(v - theta[i] * U[:, i])
         den = (norm_matrix + abs(theta[i])) * la.norm(U[:, i])
         residual = num / den if den != 0 else np.inf
@@ -176,11 +185,16 @@ def compute_ritz_residuals(A, B, L, T, Q, shift, tol):
 
 def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
     """ Compute the residuals, generalized eigvalues and eigvectors for the converged Ritz pairs """
-    converged_alphas = 1.0 + (theta_converged * shift)
-    converged_betas = theta_converged
-    converged_V = la.solve(L.T, U_converged)
-    residuals = compute_residuals(A, B, converged_alphas, converged_betas, converged_V)
-    return residuals, converged_V, converged_alphas, converged_betas
+    # Check for converged ritz pairs
+    if len(U_converged) != 0 and len(theta_converged) != 0:
+        converged_alphas = 1.0 + (theta_converged * shift)
+        converged_betas = theta_converged
+        converged_V = la.solve(L.T, U_converged)
+        residuals = compute_residuals(A, B, converged_alphas, converged_betas, converged_V)
+        return residuals, converged_V, converged_alphas, converged_betas
+    else:
+        print("No converged Ritz pair!")
+        sys.exit(1)
 
 def plot_residuals(eigenvalues, residuals, save_path=None):
     
