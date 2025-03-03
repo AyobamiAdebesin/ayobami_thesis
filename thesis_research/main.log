@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2023.1.23)  27 JAN 2025 01:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2023.1.23)  3 MAR 2025 03:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -532,17 +532,61 @@ Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 \Gin@req@height=\dimen191
 \Gin@req@width=\dimen192
 )
-(C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty
+(C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/ragged2e\ragged2e.sty
+Package: ragged2e 2021/12/15 v3.1 ragged2e Package
+\CenteringLeftskip=\skip111
+\RaggedLeftLeftskip=\skip112
+\RaggedRightLeftskip=\skip113
+\CenteringRightskip=\skip114
+\RaggedLeftRightskip=\skip115
+\RaggedRightRightskip=\skip116
+\CenteringParfillskip=\skip117
+\RaggedLeftParfillskip=\skip118
+\RaggedRightParfillskip=\skip119
+\JustifyingParfillskip=\skip120
+\CenteringParindent=\skip121
+\RaggedLeftParindent=\skip122
+\RaggedRightParindent=\skip123
+\JustifyingParindent=\skip124
+)
+(C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/algorithms\algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+\@float@every@algorithm=\toks30
+\c@algorithm=\count312
+)
+(C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/algorithmicx\algpseudocode.
+sty
+Package: algpseudocode 
+
+(C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/algorithmicx\algorithmicx.s
+ty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count313
+\c@ALG@rem=\count314
+\c@ALG@nested=\count315
+\ALG@tlm=\skip125
+\ALG@thistlm=\skip126
+\c@ALG@Lnr=\count316
+\c@ALG@blocknr=\count317
+\c@ALG@storecount=\count318
+\c@ALG@tmpcounter=\count319
+\ALG@tmplength=\skip127
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty
 Package: amsthm 2020/05/29 v2.20.6
-\thm@style=\toks30
-\thm@bodyfont=\toks31
-\thm@headfont=\toks32
-\thm@notefont=\toks33
-\thm@headpunct=\toks34
-\thm@preskip=\skip111
-\thm@postskip=\skip112
-\thm@headsep=\skip113
-\dth@everypar=\toks35
+\thm@style=\toks31
+\thm@bodyfont=\toks32
+\thm@headfont=\toks33
+\thm@notefont=\toks34
+\thm@headpunct=\toks35
+\thm@preskip=\skip128
+\thm@postskip=\skip129
+\thm@headsep=\skip130
+\dth@everypar=\toks36
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
@@ -563,10 +607,10 @@ Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
-\XKV@toks=\toks36
-\XKV@tempa@toks=\toks37
+\XKV@toks=\toks37
+\XKV@tempa@toks=\toks38
 )
-\XKV@depth=\count312
+\XKV@depth=\count320
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
@@ -576,8 +620,8 @@ Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 \TX@old@col=\dimen195
 \TX@target=\dimen196
 \TX@delta=\dimen197
-\TX@cols=\count313
-\TX@ftn=\toks38
+\TX@cols=\count321
+\TX@ftn=\toks39
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
@@ -591,21 +635,21 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \cmidrulesep=\dimen261
 \cmidrulekern=\dimen262
 \defaultaddspace=\dimen263
-\@cmidla=\count314
-\@cmidlb=\count315
+\@cmidla=\count322
+\@cmidlb=\count323
 \@aboverulesep=\dimen264
 \@belowrulesep=\dimen265
-\@thisruleclass=\count316
-\@lastruleclass=\count317
+\@thisruleclass=\count324
+\@lastruleclass=\count325
 \@thisrulewidth=\dimen266
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/graphics\rotating.sty
 Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
-\c@r@tfl@t=\count318
-\rotFPtop=\skip114
-\rotFPbot=\skip115
+\c@r@tfl@t=\count326
+\rotFPtop=\skip131
+\rotFPbot=\skip132
 \rot@float@box=\box63
-\rot@mess@toks=\toks39
+\rot@mess@toks=\toks40
 )
 \@ctblframesep=\dimen267
 \@defaultctblframesep=\dimen268
@@ -636,7 +680,7 @@ Package textpos Info: choosing support for LaTeX3 on input line 60.
 
 Grid set 16 x 16 = 38.39343pt x 49.68562pt
 \TPboxrulesize=\dimen287
-\TP@tbargs=\toks40
+\TP@tbargs=\toks41
 ) (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/pstricks\pstricks.sty
 Package: pstricks 2024/02/02 v0.75 LaTeX wrapper for `PSTricks' (RN,HV)
 
@@ -666,21 +710,21 @@ File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pstricks\pstricks.tex
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pstricks\pst-fp.tex
 `pst-fp' v0.06, 2020/11/20 (hv)
-\pstFP@xs=\count319
-\pstFP@xia=\count320
-\pstFP@xib=\count321
-\pstFP@xfa=\count322
-\pstFP@xfb=\count323
-\pstFP@rega=\count324
-\pstFP@regb=\count325
-\pstFP@regs=\count326
-\pstFP@times=\count327
+\pstFP@xs=\count327
+\pstFP@xia=\count328
+\pstFP@xib=\count329
+\pstFP@xfa=\count330
+\pstFP@xfb=\count331
+\pstFP@rega=\count332
+\pstFP@regb=\count333
+\pstFP@regs=\count334
+\pstFP@times=\count335
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.sty
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-com
 mon.tex
-\pgfutil@everybye=\toks41
+\pgfutil@everybye=\toks42
 \pgfutil@tempdima=\dimen288
 \pgfutil@tempdimb=\dimen289
 
@@ -698,12 +742,12 @@ Package: pgfrcs 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.sty
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.cod
 e.tex
-\pgfkeys@pathtoks=\toks42
-\pgfkeys@temptoks=\toks43
+\pgfkeys@pathtoks=\toks43
+\pgfkeys@temptoks=\toks44
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeysfilt
 ered.code.tex
-\pgfkeys@tmptoks=\toks44
+\pgfkeys@tmptoks=\toks45
 )))
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex
@@ -720,19 +764,19 @@ ered.code.tex
 \pgf@ya=\dimen295
 \pgf@yb=\dimen296
 \pgf@yc=\dimen297
-\c@pgf@counta=\count328
-\c@pgf@countb=\count329
-\c@pgf@countc=\count330
-\c@pgf@countd=\count331
+\c@pgf@counta=\count336
+\c@pgf@countb=\count337
+\c@pgf@countc=\count338
+\c@pgf@countd=\count339
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparser.co
 de.tex
 \pgfmath@dimen=\dimen298
-\pgfmath@count=\count332
+\pgfmath@count=\count340
 \pgfmath@box=\box67
-\pgfmath@toks=\toks45
-\pgfmath@stack@operand=\toks46
-\pgfmath@stack@operation=\toks47
+\pgfmath@toks=\toks46
+\pgfmath@stack@operand=\toks47
+\pgfmath@stack@operation=\toks48
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions
 .code.tex
@@ -754,7 +798,7 @@ de.tex
 .integerarithmetics.code.tex)))
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.cod
 e.tex
-\c@pgfmathroundto@lastzeros=\count333
+\c@pgfmathroundto@lastzeros=\count341
 )))
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.code
 .tex
@@ -764,10 +808,10 @@ Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
 )
 \pgffor@iter=\dimen299
 \pgffor@skip=\dimen300
-\pgffor@stack=\toks48
-\pgffor@toks=\toks49
+\pgffor@stack=\toks49
+\pgffor@toks=\toks50
 ))
-\psLoopIndex=\count334
+\psLoopIndex=\count342
 
 `PSTricks' v3.21  <2024/11/16> (tvz,hv)
 \pst@dima=\dimen301
@@ -783,18 +827,18 @@ Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
 \pst@hbox=\box68
 \pst@ibox=\box69
 \pst@boxg=\box70
-\pst@cnta=\count335
-\pst@cntb=\count336
-\pst@cntc=\count337
-\pst@cntd=\count338
-\pst@cntg=\count339
-\pst@cnth=\count340
-\pst@cntm=\count341
-\pst@cntn=\count342
-\pst@cnto=\count343
-\pst@cntp=\count344
-\@zero=\count345
-\pst@toks=\toks50
+\pst@cnta=\count343
+\pst@cntb=\count344
+\pst@cntc=\count345
+\pst@cntd=\count346
+\pst@cntg=\count347
+\pst@cnth=\count348
+\pst@cntm=\count349
+\pst@cntn=\count350
+\pst@cnto=\count351
+\pst@cntp=\count352
+\@zero=\count353
+\pst@toks=\toks51
 --- We are running latex or xelatex ---
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pstricks\pstricks.con)
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pstricks\pstricks-color.t
@@ -802,7 +846,7 @@ ex)
 \psunit=\dimen311
 \psxunit=\dimen312
 \psyunit=\dimen313
-\pst@C@@rType=\count346
+\pst@C@@rType=\count354
 \pslinewidth=\dimen314
 \psk@startLW=\dimen315
 \psk@endLW=\dimen316
@@ -812,7 +856,7 @@ tex
 \pshooklength=\dimen317
 \pshookwidth=\dimen318
 )
-\pst@customdefs=\toks51
+\pst@customdefs=\toks52
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pstricks\pstricks-dots.te
 x)
@@ -820,13 +864,13 @@ x)
 \pst@symbolStep=\dimen320
 \pst@symbolWidth=\dimen321
 \pst@symbolLinewidth=\dimen322
-\everypsbox=\toks52
+\everypsbox=\toks53
 \psframesep=\dimen323
 \pslabelsep=\dimen324
 \sh@wgridXunit=\dimen325
 \sh@wgridYunit=\dimen326
 \pst@shift=\dimen327
-\ps@imagectr=\count347
+\ps@imagectr=\count355
  (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pstricks\pstricks.con))
 File: pstricks.tex 2024/11/16 v3.21 `PSTricks' (tvz,hv)
  (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/generic/pstricks\pst-fp.tex
@@ -835,7 +879,7 @@ File: pst-fp.tex 2020/11/20 v0.06 `PST-fp' (hv)
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/tools\afterpage.sty
 Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
-\AP@output=\toks53
+\AP@output=\toks54
 \AP@partial=\box71
 \AP@footins=\box72
 )
@@ -848,30 +892,30 @@ Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
 F (HO)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )) (usercommands.tex)
-\@float@every@code=\toks54
-\c@code=\count348
+\@float@every@code=\toks55
+\c@code=\count356
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/fancyvrb\fancyvrb.sty
 Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
-\FV@CodeLineNo=\count349
+\FV@CodeLineNo=\count357
 \FV@InFile=\read3
 \FV@TabBox=\box73
-\c@FancyVerbLine=\count350
-\FV@StepNumber=\count351
+\c@FancyVerbLine=\count358
+\FV@StepNumber=\count359
 \FV@OutFile=\write3
 )
 (atbeginend.sty)
-\chapterheadspace=\skip116
-\chapterbetweentitle=\skip117
-\titleheadspace=\skip118
-\sectionheadspace=\skip119
-\subsectionheadspace=\skip120
-\subsubsectionheadspace=\skip121
+\chapterheadspace=\skip133
+\chapterbetweentitle=\skip134
+\titleheadspace=\skip135
+\sectionheadspace=\skip136
+\subsectionheadspace=\skip137
+\subsubsectionheadspace=\skip138
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.
 def
 File: l3backend-pdftex.def 2022-09-28 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count352
+\l__color_backend_stack_int=\count360
 \l__pdf_internal_box=\box74
 )
 
@@ -879,28 +923,29 @@ LaTeX Warning: Unused global option(s):
     [singleside].
 
 (main.aux (TitleAbstract.aux) (frontmatter.aux) (Chapters/Chapter_1.aux)
-(Chapters/Chapter_2.aux) (Chapters/Appendix_A.aux) (Chapters/Appendix_B.aux)
+(Chapters/Chapter_2.aux) (Chapters/Chapter_3.aux) (Chapters/Chapter_4.aux)
+(Chapters/Chapter_5.aux) (Chapters/Appendix_A.aux) (Chapters/Appendix_B.aux)
 (backmatter.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 263.
-LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 266.
+LaTeX Font Info:    ... okay on input line 266.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -938,17 +983,17 @@ LaTeX Font Info:    ... okay on input line 263.
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count353
+\scratchcounter=\count361
 \scratchdimen=\dimen328
 \scratchbox=\box75
-\nofMPsegments=\count354
-\nofMParguments=\count355
-\everyMPshowfont=\toks55
-\MPscratchCnt=\count356
+\nofMPsegments=\count362
+\nofMParguments=\count363
+\everyMPshowfont=\toks56
+\MPscratchCnt=\count364
 \MPscratchDim=\dimen329
-\MPnumerator=\count357
-\makeMPintoPDFobject=\count358
-\everyMPtoPDFconversion=\toks56
+\MPnumerator=\count365
+\makeMPintoPDFobject=\count366
+\everyMPtoPDFconversion=\toks57
 )
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.
 sty
@@ -959,7 +1004,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 263.
+Package hyperref Info: Link coloring OFF on input line 266.
 (main.out) (main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
@@ -986,23 +1031,23 @@ Non-PDF special ignored!
 Non-PDF special ignored!
 <special> ps:tx@Dict begin  gsave STV CP T /ps@refangle 0.  def grestore  e...
 
-{C:/Users/H/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]) [2]
-\openout2 = `frontmatter.aux'.
-
-
-(frontmatter.tex
-LaTeX Font Info:    Trying to load font information for U+msa on input line 11.
+{C:/Users/H/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
 
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 11.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
 
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)) [2]
+\openout2 = `frontmatter.aux'.
+
+
+(frontmatter.tex [1
 
 
 
@@ -1036,26 +1081,26 @@ l.14 \clearpage
 (Frontmatter/acknowledgments.tex) [5
 
 
-] (main.toc)
+] [6] (main.toc [7
+
+
+])
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
- [6
-
-
-] (main.lot)
+ [8] (main.lot)
 \tf@lot=\write6
 \openout6 = `main.lot'.
 
- [7
+
+[9
 
 
 ] (main.lof)
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
-
-[8
+ [10
 
 
 ])
@@ -1063,15 +1108,15 @@ l.14 \clearpage
 
  (Chapters/Chapter_1.tex
 Chapter 1.
-\c@theorem=\count359
-\c@definition=\count360
+\c@theorem=\count367
+\c@definition=\count368
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.7 
-     [1
+l.9 \section{Mathematical Preliminaries}
+                                         [1
 
 
 
@@ -1083,20 +1128,29 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.29 \end{align*}
-                  [2] [3] [4] [5]
-LaTeX Font Info:    Trying to load font information for U+eus on input line 72.
-
+l.24 \end{align*}
+                  [2] [3] [4] [5] [6] [7]
+LaTeX Font Info:    Trying to load font information for U+eus on input line 112
+.
 
 (C:\Users\H\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\ueus.fd
 File: ueus.fd 2013/01/14 v3.01 Euler Script
-)) [6]
+) [8]
+Underfull \hbox (badness 10000) in paragraph at lines 124--126
+
+ []
+
+[9] [10] [11] [12] [13]
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
+
+ []
+
+[14]) [15]
 \openout2 = `./Chapters/Chapter_2.aux'.
 
-
-(Chapters/Chapter_2.tex
+ (Chapters/Chapter_2.tex
 Chapter 2.
-<./Plots/nature.jpg, id=191, 642.4pt x 481.8pt>
+<./Plots/nature.jpg, id=294, 642.4pt x 481.8pt>
 File: ./Plots/nature.jpg Graphic file (type jpg)
 <use ./Plots/nature.jpg>
 Package pdftex.def Info: ./Plots/nature.jpg  used on input line 10.
@@ -1106,11 +1160,17 @@ Overfull \hbox (12.0536pt too wide) in paragraph at lines 10--11
 [][]
  []
 
+[16
+
+
+
+
+]
 File: ./Plots/nature.jpg Graphic file (type jpg)
 <use ./Plots/nature.jpg>
 Package pdftex.def Info: ./Plots/nature.jpg  used on input line 15.
 (pdftex.def)             Requested size: 240.89941pt x 180.67499pt.
-<./Plots/rocks.jpg, id=192, 2055.68pt x 1541.76pt>
+<./Plots/rocks.jpg, id=300, 2055.68pt x 1541.76pt>
 File: ./Plots/rocks.jpg Graphic file (type jpg)
 <use ./Plots/rocks.jpg>
 Package pdftex.def Info: ./Plots/rocks.jpg  used on input line 16.
@@ -1136,81 +1196,116 @@ Overfull \hbox (12.04381pt too wide) in paragraph at lines 15--19
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-(Tables/Sample_Table.tex [7
-
-
-
-
-
+(Tables/Sample_Table.tex [17
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.1 \begin{landscape}
-                      <./Plots/nature.jpg>] [8
+                      <./Plots/nature.jpg>] [18
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.2}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.1 \begin{landscape}
-                      <./Plots/rocks.jpg>] [9
+                      <./Plots/rocks.jpg>] [19
 
-])) [10
+]))
+\openout2 = `./Chapters/Chapter_3.aux'.
 
+ (Chapters/Chapter_3.tex
+Chapter 3.
+) [20
+
+
+
+
+
+]
+\openout2 = `./Chapters/Chapter_4.aux'.
+
+ (Chapters/Chapter_4.tex
+Chapter 4.
+) [21
+
+
+
+
+]
+\openout2 = `./Chapters/Chapter_5.aux'.
+
+ (Chapters/Chapter_5.tex
+Chapter 5.
+) [22
+
+
+
+
+]
+
+Package hyperref Warning: The anchor of a bookmark and its parent's must not
+(hyperref)                be the same. Added a new anchor on input line 279.
+
+[23
 
 
 ]
 \openout2 = `./Chapters/Appendix_A.aux'.
 
- (Chapters/Appendix_A.tex) [11
+ (Chapters/Appendix_A.tex) [24
 
 ]
 \openout2 = `./Chapters/Appendix_B.aux'.
 
- (Chapters/Appendix_B.tex) [12
+ (Chapters/Appendix_B.tex) [25
 
 
 
 ]
 \openout2 = `backmatter.aux'.
 
- (backmatter.tex (main.bbl) [13
+
+(backmatter.tex (main.bbl) [26
 
 
 
 
-]) (main.aux (TitleAbstract.aux) (frontmatter.aux) (Chapters/Chapter_1.aux)
-(Chapters/Chapter_2.aux) (Chapters/Appendix_A.aux) (Chapters/Appendix_B.aux)
-(backmatter.aux))
+]) (main.aux (TitleAbstract.aux) (frontmatter.aux) (Chapters/Chapter_1.aux) (Ch
+apters/Chapter_2.aux) (Chapters/Chapter_3.aux)
+(Chapters/Chapter_4.aux) (Chapters/Chapter_5.aux) (Chapters/Appendix_A.aux)
+(Chapters/Appendix_B.aux) (backmatter.aux))
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 148F011DD0A91F52AF5831706D4CC5D3;2847.
+(rerunfilecheck)             Checksum: 57DFA61CB3CAED87B67574A05ECAD91D;3816.
  ) 
 Here is how much of TeX's memory you used:
- 22601 strings out of 475385
- 394265 string characters out of 2778795
- 733015 words of memory out of 3000000
- 43453 multiletter control sequences out of 15000+600000
+ 23368 strings out of 475385
+ 409645 string characters out of 2778795
+ 746103 words of memory out of 3000000
+ 44147 multiletter control sequences out of 15000+600000
  477083 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,13n,89p,999b,515s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 75i,13n,89p,1055b,515s stack positions out of 10000i,1000n,20000p,200000b,80000s
 <C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx
 12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmbxti10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmex10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public
 /amsfonts/cm/cmmi12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/p
-ublic/amsfonts/cm/cmmi8.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmr10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/H/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/H/AppData/Local/Programs/
-MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/H/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/H/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/H/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/amsfonts/euler/eusm10.pfb><C:/Users/H/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (22 pages, 1478589 bytes).
+ublic/amsfonts/cm/cmmi6.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmmi8.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/H/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/H/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/H/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/H/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/H/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/H/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/H/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/euler/eusm10.pfb><C:/Use
+rs/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.p
+fb>
+Output written on main.pdf (37 pages, 1545705 bytes).
 PDF statistics:
- 300 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
- 171 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 438 PDF objects out of 1000 (max. 8388607)
+ 91 named destinations out of 1000 (max. 500000)
+ 227 words of extra memory for PDF output out of 10000 (max. 10000000)
 

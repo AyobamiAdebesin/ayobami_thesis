@@ -53,6 +53,9 @@
 \usepackage{eucal}                 % Euler fonts for equations.
 \usepackage{verbatim}              % Allows quoting source with commands.
 \usepackage{graphicx}              % For powerful manipulation of figures.
+\usepackage{ragged2e}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{amsmath,amsthm,amsfonts,amsopn,amssymb} % Some nice math packages.
 \usepackage{ctable}                % My preference table package.
 \usepackage[overlay]{textpos}      % Put stuff anywhere, I mean anywhere ...
@@ -86,7 +89,7 @@
 \BeforeEnd{equation*}{\addtolength{\belowdisplayskip}{-0.5\baselineskip}}
 
 \renewcommand{\topfraction}{0.85}        % These modify figure placement on
-\renewcommand{\bottomfraction}{0.85}     % the page and various other space
+% \renewcommand{\bottomfraction}{0.85}     % the page and various other space
 \renewcommand{\textfraction}{0.10}       % requirements for figures.
 \renewcommand{\floatpagefraction}{0.80}  % These 5 lines are not
 \renewcommand{\arraystretch}{0.5}        % necessary but I think its better
@@ -203,7 +206,7 @@
 
 \author(Ayobami Adebesin)              % Name required.
 
-\title(Shift-Invert Lanczos Algorithm for Generalized Eigenvalue Problems)    % Title of dissertation Required.
+\title(Spectral Transformation Lanczos Algorithm for Dense Symmetric-Definite Generalized Eigenvalue Problems: A Comparative Analysis with Conditioning Insights)    % Title of dissertation Required.
 
 \titlesize(11)(11)                               % This is for changing
                                              % the default font size
@@ -228,8 +231,8 @@
 % Adjust margins to 1.0in on all sides
 
 \committee(Michael Stewart)[]
-          (Committee Member)
-          (Committee Member)
+          (Jeter Russell)
+          (Vladimir Bondarenko)
           (Committee Member)
           (Committee Member)
 
@@ -267,6 +270,9 @@
 \mainmatter                        % Main chapters starts here
 \include{./Chapters/Chapter_1}
 \include{./Chapters/Chapter_2}
+\include{./Chapters/Chapter_3}
+\include{./Chapters/Chapter_4}
+\include{./Chapters/Chapter_5}
 
 \appendix
 \section*{Appendices}
