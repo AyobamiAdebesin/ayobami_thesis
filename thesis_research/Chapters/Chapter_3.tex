@@ -1,2 +1,99 @@
 \chapter{METHODOLOGY}
-This is the 3rd Chapter...
+\subsection{Spectral Transformation}
+In this chapter, we shall present a detailed description of the methodologies and implementation of algorithms used in this thesis to solve the generalized eigenvalue problem. We begin by describing the problem setup, followed by a discussion of the algorithms used, together with their implementation details. This chapter aims to provide a comprehensive understanding of how these algorithms are applied to derive the solutions to the problem at hand. We shall also give a description of the numerical experiments we setup to investigate the efficiency of these algorithms.\\
+Consider the symmetric-definite generalized eigenvalue problem:
+\begin{equation}\label{3.1}
+	\beta A\mathbf{v} = \alpha B\mathbf{v}, \qquad \mathbf{v} \neq 0
+\end{equation}
+where $A$ and $B$ are $m \times m$ real, sparse, symmetric and $B$ is positive definite.\\
+Problem (\ref{3.1}) can be reformulated  as
+\begin{equation}\label{3.2}
+	\beta A\mathbf{v} = \alpha B\mathbf{v}, \qquad \mathbf{v} \neq 0
+\end{equation}
+We have replaced $\lambda$ with $\alpha/\beta$ for convenience so that the generalized eigenvalues will be of the form $(\alpha, \beta)$. If $ \beta = 0$, then the generalized eigenvalues $\Lambda(A, B)$ will be infinite.\\
+To compute the eigenvalues and eigenvectors that satisfy equation(\ref{3.1}) with spectral transformation lanczos algorithm, our approach will be in two steps:\\
+\begin{itemize}
+	\item[$\bullet$] Transform the generalized problem into a spectral transformed standard eigenvalue problem
+	\item[$\bullet$] Solve the spectral problem with Lanczos algorithm 
+\end{itemize}
+Let $\sigma \in \mathbb{R}$ be a desired shift such that $A - \sigma B$ is non-singular. Assume $\lambda \neq \infty$ and $\mathbf{v} \neq \mathbf{0}$. Since $B$ is positive definite, Michael Stewart (2024), proved that we can compute a Cholesky factorization $B = C_bC_b^T$, and apply the shift-invert spectral transformation to transform equation(\ref{3.1}) into its spectral form as described in section (\ref{section-2.11}) such that $\theta = 1/(\lambda - \sigma)$ is an eigenvalue of the problem :
+\begin{equation}\label{3.3}
+	C_b^T (A-\sigma B)^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
+\end{equation}
+where  $\mathbf{u} = C_b^T \mathbf{v} \neq \mathbf{0}.$\\
+Equation (\ref{3.2}) gives us the spectral transformed version of the original generalized problem. Since the problem is now in a standard form, we can then apply the Lanczos algorithm to compute the desired eigenvalues within the neighborhood of $\sigma$, together with their corresponding eigenvectors. This will be explored in the next section.
+\subsection{Lanczos decomposition}
+In this section, we revisit the Lanczos algorithm, and discuss how we apply it to the spectral transformed problem. As discussed in section \ref{section2.10}, the Lanczos algorithm approximates the eigenvalues of the original problem by projecting it onto a Krylov subspace spanned by successive powers of the system matrix applied to an initial vector. The eigenvalues approximation arises from the tridiagonal matrix obtained through the Lanczos process, which captures the essential spectral characteristics of the original matrix.\\
+Given $A \in \mathbb{R}^{m \times m}$, the summary of the lanczos algorithm is given as follows:
+\begin{algorithm}
+	\caption{Lanczos Algorithm for a Symmetric Matrix}
+	\label{alg:lanczos_algorithm}
+
+	\textbf{Require:} \( A = A^T \), number of iterations: \(n\), tolerance: \(tol\)
+	\begin{algorithmic}[1]
+		\Function{lanczos}{$A, n, tol$}
+		\State Choose an arbitrary vector $b$ and set an initial vector $q_1 = b/ \|b\|_2$ 
+		\State Set $\beta_0 = 0$ and $q_0 = 0$
+			\For{$j = 1, 2, \dots, n$}
+		\State $v = A q_j$
+		\State $\alpha_j = q_j^T v $
+		\State $v = v - \beta_{j-1}q_{j-1} - \alpha_j q_j$
+		\State \textbf{Full reorthogonalization:} $v = v - \sum_{i \leq j} (q_i^T v) q_i$
+		\State $\beta_{j} = \|v\|_2$
+		\If{$\beta_{j} < tol $}
+		\State \textbf{restart} or \textbf{exit}
+		\EndIf
+		\State $q_{j+1} := v / \beta_{j}$
+		\EndFor
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}\\
+After the completion of algorithm \ref{alg:lanczos_algorithm}, the $\alpha$'s and $\beta$'s are used to construct the tridiagonal matrix $T_n$ and the vectors $q_j$'s are stacked together to form an orthogonal matrix $Q_n$ given by:
+\[T_n = \begin{pmatrix}
+			\alpha_1 & \beta_1 & & & \\\beta_1 & \alpha_2 & \beta_2 & & \\ & \beta_2 & \alpha_3 & \beta_3 & \\ & & \ddots & \ddots & \vdots \\ & & & \beta_{n-1} & \alpha_n
+		\end{pmatrix}\] 
+	\[
+	Q_n = 
+	\begin{bmatrix}
+		 & \big| &  & \big| &  & \big| &  \\
+		 & \big| &  & \big| &  & \big| &  \\
+		 q_1 & \big| & q_2 & \big| & \cdots & \big| & q_n \\
+		 & \big| &  & \big| &  & \big| &  \\
+		 & \big| &  & \big| &  & \big| &  \\
+	\end{bmatrix}.
+	\]
+The decomposition is given by
+\begin{equation}
+	AQ_n = Q_nT_n + \beta_{n}q_{n+1}e_n^T
+\end{equation}
+In theory, the vectors $q_j$'s should be orthonormal, but due to floating-point errors, there will be loss of orthogonalization, hence the need for line 8 in the Algorithm \ref{alg:lanczos_algorithm}.\par 
+Let $\theta_i, i = 1,2, \ldots n$(which can be computed by standard functions in using any eigenvalue solver) be the eigenvalues of $T_n$, and $\{y_i\}_{i = 1 : n}$ be the associated eigenvectors. The $\{\theta_i\}$ are called the \textit{Ritz values} and the vectors $\{Q_ny_i\}_{i = 1 : n}$ are called the \textit{Ritz vectors}. Hence, the eigenvalues of $A$ are on both ends of the are well approximated by the Ritz values, with the Ritz vectors as their approximate corresponding eigenvectors of $A$.\par
+Since the generalized eigenvalue problem we started with has been reduced to a standard one as shown in equation (\ref{3.3}), Algorithm (\ref{alg:lanczos_algorithm}) can be applied to equation (\ref{3.3}) with some slight modifications. We shall now give spectral form of Algorithm (\ref{alg:lanczos_algorithm}).\\
+\begin{algorithm}
+	\caption{Spectral Lanczos Algorithm for (\ref{3.3}) }
+	\label{alg:spectral_lanczos_algorithm}
+	
+	\textbf{Require:} \( A = A^T \), \( B = B^T \), with \(B\) being positive definite or semidefinite\\
+	\textbf{Require:} number of iterations: \(n\), tolerance: \(tol\)\\
+	\textbf{Require:} \(\sigma \in \mathbb{R}\): shift not close to a generalized eigenvalue
+	\begin{algorithmic}[1]
+		\Function{\textsc{Spectral\_Lanczos}}{$A, B, C_b, n, \sigma, tol$}
+		\State Choose an arbitrary vector $b$ and set an initial vector $q_1 = b/ \|b\|_2$
+		\State Set $\beta_0 = 0$ and $q_0 = 0$
+		\State Precompute the $LU$ factorization of $A - \sigma B$: $lu\_factor = LU(A - \sigma B)$
+		\State Factor: $B = C_bC_b^T$
+		\For{$j = 1, 2, \dots, n$}
+		\State $u = A q_j$
+		\State $\alpha_j = q_j^T v $
+		\State $v = v - \beta_{j-1}q_{j-1} - \alpha_j q_j$
+		\State \textbf{Full reorthogonalization:} $v = v - \sum_{i \leq j} (q_i^T v) q_i$
+		\State $\beta_{j} = \|v\|_2$
+		\If{$\beta_{j} < tol $}
+		\State \textbf{restart} or \textbf{exit}
+		\EndIf
+		\State $q_{j+1} := v / \beta_{j}$
+		\EndFor
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}\\
+

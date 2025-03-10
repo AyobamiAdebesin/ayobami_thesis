@@ -13,8 +13,8 @@ Throughout this study, we make use of the following notations:
 \begin{align*}\nonumber
 	&A \in \mathbb{C}^{m\times n}: \text{denotes square or rectangular matrices}\\
 	&Q \in \mathbb{C}^{m\times m}: \text{denotes unitary or orthogonal matrices}\\
-	&a_{ij}: \text{denotes element $(i, j)$ of A}\\
-	&x, q \in \mathbb{C}^{m}: \text{denotes column vectors}\\
+	&[AS]_{ij}: \text{denotes element $(i, j)$ of A}\\
+	&\mathbf{x}, \mathbf{q} \in \mathbb{C}^{m}: \text{denotes column vectors}\\
 	&\text{Greek letters }\alpha, \beta\text{...} \text{ : denotes scalars in $\mathbb{C}$}\\
 	&A^{T}: \text{denotes the transpose of matrix $A$}\\
 	&\| \cdot \|: \text{denotes a vector or matrix norm }\\
@@ -35,18 +35,18 @@ Let $fl :  \mathbb{R} \rightarrow \mathbf{F}$ be a function that gives the close
 \end{theorem}
 One way we could think of this is that, the difference between a real number and its closest floating point approximation is always smaller than $u$ in relative terms.
 \subsection{Vector Norms}
-Norms are generally used to capture the notions of size and distance in a vector space. A norm is a function $ \| \cdot \| : \mathbb{C}^m \rightarrow \mathbb{R} $ satisfying the following properties for all vectors $x$ and $y$ and scalars $\alpha \in \mathbb{C}$:
+Norms are generally used to capture the notions of size and distance in a vector space. A norm is a function $ \| \cdot \| : \mathbb{C}^m \rightarrow \mathbb{R} $ satisfying the following properties for all vectors $\mathbf{x}$ and $\mathbf{y}$ and scalars $\alpha \in \mathbb{C}$:
 	\begin{align*}
-		&\text{(1) } \| x \| \geq 0, \text{ and } \| x \| = 0 \text{ only if } x = 0,\\
-		&\text{(2) } \| x+y \| \leq \| x \| + \| y \|,\\
-		&\text{(3) } \| \alpha x \| = |\alpha| \| x \|
+		&\text{(1) } \| \mathbf{x} \| \geq 0, \text{ and } \| \mathbf{x} \| = 0 \text{ only if } \mathbf{x} = 0,\\
+		&\text{(2) } \| \mathbf{x + y} \| \leq \| \mathbf{x} \| + \| \mathbf{y} \|,\\
+		&\text{(3) } \| \alpha \mathbf{x} \| = |\alpha| \| \mathbf{x} \|
 	\end{align*}
 The most important class of vector norms are the \textit{p}-norms and are defined as follows:
 \begin{align*}
-	&\| x \|_1 = \sum_{i=1}^{m} |x_i| = 1,\\
-	&\| x \|_2 = \Bigl( \sum_{i=1}^{m} |x_i|^2 \Bigr)^{1/2},\\
-	&\| x \|_\infty = \max_{1\leq i\leq m} |x_i|,\\
-	&\| x \|_p = \Bigl(\sum_{i=1}^{m} |x_i|^p \Bigr)^{1/p}, \qquad(1\leq p<\infty)
+	&\| \mathbf{x} \|_1 = \sum_{i=1}^{m} |x_i| = 1,\\
+	&\| \mathbf{x} \|_2 = \Bigl( \sum_{i=1}^{m} |x_i|^2 \Bigr)^{1/2},\\
+	&\| \mathbf{x} \|_\infty = \max_{1\leq i\leq m} |x_i|,\\
+	&\| \mathbf{x} \|_p = \Bigl(\sum_{i=1}^{m} |x_i|^p \Bigr)^{1/p}, \qquad(1\leq p<\infty)
 \end{align*}
 \subsection{General Matrix Norms}
 Similar to a vector norm, a matrix norm is a function  $ \| \cdot \| : \mathbb{C}^{m\times n} \rightarrow \mathbb{R} $ satisfying the following properties for all matrices $A$ and $B$ and scalars $\alpha \in \mathbb{C}$:
@@ -74,7 +74,7 @@ where tr$(A)$ denotes the trace of $A$, which is the sum of its diagonal entries
 Another important class of matrix norm is the \textit{induced matrix norms}. These are matrix norms induced by vector norms, defined in terms of the behaviour of a matrix as an operator between its normed domain and range spaces.\\
 Let $A \in \mathbb{C}^{m \times n}$ be a matrix with vector norms $\| \cdot \|_{(n)}$ and $\| \cdot \|_{(m)}$ on the domain and the range of $A$, respectively, the induced matrix norm $\| A \|_{(m, n)}$ is defined as:
 \begin{equation}
-	 \| A \|_{(m, n)} = \sup_{ \substack{x \in \mathbb{C}^n \\ x \neq 0}} \frac{\| Ax \|_{(m)}}{\| x \|_{(n)}} = \sup_{\substack{x \in \mathbb{C}^n \\\|x\|_{(n)} = 1}} \|Ax\|_{(m)}
+	 \| A \|_{(m, n)} = \sup_{ \substack{\mathbf{x} \in \mathbb{C}^n \\ \mathbf{x} \neq 0}} \frac{\| A\mathbf{x} \|_{(m)}}{\| \mathbf{x} \|_{(n)}} = \sup_{\substack{\mathbf{x} \in \mathbb{C}^n \\\|\mathbf{x}\|_{(n)} = 1}} \|A\mathbf{x}\|_{(m)}
 \end{equation}
 We can think of the induced matrix norm as the maximum factor by which $A$ can stretch a vector.\\
 The following matrix norms are useful:
@@ -100,16 +100,22 @@ In simpler terms, the condition number quantifies how the relative error in the 
 	\kappa(A) = \frac{\sigma_1}{\sigma_m}
 \end{equation}
 where $\sigma_1$ and $\sigma_m$ are the largest and smallest singular values of $A$ respectively.
+\subsection{Congruence Transformation}
+Let $A$ and $B$ be square matrices. $A$ and $B$ are said to be congruent ($A \sim B$ )if there exists an invertible matrix $P$ such that
+\begin{equation}
+	B = P^TAP
+\end{equation}
+Like, similarity transformation, rank is preserved under congruence. However, eigenvalues are not preserved under congruence transformation. 
 \subsection{The Standard Eigenvalue Problem}
-Let $A \in \mathbb{C}^{m\times m}$ be a square matrix. A nonzero vector $v \in \mathbb{C}^m$ is said to be an \textit{eigenvector} of $A$, and $\lambda \in \mathbb{C}$ its corresponding \textit{eigenvalue} if,
+Let $A \in \mathbb{C}^{m\times m}$ be a square matrix. A nonzero vector $\mathbf{v} \in \mathbb{C}^m$ is said to be an \textit{eigenvector} of $A$, and $\lambda \in \mathbb{C}$ its corresponding \textit{eigenvalue} if,
 \begin{equation}\label{(1.1)}
-	Av = \lambda v, \qquad v \neq 0
+	A\mathbf{v} = \lambda \mathbf{v}, \qquad \mathbf{v} \neq 0
 \end{equation}
 The (multi) set of all eigenvalues of $A$ is called the \textit{spectrum} of $A$ and is denoted by $spec(A)$.
-The problem of computing the set of eigenvalues $\lambda \in \mathbb{C}$ and eigenvectors $v \in \mathbb{C}^{m}$ that satisfies equation \ref{(1.1)} is called the \textit{standard eigenvalue problem}. \\
-Equation (\ref{(1.1)}) can be written as $(A-\lambda I)v = 0$. Since $v\neq0$, this implies that $A-\lambda I$ is singular. We define the eigenspace, $E_\lambda$ of $A$ corresponding to an eigenvalue $\lambda \in spec(A)$ as the set of all eigenvectors, together with the zero vector, associated with $\lambda$ as follows:
+The problem of computing the set of eigenvalues $\lambda \in \mathbb{C}$ and eigenvectors $\mathbf{v} \in \mathbb{C}^{m}$ that satisfies equation \ref{(1.1)} is called the \textit{standard eigenvalue problem}. \\
+Equation (\ref{(1.1)}) can be written as $(A-\lambda I)\mathbf{v} = 0$. Since $\mathbf{v}\neq0$, this implies that $A-\lambda I$ is singular. We define the eigenspace, $E_\lambda$ of $A$ corresponding to an eigenvalue $\lambda \in spec(A)$ as the set of all eigenvectors, together with the zero vector, associated with $\lambda$ as follows:
 \begin{equation}
-	E_\lambda = \mathcal{N}(A-\lambda I) = \{v \in \mathbb{C}^{m} \mid (A - \lambda I)v = 0\}
+	E_\lambda = \mathcal{N}(A-\lambda I) = \{\mathbf{v} \in \mathbb{C}^{m} \mid (A - \lambda I)\mathbf{v} = 0\}
 \end{equation}
 The dimension of this vector space is called the \textit{geometric multiplicity} of $\lambda \in spec(A)$.
 One of the many ways we can compute the eigenvalues of a matrix is by solving the characteristic polynomial of $A$ defined by
@@ -127,46 +133,46 @@ In other words, the generalized eigenvalues of $A$ and $B$ are the roots of the 
 	p_{A, B}(\lambda) = \det(A-\lambda B) = 0
 \end{equation}
 
-If $\lambda$ $\in$ $\Lambda(A, B)$ and $0 \neq v \in \mathbb{C}^m$ satisfies
-\begin{equation}\label{1.5}
-	Av = \lambda Bv
+If $\lambda$ $\in$ $\Lambda(A, B)$ and $0 \neq \mathbf{v} \in \mathbb{C}^m$ satisfies
+\begin{equation}\label{1.13}
+	A\mathbf{v} = \lambda B\mathbf{v}
 \end{equation}
-then $v$ is a generalized eigenvector of $A$ and $B$. The problem of finding nontrivial solutions to \ref{1.5} is known as the \textit{generalized eigenvalue problem}.\\
+then $v$ is a generalized eigenvector of $A$ and $B$. The problem of finding nontrivial solutions to (\ref{1.13}) is known as the \textit{generalized eigenvalue problem}.\\
 If B is non-singular, then the problem reduces to a standard eigenvalue problem
 \begin{equation}
-	B^{-1}A v = \lambda v
+	B^{-1}A \mathbf{v} = \lambda \mathbf{v}
 \end{equation}
-In this case, the generalized eigenvalue problem has \textit{m} eigenvalues if $rank(B) = m$. If B is singular or rank deficient, then the set of generalized eigenvalues $\Lambda(A, B)$ may be finite, empty or infinite. If the $\Lambda(A, B)$ is finite, the number of eigenvalues will be less than $m$. This is because the characteristic polynomial $\det(A- \lambda B)$ is of degree less than $m$, so that there is not a complete set of eigenvalues for the problem.\\
-If $A$ and $B$ have a common null space, then every choice of $\lambda$ will be a solution to \ref{1.5}. Such problems are referred to as \textit{ill-disposed} problems. For the purpose of this study, we shall assume that $A$ and $B$ do not have a common null space, that is
+In this case, the generalized eigenvalue problem has \textit{m} eigenvalues if $rank(B) = m$. This suggests that the generalized eigenvalues of $A$ and $B$ are equal to the eigenvalues of $B^{-1}A$. If B is singular or rank deficient, then the set of generalized eigenvalues $\Lambda(A, B)$ may be finite, empty or infinite. If the $\Lambda(A, B)$ is finite, the number of eigenvalues will be less than $m$. This is because the characteristic polynomial $\det(A- \lambda B)$ is of degree less than $m$, so that there is not a complete set of eigenvalues for the problem.\\
+If $A$ and $B$ have a common null space, then every choice of $\lambda$ will be a solution to (\ref{1.13}). Such problems are referred to as \textit{ill-disposed} problems. For the purpose of this study, we shall assume that $A$ and $B$ do not have a common null space, that is
 \begin{equation}
 	\mathcal{N}(A) \cap \mathcal{N}(B) = \{\mathbf{0} \}
 \end{equation}
 When $A$ and $B$ are symmetric and $B$ is positive definite, we shall call the problem symmetric-definite generalized eigenvalue problem, which will be the focus of this thesis. In addition to that, we shall assume that $A$ and $B$ are dense matrices.
-\subsection{Lanczos Algorithm}
+\subsection{Lanczos Algorithm}\label{section2.10}
 The Lanczos algorithm is an iterative method in numerical linear algebra used in finding the eigenvalues and eigenvectors of a \textit{symmetric} matrix. It is particularly useful when dealing with large scale problems, where directly computing the eigenvalues and eigenvectors of the matrix would be computationally expensive of infeasible. It works by finding the "most useful" eigenvalues of the matrix - typically those at the extreme of the spectrum, and their eigenvectors. At it's core, the main goal of the algorithm is to approximate the extreme eigenvalues and eigenvectors of a large, sparse, symmetric matrix by transforming the matrix into a smaller tridiagonal matrix that preserves the extremal spectral properties of the original matrix. This reduction is achieved by iteratively constructing an orthonormal basis of the Krylov subspace associated with the matrix.\\
 Given a symmetric matrix $A \in \mathbb{C}^{m\times m}$, and an initial vector $v_1$, the Lanczos algorithm produces a sequence of vectors $v_1, v_2, \cdots, v_n$ (where $n$ is the number of iterations) that forms an orthonormal basis for the $n$-dimensional Krylov subspace
 \begin{equation}
 	\mathcal{K}_n(A, v_1) = span(\{v_1, Av_1, A^2v_1, \ldots, A^{n-1}v_1\})
 \end{equation}
 This orthonormal basis is used to form a tridiagonal matrix $T_n$ whose eigenvalues approximate the eigenvalues of $A$.
-\subsection{Spectral Transformation}
+\subsection{Spectral Transformation}\label{section-2.11}
 Spectral transformation in numerical linear algebra is a technique that is used to modify the spectrum of matrix in a controlled way. This is usually done to improve the convergence properties of an algorithm or to make certain matrix properties more accessible. In the context of eigenvalue problems, spectral tranformation is often used in direct and iterative methods, where manipulating the matrix can help focus on certain eigenvalues or improve numerical stability.\par
 The central idea behind spectral transformation is that eigenvalues and eigenvectors are fundamentally tied to matrix operations. By applying a transformation to the matrix $A$, we can manipulate its eigenvalues and thus control which part of the spectrum, we are interested in. There are various types of spectral transformations, but the one that is particualar interest in this thesis is the \textit{shift-invert} transformation. The shift-invert transformation involves tranforming the original problem into a shifted and inverted one which can then be solved using a direct or iterative solver. This method focuses on finding the eigenvalues near a specified shift $\sigma$. It is useful when one is interested in a few eigenvalues near a given point in the spectrum.\par
 Consider the problem of computing the eigenvalues of a matrix $A \in \mathbb{R}^{m \times m}$. Assuming $m$ is so large that computing all the eigenvalues of $A$ is not computationally feasible but rather, we are interested in computing the eigenvalues in a certain region of the spectrum of $A$, we can pick a shift $\sigma \in \mathbb{R}$ that is not an eigenvalue of A. The shifted and inverted formulation of the problem is then given by $(A - \sigma I)^{-1}$. The eigenvectors of $(A - \sigma I)^{-1}$ are the same as the eigenvectors of $A$, and the corresponding eigenvalues are $\{ (\lambda_j - \sigma)^{-1}\}$, where $\{ \lambda_j\}$ are the eigenvalues of $A$. This shifts the spectrum of $A$, making the eigenvalues near $\sigma$ much more prominent in the transformed matrix.\par
-For a generalized eigenvalue problem $Av = \lambda Bv$, if we introduce a shift $\sigma \in \mathbb{R}$ so that $A - \sigma B$ is non singular, the shift-invert formulation of the problem is given by
+For a generalized eigenvalue problem given in (\ref{1.13}), if we introduce a shift $\sigma \in \mathbb{R}$ so that $A - \sigma B$ is non singular, the shift-invert formulation of the problem is given by
 \begin{equation}\label{st-1}
 	(A - \sigma B)^{-1} Bv = \theta v
 \end{equation}
-where $\theta = \frac{1}{\lambda - \sigma}$.\\
+where $\theta = 1 / (\lambda - \sigma)$.\\
 The formulation shifts the spectrum of the generalized eigenvalues $\Lambda(A, B)$ towards $\sigma$. Suppose $\sigma$ is close enough to a generalized eigenvalue $\lambda_J \in \Lambda(A, B)$ much more than the other generalized eigenvalues, then $(\lambda_J - \sigma)^{-1}$ may be much larger than $(\lambda_j - \sigma)^{-1}$ for all $j \neq J$. This transformation will map the eigenvalues in the neighborhood of $\sigma$ to the extreme part of the new spectrum, and by using an iterative method like the Lanczos algorithm, it is possible that the algorithm will converge to these extreme eigenvalues in the new spectrum.
 \section{Problem Discussion}
 In this section, we provide a brief but formal statement of the problem we are trying to solve, the methodological approach we used in solving the problem, and discuss the challenges involved in solving these kind of problems.\\[5pt]
 The symmetric-definite dense generalized eigenvalue problem is formally given by:
-\begin{equation}
-	Av = \lambda Bv, \qquad v \neq 0
+\begin{equation}\label{1.18}
+	A\mathbf{v} = \lambda B\mathbf{v}, \qquad \mathbf{v} \neq 0
 \end{equation}
 where $A$ and $B$ are $m \times m$ real symmetric matrices, $B$ positive definite. Both $A$ and $B$ are dense matrices, meaning that a significant proportion of their entries are non-zero.\\[5pt]
-The goal is to compute the set of generalized eigenvalues $\Lambda(A, B)$ that satisfy this equation using the ST-Lanczos algorithm. We then proceed by formulating a shift-inverted form of the problem given by equation (\ref{st-1}), thereby transforming it into a standard eigenvalue problem, which can then be solved using the Lanczos algorithm. In practice, we often compute a subset of these generalized eigenvalues corresponding to those in the vicinity of a given shift $\sigma$. To have a deep understanding of how well this method performs of these type of problems, we will setup a well-defined problem by generating synthetic matrices with known eigenvalue distribution and we will implement the ST-Lanczos algorithm and compare its performance against the direct method based on the paper by Stewart. We will then investigate the relationship between matrix conditioning, shift selection, the accuracy of computed eigenvalues and the sensitvity of the residuals to ill-conditioning.
+The goal is to compute the set of generalized eigenvalues $\Lambda(A, B)$ that satisfy this equation using the ST-Lanczos algorithm. We then proceed by formulating a shift-inverted form of the problem given by equation (\ref{st-1}), thereby transforming it into a standard eigenvalue problem, which can then be solved using the Lanczos algorithm. In practice, we often compute a subset of these generalized eigenvalues corresponding to those in the vicinity of a given shift $\sigma$. To have a deep understanding of how well this method performs of these type of problems, we will setup a well-defined problem by generating synthetic matrices with known eigenvalue distribution, and we will implement the ST-Lanczos algorithm and compare its performance against the direct method based on the paper by Stewart. We will then investigate the relationship between matrix conditioning, shift selection, the accuracy of computed eigenvalues and the sensitvity of the residuals to ill-conditioning.
 \section{Motivation of Study}
 
 This study is motivated by several key factors that underscore the importance of advancing our understanding and capabilities in solving these type of problems. Originally, the motivation for this study arises from the need to compare the efficiency, accuracy and stability of iterative and direct methods for solving eigenvalue problems. In particular, the proven error bounds for the direct method in the paper by Michael Stewart, shows that for a shift of moderate size, the relative residuals are small for generalized eigenvalues that are not much larger than the shift. It is natural to ask if the same can be said for an iterative method like the lanczos algorithm.\par
