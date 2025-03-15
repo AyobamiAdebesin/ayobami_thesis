@@ -66,13 +66,17 @@ def spectral_lanczos(A, B, L, m, n, shift):
 
     # Precompute the factorization of (A - shift * B)
     A_shift_B = A - shift * B
-    lu = lu_factor(A_shift_B)
+    # lu = lu_factor(A_shift_B)
+    d, U = la.eigh(A_shift_B)
 
     # Perform Lanczos iterations
     for j in range(n + 1):
         Q_n[:, j] = q_curr
         u = L @ q_curr
-        v = lu_solve(lu, u)
+        v = U.T @ u
+        v = v / d
+        v = U @ v
+        # v = lu_solve(lu, u)
         v = L.T @ v
         if j < n:
             # Compute and store alpha
