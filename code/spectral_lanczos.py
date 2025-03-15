@@ -67,15 +67,15 @@ def spectral_lanczos(A, B, L, m, n, shift):
     # Precompute the factorization of (A - shift * B)
     A_shift_B = A - shift * B
     # lu = lu_factor(A_shift_B)
-    d, U = la.eigh(A_shift_B)
+    d, W = la.eigh(A_shift_B)
 
     # Perform Lanczos iterations
     for j in range(n + 1):
         Q_n[:, j] = q_curr
-        u = L @ q_curr
-        v = U.T @ u
+        v = L @ q_curr
+        v = W.T @ v
         v = v / d
-        v = U @ v
+        v = W @ v
         # v = lu_solve(lu, u)
         v = L.T @ v
         if j < n:
@@ -112,7 +112,7 @@ def spectral_lanczos(A, B, L, m, n, shift):
     Q_n = Q_n[:, :n]
     x[n-1] = beta
 
-    return T_n, Q_n, q_curr, x
+    return W, d, T_n, Q_n, q_curr, x
 
 def compute_decomp_residual(A, B, L, T, Q, q, x, shift):
     """ Compute the Lanczos decomposition residual """
@@ -123,6 +123,16 @@ def compute_decomp_residual(A, B, L, T, Q, q, x, shift):
     qx = np.outer(q, x.T)
     decomp_res = la.norm(aq - qt - qx) / norm_matrix
     return decomp_res
+
+def compute_decomp_residual_eig(W, d, L, T, Q, q, x, shift):
+    """ Compute the Lanczos decomposition residual """
+    norm_matrix = la.norm(L.T @ (W * d) @ W.T @ L)
+    aq = L.T @ (W @ ((W.T @ (L @ Q)) / d[:, None]))
+    qt = Q @ T
+    qx = np.outer(q, x.T)
+    decomp_res = la.norm(aq - qt - qx) / norm_matrix
+    return decomp_res
+
 
 def compute_eigenvalues(T, Q, L, sigma):
     """ Compute the evalues and evectors of tridiagonal matrix T """ 
@@ -164,6 +174,40 @@ def compute_ritz_residuals(A, B, L, T, Q, shift, tol):
         q = L @ U[:, i]
         v = lu_solve(lu, q)
         v = L.T @ v
+        num = la.norm(v - theta[i] * U[:, i])
+        den = (norm_matrix + abs(theta[i])) * la.norm(U[:, i])
+        residual = num / den if den != 0 else np.inf
+        # Check if the residual is within the tolerance
+        if residual <= tol:
+            ritz_residuals.append(residual)
+            U_converged.append(U[:, i])
+            theta_converged.append(theta[i])
+    ritz_residuals = np.array(ritz_residuals)
+    U_converged = np.array(U_converged).T
+    theta_converged = np.array(theta_converged)
+    return U_converged, theta_converged, ritz_residuals
+
+def compute_ritz_residuals_eig(W, d, L, T, Q, shift, tol):
+    """ Compute relative residuals for the spectral transformation problem to obtain converged Ritz pairs based on tolerance """
+    eigvals_T, eigvecs_T = la.eigh(T)
+    theta = eigvals_T
+    U = Q @ eigvecs_T
+    ritz_residuals = []
+    U_converged = []
+    theta_converged = []
+
+    # Precompute the factorization of (A - shift * B)
+    # A_shift_B = A - shift * B
+    # lu = lu_factor(A_shift_B)
+    
+    # Compute the norm of L.T @ (inv(A - shift * B) @ L)
+    # norm_matrix = la.norm(L.T @ lu_solve(lu, L))
+
+    norm_matrix = la.norm(L.T @ (W @ ((W.T @ L) / d[:, None])))
+    # aq = L.T @ (W @ ((W.T @ (L @ Q)) / d[:, None]))
+
+    for i in range(U.shape[1]):
+        v = L.T @ (W @ ((W.T @ (L @ U[:,i])) / d))
         num = la.norm(v - theta[i] * U[:, i])
         den = (norm_matrix + abs(theta[i])) * la.norm(U[:, i])
         residual = num / den if den != 0 else np.inf

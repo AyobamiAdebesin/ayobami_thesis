@@ -17,17 +17,18 @@ if __name__ == "__main__":
     D = eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3)
     D = np.diag(D)
     A, B, L = generate_matrix(D, delta=1e-2)
-    T, Q, q, x = spectral_lanczos(A, B, L, m=A.shape[0], n=n, shift=shift)
+    W, d, T, Q, q, x = spectral_lanczos(A, B, L, m=A.shape[0], n=n, shift=shift)
 
     #compute lanczos decomposition residual
-    decomp_res = compute_decomp_residual(A=A, B=B, L=L, T=T, Q=Q, q=q, x=x, shift=shift)
+    # decomp_res = compute_decomp_residual(A=A, B=B, L=L, T=T, Q=Q, q=q, x=x, shift=shift)
+    decomp_res = compute_decomp_residual_eig(W, d, L, T, Q, q, x, shift)
 
     # Compute eigenvalues
     V, alphas, betas = compute_eigenvalues(T, Q, L, shift)
     residuals = compute_residuals(A, B, alphas, betas, V)
 
     # Compute the converged ritz pairs and the (spectral transformation) relative ritz residuals
-    U_converged, theta_converged, ritz_residuals = compute_ritz_residuals(A, B, L, T, Q, shift, tol)
+    U_converged, theta_converged, ritz_residuals = compute_ritz_residuals_eig(W, d, L, T, Q, shift, tol)
 
     # Compute the generalized eigenvectors and eigenvalues and the residuals for the converged ritz pairs
     gen_residuals, v, alpha, beta = compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift)
