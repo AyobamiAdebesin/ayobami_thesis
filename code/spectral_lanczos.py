@@ -150,7 +150,7 @@ def compute_residuals(A, B, alphas, betas, V):
     nrma = la.norm(A)
     nrmb = la.norm(B)
     for i in range(len(alphas)):
-        residuals[:, i] = (betas[i]*A - alphas[i]*B)@V[:, i] / (
+        residuals[:, i] = (betas[i]*A @ V[:, i] - alphas[i]*B @ V[:,i]) / (
             abs(betas[i]) * nrma + abs(alphas[i]) * nrmb) / la.norm(V[:,i])
     return residuals
 
@@ -197,11 +197,7 @@ def compute_ritz_residuals_eig(W, d, L, T, Q, shift, tol):
     theta_converged = []
 
     # Precompute the factorization of (A - shift * B)
-    # A_shift_B = A - shift * B
-    # lu = lu_factor(A_shift_B)
-    
     # Compute the norm of L.T @ (inv(A - shift * B) @ L)
-    # norm_matrix = la.norm(L.T @ lu_solve(lu, L))
 
     norm_matrix = la.norm(L.T @ (W @ ((W.T @ L) / d[:, None])))
     # aq = L.T @ (W @ ((W.T @ (L @ Q)) / d[:, None]))
