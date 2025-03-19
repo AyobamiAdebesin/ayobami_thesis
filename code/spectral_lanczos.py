@@ -9,7 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import numpy.linalg as la
-from scipy.linalg import lu_factor, lu_solve
+from scipy.linalg import lu_factor, lu_solve, qz, qr, eigh
+from scipy.linalg import solve, solve_triangular
 
 np.random.seed(256)
 
@@ -64,20 +65,16 @@ def spectral_lanczos(A, B, L, m, n, shift):
     q_prev = np.zeros(m)
     q_curr = b / np.linalg.norm(b)
 
-    # # Precompute the factorization of (A - shift * B)
-    # A_shift_B = A - shift * B
-    # lu = lu_factor(A_shift_B)
-
-    # spectral transformation matrix
-    C = L.T @ la.inv(A - shift*B) @ L
+    # Precompute the factorization of (A - shift * B)
+    A_shift_B = A - shift * B
+    lu = lu_factor(A_shift_B)
 
     # Perform Lanczos iterations
     for j in range(n + 1):
         Q_n[:, j] = q_curr
-        v = C @ q_curr
-        # u = L @ q_curr
-        # v = lu_solve(lu, u)
-        # v = L.T @ v
+        u = L @ q_curr
+        v = lu_solve(lu, u)
+        v = L.T @ v
         if j < n:
             # Compute and store alpha
             alpha = np.dot(q_curr, v)
@@ -112,30 +109,17 @@ def spectral_lanczos(A, B, L, m, n, shift):
     Q_n = Q_n[:, :n]
     x[n-1] = beta
 
-    return T_n, Q_n, q_curr, x, C
+    return T_n, Q_n, q_curr, x
 
-def compute_decomp_residual(A, B, L, T, Q, q, x, shift, C):
+def compute_decomp_residual(A, B, L, T, Q, q, x, shift):
     """ Compute the Lanczos decomposition residual """
-    # lu = lu_factor(A - shift*B)
-    # norm_matrix = la.norm(L.T @ lu_solve(lu, L))
-    # aq = L.T @ lu_solve(lu, L @ Q)
-    # qt = Q @ T
-    # qx = np.outer(q, x.T)
-    # decomp_res = la.norm(aq - qt - qx) / norm_matrix
-    num = la.norm(C@Q - Q@T - np.outer(q, x.T))
-    den = la.norm(C)
-    decomp_res = num/den
+    lu = lu_factor(A - shift*B)
+    norm_matrix = la.norm(L.T @ lu_solve(lu, L))
+    aq = L.T @ lu_solve(lu, L @ Q)
+    qt = Q @ T
+    qx = np.outer(q, x.T)
+    decomp_res = la.norm(aq - qt - qx) / norm_matrix
     return decomp_res
-
-def compute_eigenvalues(T, Q, L, sigma):
-    """ Compute the evalues and evectors of tridiagonal matrix T """ 
-    eigvals_Tn, eigvecs_Tn = np.linalg.eigh(T)
-    theta = eigvals_Tn
-    U = Q @ eigvecs_Tn
-    alphas = 1.0 + (theta *sigma)
-    betas = theta
-    V = la.solve(L.T, U)
-    return V, alphas, betas
 
 def compute_residuals(A, B, alphas, betas, V):
     """ Compute relative residuals for the Generalized problem """
@@ -147,8 +131,24 @@ def compute_residuals(A, B, alphas, betas, V):
             abs(betas[i]) * nrma + abs(alphas[i]) * nrmb) / la.norm(V[:,i])
     return residuals
 
-def compute_ritz_residuals(A, B, L, T, Q, shift, tol, C):
-    """ Compute relative residuals for the spectral transformation problem to obtain converged Ritz pairs based on tolerance """
+def compute_best_v_naive(A, B, alphas, betas):
+    """ Compute best residuals naive"""
+    nrmA = la.norm(A)
+    nrmB = la.norm(B)
+    res = np.zeros_like(alphas, dtype=float)
+    for i in range(len(alphas)):
+        alpha, beta = alphas[i], betas[i]
+        M = beta*A - alpha*B
+        sigma_min = la.svd(M, compute_uv=False, hermitian=False)[-1]
+        den = (abs(beta) * nrmA) + (abs(alpha) *nrmB)
+        res[i] = sigma_min / den if den !=0 else np.inf
+    return res
+
+def compute_ritz_residuals(A, B, L, T, Q, shift, tol):
+    """ 
+    Compute relative ritz residuals for the spectral transformation problem 
+    to obtain converged Ritz pairs based on tolerance
+    """
     eigvals_T, eigvecs_T = la.eigh(T)
     theta = eigvals_T
     U = Q @ eigvecs_T
@@ -156,35 +156,87 @@ def compute_ritz_residuals(A, B, L, T, Q, shift, tol, C):
     U_converged = []
     theta_converged = []
 
-    # # Precompute the factorization of (A - shift * B)
-    # A_shift_B = A - shift * B
-    # lu = lu_factor(A_shift_B)
+    # Precompute the factorization of (A - shift * B)
+    A_shift_B = A - shift * B
+    lu = lu_factor(A_shift_B)
     
-    # # Compute the norm of L.T @ (inv(A - shift * B) @ L)
-    # norm_matrix = la.norm(L.T @ lu_solve(lu, L))
-    norm_matrix = la.norm(C)
+    # Compute the norm of L.T @ (inv(A - shift * B) @ L)
+    norm_matrix = la.norm(L.T @ lu_solve(lu, L))
 
     for i in range(U.shape[1]):
-        # q = L @ U[:, i]
-        # v = lu_solve(lu, q)
-        # v = L.T @ v
-        v = C @ U[:, i]
+        q = L @ U[:, i]
+        v = lu_solve(lu, q)
+        v = L.T @ v
         num = la.norm(v - theta[i] * U[:, i])
         den = (norm_matrix + abs(theta[i])) * la.norm(U[:, i])
         residual = num / den if den != 0 else np.inf
+
         # Check if the residual is within the tolerance
         if residual <= tol:
             ritz_residuals.append(residual)
             U_converged.append(U[:, i])
             theta_converged.append(theta[i])
+
     ritz_residuals = np.array(ritz_residuals)
     U_converged = np.array(U_converged).T
     theta_converged = np.array(theta_converged)
     return U_converged, theta_converged, ritz_residuals
 
+def is_triu(T):
+    """Check if T is upper triangular """
+    return np.allclose(T, np.triu(T))
+
+def inverse_iteration(T, tol=1e-10, max_iter=1000):
+    """ Compute the smallest singular values using inverse iteration"""
+    m, n = T.shape
+    x = np.random.randn(n)
+    x = x/np.linalg.norm(x)
+    
+    for k in range(max_iter):
+        y = solve_triangular(T, x, trans='T', lower=True)
+        z = solve_triangular(T, y, lower=False)
+        z_norm = la.norm(z)
+        x_new = z/z_norm
+
+        if la.norm(x_new - x) < tol:
+            break
+        x = x_new
+    TTx = T.T @ (T@x)
+    sigma_min = 1/np.sqrt(la.norm(TTx))
+    return sigma_min, x
+
+def compute_best_v(A, B, alphas, betas, tol):
+    """ Compute the best residual using the smallest singular values """
+    res = np.zeros_like(alphas, dtype=float)
+    Ta, Tb, Q, Z = qz(A, B)
+    for i in range(len(alphas)):
+        T = betas[i]*Ta - alphas[i]*Tb
+        n = T.shape[0]
+
+        # Check if subdiagonal element is zero based on tol
+        for j in range(n-1):
+            if np.abs(T[j+1, j]) <= tol:
+                T[j+1, j] = 0
+            else:
+                continue
+            blk = T[j:j+1, j:j+1]
+            q, r = qr(blk)
+            T[j:j+1, j:n] = q.T @ T[j:j+1, j:n]
+        
+        if not is_triu(T):
+            print("T not upper triangular!")
+            sys.exit(1)
+        sigma_min, x = inverse_iteration(T, tol=tol)
+        den = np.abs(betas[i]) * la.norm(A) + np.abs(alphas[i]) * la.norm(B)
+        res[i] = sigma_min / den if den != 0 else np.inf
+
+    return res
 
 def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
-    """ Compute the residuals, generalized eigvalues and eigvectors for the converged Ritz pairs """
+    """
+    Compute the residuals, generalized eigvalues and eigvectors 
+    for the converged Ritz pairs
+    """
     # Check for converged ritz pairs
     if len(U_converged) != 0 and len(theta_converged) != 0:
         converged_alphas = 1.0 + (theta_converged * shift)
@@ -197,7 +249,7 @@ def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
         sys.exit(1)
 
 def plot_residuals(eigenvalues, residuals, save_path=None):
-    
+    """ Plot the residuals """
     fig, ax1 = plt.subplots(1, 1, figsize=(12, 6), sharey=True)
     
     # Plot for the residuals of computed eigenvalues
