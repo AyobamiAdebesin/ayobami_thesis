@@ -20,13 +20,20 @@
 \usepackage{tocloft}
 \usepackage[hidelinks]{hyperref}
 \usepackage{mathtools}
+\usepackage{todonotes}
 
+\usepackage[commentmarkup=footnote]{changes}
+\definechangesauthor[name=MS]{MS}
+% \def\comm#1{\added[comment={#1}]{}}
+\newcommand{\comm}[1]{\added[comment={#1}]{}}
+\newcommand{\del}[1]{\deleted[comment={remove}]{#1}}
+\newcommand{\rep}[2]{\replaced{#1}{#2}}
 
 \hypersetup{
     colorlinks=false,
     pdfborder={0 0 0},
 }
-
+%%%%%%%%%%%%%
 
 \renewcommand{\cftfigfont}{Figure\ }
 \renewcommand{\cfttabfont}{Table\ }
@@ -207,7 +214,7 @@
 
 \author(Ayobami Adebesin)              % Name required.
 
-\title(Spectral Transformation Lanczos Algorithm for Symmetric-Definite Generalized Eigenvalue Problems: A Comparative Analysis with Conditioning Insights)    % Title of dissertation Required.
+\title(The Spectral Transformation Lanczos Algorithm for the Symmetric-Definite Generalized Eigenvalue Problems: A Comparative Analysis with Conditioning Insights)    % Title of dissertation Required.
 
 \titlesize(11)(11)                               % This is for changing
                                              % the default font size
@@ -232,8 +239,10 @@
 % Adjust margins to 1.0in on all sides
 
 \committee(Michael Stewart)[]
-          (Jeter Russell)
+          (Russell Jeter)
           (Vladimir Bondarenko)
+          (\qquad)
+          (\qquad)
 
 \department(Department of Mathematics and Statistics)
                                    % Your Department name.
@@ -271,15 +280,9 @@
 \include{./Chapters/Chapter_2}
 \include{./Chapters/Chapter_3}
 \include{./Chapters/Chapter_4}
-\include{./Chapters/Chapter_5}
 
-\appendix
-\section*{Appendices}
-\addcontentsline{toc}{section}{Appendices}
-\renewcommand{\thesubsection}{\Alph{subsection}}
 
-\include{./Chapters/Appendix_A}
-\include{./Chapters/Appendix_B}
+
 
 \include{backmatter}               % See the backmatter.tex file
 

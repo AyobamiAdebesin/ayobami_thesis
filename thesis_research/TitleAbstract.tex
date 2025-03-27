@@ -1,7 +1,7 @@
 \pagestyle{empty}
 \begin{center}
 %\vspace*{.1in}
-Spectral Transformation Lanczos Algorithm for Symmetric-Definite Generalized Eigenvalue Problems: A Comparative Analysis with Conditioning Insights.
+The Spectral Transformation Lanczos Algorithm for the Symmetric-Definite Generalized Eigenvalue Problem: A Comparative Analysis with Conditioning Insights
 
 \vspace{.9in}
 by\\
@@ -30,13 +30,14 @@ ABSTRACT\\
 
 \begin{flushleft}
 	\justify
-	This thesis investigates the application of the spectral transformation Lanczos (ST-Lanczos) algorithm to a dense symmetric-definite generalized eigenvalue problem involving real, symmetric matrices $A$ and $B$, with $B$ being positive definite and possibly, ill-conditioned. The Lanczos algorithm is a well-known iterative algorithm for computing the eigenvalues of a symmetric matrix and it works well if the spectrum of the eigenvalues are well-spaced. By leveraging a shifted and inverted formulation of the problem, the ST-Lanczos algorithm relies on iterative projection to approximate extremal eigenvalues near a shift $\sigma$. While previous work has been done in using ST-Lanczos for sparse problems, we adapt this technique to dense problems and analyze how the error bounds already proven for direct methods plays out in an iterative context.\\[10pt]
-	This study primarily focuses on benchmarking the ST-Lanczos method against established direct methods in the literature and addresses challenges in numerical stability, computational efficiency, and sensitivity of residuals to ill-conditioning.
+	This thesis investigates the application of the spectral transformation Lanczos algorithm (ST-Lanczos) to a generalized symmetric-definite eigenvalue problem involving real symmetric matrices $A$ and $B$, with $B$ being positive definite and possibly ill conditioned. The Lanczos algorithm is a well-known iterative algorithm for computing the eigenvalues of a symmetric matrix and it works well for finding the extreme points in the spectrum. By leveraging a shifted and inverted formulation of the problem, the ST-Lanczos algorithm relies on iterative projection to approximate extremal eigenvalues near a shift $\sigma$. While previous work has been done using direct methods, the goal of this thesis is to use an iterative approach, and analyze how the error bounds already proven for direct methods play out in an iterative context.
+
+    This study focuses primarily on benchmarking the ST-Lanczos method against established direct methods in the literature and addresses challenges in numerical stability, computational efficiency, and sensitivity of residuals to ill-conditioning.
 \end{flushleft} 
 \begin{singlespace}
 \vspace{0.5in}
 \noindent INDEX WORDS:
 \hspace{0.2in}
 \parbox[t]{4.5in}{
-eigenvalues, eigenvectors, lanczos algorithm, ritz values, krylov subspaces, spectral transformation, orthogonality}
+  eigenvalues, eigenvectors, Lanczos algorithm, Ritz values, Krylov subspaces, spectral transformation, orthogonality}
 \end{singlespace} 

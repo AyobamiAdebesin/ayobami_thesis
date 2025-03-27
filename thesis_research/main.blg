@@ -13,56 +13,50 @@ Reallocating 'name_of_file' (item size: 1) to 25 items.
 A level-1 auxiliary file: ./Chapters/Chapter_3.aux
 Reallocating 'name_of_file' (item size: 1) to 25 items.
 A level-1 auxiliary file: ./Chapters/Chapter_4.aux
-Reallocating 'name_of_file' (item size: 1) to 25 items.
-A level-1 auxiliary file: ./Chapters/Chapter_5.aux
-Reallocating 'name_of_file' (item size: 1) to 26 items.
-A level-1 auxiliary file: ./Chapters/Appendix_A.aux
-Reallocating 'name_of_file' (item size: 1) to 26 items.
-A level-1 auxiliary file: ./Chapters/Appendix_B.aux
 Reallocating 'name_of_file' (item size: 1) to 15 items.
 A level-1 auxiliary file: backmatter.aux
 Reallocating 'name_of_file' (item size: 1) to 4 items.
 The style file: apj.bst
 Reallocating 'name_of_file' (item size: 1) to 13 items.
 Database file #1: bibliography.bib
-You've used 1 entry,
+You've used 4 entries,
             2964 wiz_defined-function locations,
-            665 strings with 5048 characters,
-and the built_in function-call counts, 634 in all, are:
-= -- 45
-> -- 61
-< -- 0
-+ -- 22
+            681 strings with 5467 characters,
+and the built_in function-call counts, 1537 in all, are:
+= -- 135
+> -- 74
+< -- 4
++ -- 29
 - -- 21
-* -- 63
-:= -- 127
-add.period$ -- 1
-call.type$ -- 1
-change.case$ -- 11
-chr.to.int$ -- 1
-cite$ -- 1
-duplicate$ -- 19
-empty$ -- 27
-format.name$ -- 24
-if$ -- 113
+* -- 112
+:= -- 289
+add.period$ -- 4
+call.type$ -- 4
+change.case$ -- 23
+chr.to.int$ -- 4
+cite$ -- 4
+duplicate$ -- 71
+empty$ -- 112
+format.name$ -- 37
+if$ -- 304
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 1
-newline$ -- 7
-num.names$ -- 4
-pop$ -- 11
+missing$ -- 3
+newline$ -- 16
+num.names$ -- 16
+pop$ -- 27
 preamble$ -- 1
-purify$ -- 11
+purify$ -- 23
 quote$ -- 0
-skip$ -- 16
+skip$ -- 62
 stack$ -- 0
-substring$ -- 18
+substring$ -- 71
 swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 9
+type$ -- 33
 warning$ -- 0
-while$ -- 4
+while$ -- 14
 width$ -- 0
-write$ -- 13
+write$ -- 42

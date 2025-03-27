@@ -1,9 +1,19 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{4}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
-\bibitem[{{Jones} {et~al.}(2016){Jones}, {White}, {Quinn}, {Ireland},
-  {Boyajian}, {Schaefer}, \& {Baines}}]{jones_2016}
-{Jones}, J., {White}, R.~J., {Quinn}, S., {Ireland}, M., {Boyajian}, T.,
-  {Schaefer}, G., \& {Baines}, E.~K. 2016, \apjl, 822, L3
+\bibitem[{Ericsson \& Ruhe(1980)}]{Ericsson1980TheST}
+Ericsson, T., \& Ruhe, A. 1980, Mathematics of Computation, 35, 1251
+
+\bibitem[{Golub \& Van~Loan(2013)}]{doi:10.1137/1.9781421407944}
+Golub, G.~H., \& Van~Loan, C.~F. 2013, Matrix Computations - 4th Edition
+  (Philadelphia, PA: Johns Hopkins University Press)
+
+\bibitem[{Moler \& Stewart(1973)}]{5b3d5fb1-4813-3046-9331-a730b392f611}
+Moler, C.~B., \& Stewart, G.~W. 1973, SIAM Journal on Numerical Analysis, 10,
+  241
+
+\bibitem[{Stewart(2024)}]{stewart2024spectraltransformationdensesymmetric}
+Stewart, M. 2024, Spectral Transformation for the Dense Symmetric Semidefinite
+  Generalized Eigenvalue Problem
 
 \end{thebibliography}
