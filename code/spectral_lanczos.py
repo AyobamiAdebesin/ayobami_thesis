@@ -186,7 +186,7 @@ def is_triu(T):
     """Check if T is upper triangular """
     return np.allclose(T, np.triu(T))
 
-def inverse_iteration(T, tol=1e-10, max_iter=1000):
+def inverse_iteration(T, tol=1e-10, max_iter=3000):
     """ Compute the smallest singular values using inverse iteration"""
     m, n = T.shape
     x = np.random.randn(n)
@@ -210,22 +210,33 @@ def compute_best_v(A, B, alphas, betas, tol):
     res = np.zeros_like(alphas, dtype=float)
     Ta, Tb, Q, Z = qz(A, B)
     for i in range(len(alphas)):
-        T = betas[i]*Ta - alphas[i]*Tb
+        T = betas[i] * Ta - alphas[i] * Tb
         n = T.shape[0]
 
         # Check if subdiagonal element is zero based on tol
-        for j in range(n-1):
-            if np.abs(T[j+1, j]) <= tol:
-                T[j+1, j] = 0
-            else:
-                continue
-            blk = T[j:j+1, j:j+1]
-            q, r = qr(blk)
-            T[j:j+1, j:n] = q.T @ T[j:j+1, j:n]
-        
+        for j in range(n - 1): 
+            if T[j + 1, j] != 0:
+                if np.abs(T[j + 1, j]) <= tol:
+                    T[j + 1, j] = 0
+                else:
+                    blk = T[j:j + 2, j:j + 2]
+                    q, r = qr(blk)
+                    T[j:j + 2, j:n] = q.T @ T[j:j + 2, j:n]
+
+        # Ensure T is upper triangular
         if not is_triu(T):
             print("T not upper triangular!")
             sys.exit(1)
+
+        # Check for zero diagonal elements and handle them
+        diag_indices = np.diag_indices_from(T)
+        zero_diag = np.abs(T[diag_indices]) <= tol
+        if np.any(zero_diag):
+            print(f"Diagonal element(s) too small or zero in T for index {i}. Skipping...")
+            res[i] = np.inf
+            continue
+
+        # Perform inverse iteration
         sigma_min, x = inverse_iteration(T, tol=tol)
         den = np.abs(betas[i]) * la.norm(A) + np.abs(alphas[i]) * la.norm(B)
         res[i] = sigma_min / den if den != 0 else np.inf
@@ -248,21 +259,27 @@ def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
         print("No converged Ritz pair!")
         sys.exit(1)
 
-def plot_residuals(eigenvalues, residuals, save_path=None):
-    """ Plot the residuals """
-    fig, ax1 = plt.subplots(1, 1, figsize=(12, 6), sharey=True)
-    
-    # Plot for the residuals of computed eigenvalues
-    ax1.scatter(eigenvalues, residuals, color='blue', label='λ', s=10)
-    #ax1.set_xscale('log')
+def plot_residuals(eigenvalues_generalized, residuals_generalized, eigenvalues_ritz, residuals_ritz, save_path=None):
+    """ Plot the residuals for both Generalized Eigenvalues and Ritz values side by side """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+
+    # Plot for the residuals of generalized eigenvalues
+    ax1.scatter(eigenvalues_generalized, residuals_generalized, color='blue', label='λ (Generalized)', s=10)
     ax1.set_yscale('log')
     ax1.set_xlabel(r'$\lambda$', fontsize=12)
     ax1.set_ylabel('Residual', fontsize=12)
-    ax1.set_title('Residual vs $\lambda$', fontsize=12)
+    ax1.set_title('Residual vs Generalized Eigenvalues', fontsize=12)
     ax1.legend()
 
+    # Plot for the residuals of Ritz values
+    ax2.scatter(eigenvalues_ritz, residuals_ritz, color='green', label='λ (Ritz)', s=10)
+    ax2.set_yscale('log')
+    ax2.set_xlabel(r'$\lambda$', fontsize=12)
+    ax2.set_title('Residual vs Ritz Values', fontsize=12)
+    ax2.legend()
+
     plt.tight_layout()
-    
+
     if save_path:
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"Plot saved to {save_path}")
