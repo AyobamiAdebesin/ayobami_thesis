@@ -1,4 +1,5 @@
 \chapter{EXPERIMENTAL RESULTS AND DISCUSSION}
+
 In this chapter, we will present a comprehensive analysis of the experimental results obtained from our implementation of the Spectral Transformation Lanczos algorithm for the symmetric definite generalized eigenvalue problem. We examine the algorithm performance on a test matrix, analyze the effects of ill-conditioning on convergence and accuracy, and compare the error bounds with what was predicted with direct methods.
 
 \section{Software and Computational Environment}
@@ -36,13 +37,22 @@ where $B = C_b^T (A-\sigma B)^{-1} C_b $.
 \begin{equation}\label{eq:GeneralizedResidual}
 \text{Generalized Relative Residual} = \frac{\| (\beta A - \alpha B)\mathbf{v} \| }{(\lvert \beta \rvert \|A\| + \lvert \alpha \rvert \|B\|)\|v\| }
 \end{equation}
+\comm{I would write the numerator as $\|\beta A \mathbf{v} - \alpha B\mathbf{v}\|$ both here and in the code.}
 
 \begin{equation}\label{eq:STResidual}
 \text{ST Relative Residual} = \frac{\| C_b^T(A - \sigma B)^{-1}C_b \mathbf{u} - \lvert \theta \rvert \mathbf{u} \| }{( C_b^T(A - \sigma B)^{-1}C_b + \lvert \theta \rvert)\|\mathbf{u}\| }
 \end{equation}
 
 \section{$LU$ decomposition}
-The $LU$ decomposition of $A - \sigma B$ is performed using the \texttt{linalg.lu\_factor} function in SciPy, which employs partial pivoting. For $n = 1200$ iterations, the Krylov solution subspace has a dimension of $1200$, and the ST Lanczos algorithm achieves a decomposition residual of the order of $10^{-10}$, despite a full reorthogonalization. This reduction in accuracy is attributed to pivot-limited accuracy. Using a tolerance of $10^{-10}$ for the Ritz pair residuals computed by (\ref{eq:STResidual}), approximately $75\%$ of the Ritz pairs converge with an accuracy of the order $10^{-13}$ for Ritz values close to the shift. However, the generalized residuals for these converged Ritz pairs remain on the order of machine precision $u=10^{-16}$. As shown in Fig \ref{fig:LUResidualsIll}, the residuals are small for eigenvalues near the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds proven by (Michael Stewart, 2024) for a direct method. To examine the effect of conditioning, $\delta$ was increased to $\delta=10^2$ so that $\kappa(A) = 4013$ and $\kappa(B) = 54.9$. For this \textit{well-conditioned} problem, the Lanczos decomposition residual decreases to the order of $10^{-13}$, indicating that the accuracy of the Lanczos decomposition is influenced by the problem's conditioning. Additionally, for the same tolerance, an improvement in the Ritz pair residuals was observed  while the generalized residuals was not impacted by the problem's conditioning as shown in Fig \ref{fig:LUResidualsWell}.
+The $LU$ decomposition of $A - \sigma B$ is performed using the \texttt{linalg.lu\_factor} function in SciPy, which employs partial pivoting. For $n = 1200$ iterations, the Krylov solution subspace has a dimension of $1200$, and the ST Lanczos algorithm achieves a decomposition residual of the order of $10^{-10}$, despite a full reorthogonalization. This reduction in accuracy is attributed to pivot-limited accuracy. Using a tolerance of $10^{-10}$ for the Ritz pair residuals computed by (\ref{eq:STResidual}), approximately $75\%$ of the Ritz pairs converge with an accuracy of the order $10^{-13}$ for Ritz values close to the shift. However, the generalized residuals for these converged Ritz pairs remain on the order of machine precision $u=10^{-16}$. As shown in Fig \ref{fig:LUResidualsIll}, the residuals are small for eigenvalues near the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds proven by (Michael Stewart, 2024)\comm{Please use \textbackslash cite like you did elsewhere.} for a direct method. To examine the effect of conditioning, $\delta$ was increased to $\delta=10^2$ so that $\kappa(A) = 4013$ and $\kappa(B) = 54.9$. For this \textit{well-conditioned} problem, the Lanczos decomposition residual decreases to the order of $10^{-13}$, indicating that the accuracy of the Lanczos decomposition is influenced by the problem's conditioning. Additionally, for the same tolerance, an improvement in the Ritz pair residuals was observed  while the generalized residuals was not impacted by the problem's conditioning as shown in Fig \ref{fig:LUResidualsWell}.
+\comm{The range of values here isn't wide enough to see how much the order of magnitude of the generalized eigenvalues impacts the residual.  With all eigenvalues between 150 and 400, they are all roughly the same order of magnitude.  I'd go up to 10,000 and maybe down to $10^{-3}$.  The generalized eigenvalues for eigenvectors computed in the usual way should show residuals that increase away from the shift.  The ones that are computed using the SVD should be better.}
+
+\comm{Shouldn't there be three sets of residuals?  Specifically: Generalized eigenvalues using the computed eigenvector, the Spectral transformed residuals, and the generalized eigenvalue residuals.}
+
+\comm{You might also comment on the points that have much larger residuals; those correspond to not fully converged Ritz pairs.}
+
+\comm{You haven't really done a comparison with the theorems in the paper.  You still need to say what those theorems are and something about how they relate to the graphs.  You need to state precise error bounds from the paper to do this.}
+
 
 \begin{figure}
 \centering
@@ -79,3 +89,9 @@ Overall, the extremely low decomposition residual confirms the robustness of usi
 	\includegraphics[height=2.5in]{./Plots/eigdecomp/eig_residual_plots.png}
         \label{fig:EigDecompRes}
 \end{figure}
+
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../main"
+%%% End:

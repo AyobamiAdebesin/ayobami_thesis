@@ -1,19 +1,21 @@
-\begin{thebibliography}{4}
-\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\begin{thebibliography}{1}
 
-\bibitem[{Ericsson \& Ruhe(1980)}]{Ericsson1980TheST}
-Ericsson, T., \& Ruhe, A. 1980, Mathematics of Computation, 35, 1251
+\bibitem{Ericsson1980TheST}
+{\sc T.~Ericsson and A.~Ruhe}, {\em The spectral transformation l{\'a}nczos
+  method for the numerical solution of large sparse generalized symmetric
+  eigenvalue problems}, Mathematics of Computation, 35 (1980), pp.~1251--1268.
 
-\bibitem[{Golub \& Van~Loan(2013)}]{doi:10.1137/1.9781421407944}
-Golub, G.~H., \& Van~Loan, C.~F. 2013, Matrix Computations - 4th Edition
-  (Philadelphia, PA: Johns Hopkins University Press)
+\bibitem{doi:10.1137/1.9781421407944}
+{\sc G.~H. Golub and C.~F. Van~Loan}, {\em Matrix Computations - 4th Edition},
+  Johns Hopkins University Press, Philadelphia, PA, 2013.
 
-\bibitem[{Moler \& Stewart(1973)}]{5b3d5fb1-4813-3046-9331-a730b392f611}
-Moler, C.~B., \& Stewart, G.~W. 1973, SIAM Journal on Numerical Analysis, 10,
-  241
+\bibitem{5b3d5fb1-4813-3046-9331-a730b392f611}
+{\sc C.~B. Moler and G.~W. Stewart}, {\em An algorithm for generalized matrix
+  eigenvalue problems}, SIAM Journal on Numerical Analysis, 10 (1973),
+  pp.~241--256.
 
-\bibitem[{Stewart(2024)}]{stewart2024spectraltransformationdensesymmetric}
-Stewart, M. 2024, Spectral Transformation for the Dense Symmetric Semidefinite
-  Generalized Eigenvalue Problem
+\bibitem{stewart2024spectraltransformationdensesymmetric}
+{\sc M.~Stewart}, {\em Spectral transformation for the dense symmetric
+  semidefinite generalized eigenvalue problem}, 2024.
 
 \end{thebibliography}

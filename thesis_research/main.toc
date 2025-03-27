@@ -1,6 +1,6 @@
 \contentsline {chapter}{ACKNOWLEDGMENTS}{v}{chapter*.2}%
-\contentsline {chapter}{LIST OF TABLES}{ix}{chapter*.4}%
-\contentsline {chapter}{LIST OF FIGURES}{x}{chapter*.5}%
+\contentsline {chapter}{LIST OF TABLES}{ix}{chapter*.5}%
+\contentsline {chapter}{LIST OF FIGURES}{x}{chapter*.6}%
 \contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Literature Review}{2}{section.1.2}%
@@ -21,9 +21,9 @@
 \contentsline {section}{\numberline {3.1}Software and Computational Environment}{23}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Experimental Setup}{24}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Metrics}{25}{section.3.3}%
-\contentsline {section}{\numberline {3.4}$LU$ decomposition}{25}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Eigenvalue Decomposition}{27}{section.3.5}%
-\contentsline {chapter}{\numberline {4}CONCLUSION}{29}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Summary of Key Findings}{29}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Importance and Implications}{30}{section.4.2}%
-\contentsline {chapter}{REFERENCES}{31}{section*.7}%
+\contentsline {section}{\numberline {3.4}$LU$ decomposition}{26}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Eigenvalue Decomposition}{28}{section.3.5}%
+\contentsline {chapter}{\numberline {4}CONCLUSION}{30}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Summary of Key Findings}{30}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Importance and Implications}{31}{section.4.2}%
+\contentsline {chapter}{REFERENCES}{32}{section*.17}%

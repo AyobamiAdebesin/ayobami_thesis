@@ -12,11 +12,12 @@
 
 %\documentclass[12pt,gsu,online,openright,doubleside]{gsudiss}
 \documentclass[12pt,gsu,online,openany,singleside,hidelinks]{gsudiss}
-\usepackage{natbib}
+% \usepackage[square, numbers]{natbib}
 %\usepackage{subfigure}                % To format bibliographies.
 %% \usepackage{aastex}
-\setlength{\bibsep}{0pt}           % Necessary for bib entries to have
-                                   % correct line spacing.
+\bibliographystyle{siam}
+% \setlength{\bibsep}{0pt}           % Necessary for bib entries to have
+%                                    % correct line spacing.
 \usepackage{tocloft}
 \usepackage[hidelinks]{hyperref}
 \usepackage{mathtools}
@@ -55,8 +56,11 @@
 % introduced by the NTG document classes
 \renewcommand\CaptionLabelFont{\normalsize}
 \renewcommand\CaptionTextFont{\normalsize}
-\usepackage{aas}                   % Some abbreviations for AAS references.
-\citestyle{aa}                     % Astronomy & Astrophysics cite style.
+
+% \usepackage{aas}                   % Some abbreviations for AAS references.
+% \citestyle{aa}                     % Astronomy & Astrophysics cite style.
+
+
 \usepackage{eucal}                 % Euler fonts for equations.
 \usepackage{verbatim}              % Allows quoting source with commands.
 \usepackage{graphicx}              % For powerful manipulation of figures.
