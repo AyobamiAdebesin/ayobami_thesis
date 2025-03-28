@@ -79,7 +79,7 @@ After the completion of algorithm \ref{alg:lanczos_algorithm}, the $\gamma$'s an
 	\end{bmatrix}.
 	\]
 The decomposition is given by
-\begin{equation}
+\begin{equation}\label{eq:Lanczos_Decomposition}
 	AQ_n = Q_nT_n + \delta_{n}\mathbf{q_{n+1}}\mathbf{e_n}^T
 \end{equation}
 In theory, the vectors $q_j$'s should be orthonormal, but due to floating-point errors, there will be loss of orthogonalization, hence the need for line 8 in the Algorithm \ref{alg:lanczos_algorithm}.\\

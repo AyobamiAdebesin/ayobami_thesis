@@ -12,11 +12,21 @@ represented a significant advancement for efficiently solving eigenvalue problem
 An important class of eigenvalue problems which is the main focus of this thesis, is the generalized eigenvalue problem {} (GEP). The GEP takes the form $A\mathbf{v} = \lambda B\mathbf{v}$ where $A$ and $B$ are square matrices, $\lambda$ is a generalized eigenvalue, and $\mathbf{v}\neq\mathbf{0}$ is the corresponding generalized eigenvector. This class of problems arises naturally in a number of application areas, including structural dynamics, data analysis and has a long history in the research literature on numerical linear algebra.
 
 \section{Literature Review}\label{sec:LiteratureReview}
-Generalized eigenvalue problems involving symmetric and positive definite matrices are fundamental in numerical linear algebra with applications in structural  dynamics, quantum mechanics, and control theory. Solving these kind of problems involve computing the eigenvalues $\lambda$ and eigenvectors $v$ that satisfies the equation. The choice of method depends on the properties of the matrix involved in the problem we are trying to solve (e.g, sparsity, symmetry) and computational constraints. In this section, we discuss some of the research that has been done on this topic.
+Generalized eigenvalue problems involving symmetric and positive definite matrices are fundamental in numerical linear algebra with applications in structural  dynamics, quantum mechanics, and control theory. Solving these kind of problems involve computing the eigenvalues $\lambda$ and eigenvectors $\mathbf{v}$ that satisfies the equation. The choice of method depends on the properties of the matrix involved in the problem we are trying to solve (e.g, sparsity, symmetry) and computational constraints. In this section, we discuss some of the research that has been done on this topic.
 
-\cite{doi:10.1137/1.9781421407944}\comm{Use numbered citations by commenting out some of the astronomical citation style things in the \LaTeX\ preamble.  I suggest adding instead \textbackslash bibliographystyle\{siam\}.  You can diff to see the changes I made to the preamble.  As you have here, don't start a sentence with a reference; numbered references are common in math, but they look weird at the start of a sentence.} considered the case when B\comm{use math mode here} is invertible, in which the problem is reduced to $B^{-1}A\mathbf{v} = \lambda \mathbf{v}$. However, explicity forming $B^{-1}A$ is numerically unstable if B is ill-conditioned. Since $B$ a symmetric and positive definite $B$, one can compute a Cholesky factorization $B = LL^{T}$ which allows us to reduce the equation to a standard eigenvalue problem $L^{-1}AL^{-T}\mathbf{y} = \lambda \mathbf{y}$ where $\mathbf{y}= L^T \mathbf{v}$, which can then be solved by using the symmetric $QR$ algorithm to compute a Schur decomposition.
+When $B$ is invertible, the problem is reduced to $B^{-1}A\mathbf{v} = \lambda \mathbf{v}$. However, explicity forming $B^{-1}A$ is numerically unstable if B is ill-conditioned. Since $B$ a symmetric and positive definite $B$, one can compute a Cholesky factorization $B = LL^{T}$ which allows us to reduce the equation to a standard eigenvalue problem $L^{-1}AL^{-T}\mathbf{y} = \lambda \mathbf{y}$ where $\mathbf{y}= L^T \mathbf{v}$, which can then be solved by using the symmetric $QR$ algorithm to compute a Schur decomposition. A detailed treatment for this case is presented in \cite{doi:10.1137/1.9781421407944}. In practice, this approach usually results in small relative residuals for eigenvalues that are large in magnitude and larger relative residuals for eigenvalue smaller in magnitude.
 
 The $QZ$ algorithm (\cite{5b3d5fb1-4813-3046-9331-a730b392f611}) for the non-symmetric GEP, is an iterative method that generalized the $QR$ algorithm, to handle singular or ill-conditioned $B$. It applies orthogonal transformations to simutaneously reduce $A$ and $B$ to upper triangular forms from which the eigenvalues are extracted. Although this method is robust and backward stable, it is computationally expensive, thereby limiting its use to small or medium sized matrices.
+
+A more stable approach for a dense symmetric semidefinite problem where $B$ is symmetric positive definite or ill-conditioned is described in \cite{5b3d5fb1-4813-3046-9331-a730b392f611}. This approach uses a spectral transformation method that leverages on a shifted and inverted formulation $(A-\sigma B)^{-1}B$ which then solves it using symmetric factorizations. Using a rook pivoted $LDL^T$ factorization for $(A-\sigma B)$ and a Cholesky factorization for $B$, such that $(A-\sigma B) = C_aD_aC_a^T$ and $B = C_bC_b^T$, the generalized problem is transformed to a standard one given by 
+\begin{equation}
+	C_b^TC_a^{-T}D_aC_a^{-1}C_b \mathbf{u} = \theta \mathbf{u}.
+\end{equation}
+It was proved that stability depends on the choice of shift $\sigma$, the conditioning of $A - \sigma B$, and the avoidance of cancellation during factorization. The error analysis proved that for a moderately scaled shift $\sigma_0 = \sigma \frac{\|B\|_2}{\|A\|_2}$, the size of $\eta \|X\|$ can be controlled which stabilize the ill-conditioning in computing $X$ where 
+\begin{equation}
+	X = C_a^{-1}C_b, \text{ and, } \eta = \frac{\|A - \sigma B\|_2^{1/2}}{\|B\|_2^{1/2}},
+\end{equation}
+thereby giving small residuals for eigenvalues not much larger than $\sigma$. This approach was validated by numerical experiments, contrasting it with unstable Cholesky-based methods for small eigenvalues.
 
 \section{Mathematical Preliminaries}\label{sec:MathPrelim}
 In this section, we shall introduce some notations and the key mathematical concepts underlying the eigenvalue problems that will be used throughout this study.
@@ -28,7 +38,6 @@ Throughout this study, we make use of the following notations:
 	&\mathbf{x} \in \mathbb{R}^{m}: \text{denotes a column vector}\\
 	&A^{T}: \text{denotes the transpose of matrix $A$}\\
 	&\| \cdot \|: \text{denotes a vector or matrix norm }\\
-	& \otimes: \text{ denotes the Kronecker product of two matrices}\\
 	&A_{i:i^\prime, j:j^\prime}: \text{denotes the $(i^\prime - i + 1) \times (j^\prime - j + 1)$ submatrix of $A$}\\
 	&A^{(k)}: \text{denotes the matrix A at the $k$th step of an iteration}
 \end{align*}
