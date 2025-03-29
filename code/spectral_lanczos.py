@@ -7,6 +7,7 @@ Generalized Eigenvalue problem Ax = lambda Bx
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import sys
 import numpy.linalg as la
 from scipy.linalg import lu_factor, lu_solve, qz, qr, eigh
@@ -31,8 +32,9 @@ def generate_matrix(D, delta):
     A = (L @ C ) @ L.T
     return A, B, L
 
-def eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3):
-    """ Generate eigenvalue distribution.
+
+def eigenvalue_distribution_groups(m1, m2, m3, spread1, spread2, spread3):
+    """ Generate eigenvalue distribution within specified magnitude groups.
     
     m1 - Number of eigenvalues in the first group.
     m2 - Number of eigenvalues in the second group.
@@ -41,13 +43,16 @@ def eigenvalue_distribution(m1, m2, m3, spread1, spread2, spread3):
     spread2 - (min, max) for the second group.
     spread3 - (min, max) for the third group.
     """
-    eig1 = np.random.uniform(spread1[0], spread1[1], m1)
-    eig2 = np.random.uniform(spread2[0], spread2[1], m2)
-    eig3 = np.random.uniform(spread3[0], spread3[1], m3)
+    # Use logspace to generate eigenvalues
+    eig1 = np.logspace(np.log10(spread1[0]), np.log10(spread1[1]), m1)
+    eig2 = np.logspace(np.log10(spread2[0]), np.log10(spread2[1]), m2)
+    eig3 = np.logspace(np.log10(spread3[0]), np.log10(spread3[1]), m3)
 
+    # Combine the eigenvalues into one array
     eigenvalues = np.concatenate([eig1, eig2, eig3])
 
     return eigenvalues
+
 
 def spectral_lanczos(A, B, L, m, n, shift):
     """
@@ -171,7 +176,7 @@ def compute_ritz_residuals(A, B, L, T, Q, shift, tol):
         den = (norm_matrix + abs(theta[i])) * la.norm(U[:, i])
         residual = num / den if den != 0 else np.inf
 
-        # Check if the residual is within the tolerance
+        #Check if the residual is within the tolerance
         if residual <= tol:
             ritz_residuals.append(residual)
             U_converged.append(U[:, i])
@@ -259,6 +264,7 @@ def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
         print("No converged Ritz pair!")
         sys.exit(1)
 
+
 def plot_residuals(eigenvalues_generalized, residuals_generalized, eigenvalues_ritz, residuals_ritz, save_path=None):
     """ Plot the residuals for both Generalized Eigenvalues and Ritz values side by side """
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
@@ -266,14 +272,16 @@ def plot_residuals(eigenvalues_generalized, residuals_generalized, eigenvalues_r
     # Plot for the residuals of generalized eigenvalues
     ax1.scatter(eigenvalues_generalized, residuals_generalized, color='blue', label='λ (Generalized)', s=10)
     ax1.set_yscale('log')
-    ax1.set_xlabel(r'$\lambda$', fontsize=12)
+    ax1.set_xscale('log')
+    ax1.set_xlabel(r'$\lambda$', fontsize=12) 
     ax1.set_ylabel('Residual', fontsize=12)
     ax1.set_title('Residual vs Generalized Eigenvalues', fontsize=12)
     ax1.legend()
 
     # Plot for the residuals of Ritz values
-    ax2.scatter(eigenvalues_ritz, residuals_ritz, color='green', label='λ (Ritz)', s=10)
+    ax2.scatter(eigenvalues_ritz, residuals_ritz, color='green', label='θ (Ritz)', s=10)
     ax2.set_yscale('log')
+    ax2.set_xscale('log')
     ax2.set_xlabel(r'$\lambda$', fontsize=12)
     ax2.set_title('Residual vs Ritz Values', fontsize=12)
     ax2.legend()
