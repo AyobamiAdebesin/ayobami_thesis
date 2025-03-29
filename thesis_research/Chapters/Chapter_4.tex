@@ -5,9 +5,16 @@ This thesis has investigated the application and performance of the Spectral Tra
 The experiments in this thesis have uncovered some interesting results regarding the spectral transformation lanczos algorithm for generalized eigenvalue problems. First, we have established that the generalized residuals increases for eigenvalues farther away from the shift, if the shift is not too large in magnitude, validating the analytical error bounds proven for direct methods.\\[10pt]
 Secondly, our analysis of the eigenvalue sensitivity revealed the relationship between the conditioning of the matrices, and the accuracy of computed eigenvalues for various factorizations of the shifted matrix $A-\sigma B$. We observed that for any factorization involving symmetry(eigenvalue decomposition or $LDL^T$ factorization), the ST-Lanczos is stable and the Ritz pairs converged to the order of unit round off $u$ for the $n-$ lanczos steps. The generalized eigenvalues also converged, achieving unit round off for all computed eigenvalues closer and farther away from the shift. This poses an interesting question: ``Can we prove stability for any symmetric decomposition of $A - \sigma B$''?
 
-Finally, for the $LU$ decomposition of $A - \sigma B$, we observe that the lanczos procedure was stable but the behavior is largely dependent on the conditioning of $A$ and $B$. However, our results indicated that, the generalized residuals were insensitive to the conditioning of the problem.
+Finally, for the $LU$ decomposition of $A - \sigma B$, we observe that the lanczos procedure was stable but the behavior is largely dependent on the conditioning of \rep{$A-\sigma B$}{$A$ and $B$}. However, our results indicated that, the generalized residuals were insensitive to the conditioning of the problem.
 
 \section{Importance and Implications}
 From a theoretical perspective, this work advances our knowledge of spectral transformation, matrix conditioning and eigenvalue sensitivity in the context of dense generalized eigenvalue problems. Our results showed that the conditional bounds for direct methods, holds true for iterative methods. This work goes a step further at highlighting an interesting property of spectral transformation methods that can determine stability for such methods, both in the direct and iterative context. This contributes to the broader field of numerical linear algebra by providing a more comprehensive framework for analyzing iterative eigenvalue solvers.
 
 By characterizing the relationship between matrix factorizations and algorithm convergence, we have developed a better understanding of how spectral transformations affect the convergence of properties of Krylov subspace methods.
+
+
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../main"
+%%% End:
