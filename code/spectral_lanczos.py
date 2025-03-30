@@ -265,29 +265,45 @@ def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
         sys.exit(1)
 
 
-def plot_residuals(eigenvalues_generalized, residuals_generalized, eigenvalues_ritz, residuals_ritz, save_path=None):
-    """ Plot the residuals for both Generalized Eigenvalues and Ritz values side by side """
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+def plot_residuals(eigenvalues, residuals, label=None, save_path=None):
+    """ Plot the residuals for both Generalized Eigenvalues and Ritz values in a single plot """
+    fig, ax = plt.subplots(figsize=(8, 6))
 
-    # Plot for the residuals of generalized eigenvalues
-    ax1.scatter(eigenvalues_generalized, residuals_generalized, color='blue', label='λ (Generalized)', s=10)
-    ax1.set_yscale('log')
-    ax1.set_xscale('log')
-    ax1.set_xlabel(r'$\lambda$', fontsize=12) 
-    ax1.set_ylabel('Residual', fontsize=12)
-    ax1.set_title('Residual vs Generalized Eigenvalues', fontsize=12)
-    ax1.legend()
+    label_dict = {
+        'g': 'λ (Generalized)',
+        'r': 'θ (Ritz)',
+        'b': 'Best $v_{i}$'
+    }
+    title_dict = {
+        'g': 'Residual vs Generalized Eigenvalues',
+        'r': 'Residual vs Ritz values',
+        'b': 'Best Residuals vs Generalized Eigenvalues'
+    }
 
-    # Plot for the residuals of Ritz values
-    ax2.scatter(eigenvalues_ritz, residuals_ritz, color='green', label='θ (Ritz)', s=10)
-    ax2.set_yscale('log')
-    ax2.set_xscale('log')
-    ax2.set_xlabel(r'$\lambda$', fontsize=12)
-    ax2.set_title('Residual vs Ritz Values', fontsize=12)
-    ax2.legend()
+    color_dict = {
+        'g': "blue",
+        'r': 'green',
+        'b': 'black'
+    }
+    x_label = r'$\theta$' if label=="r" else r'$\lambda$'
 
+    img_path = f"residual_{save_path}"
+    scatter_label = label_dict.get(label, 'Residuals')
+    scatter_title = title_dict.get(label, "Residual vs Eigenvalues")
+    color = color_dict.get(label, 'blue')
+
+    # Plot for the residuals
+    ax.scatter(eigenvalues, residuals, color=color, label=scatter_label, s=10)
+
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    ax.set_xlabel(x_label, fontsize=12) 
+    ax.set_ylabel('Residual', fontsize=12)
+    ax.set_title(scatter_title, fontsize=12)
+    ax.legend()
     plt.tight_layout()
 
     if save_path:
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"Plot saved to {save_path}")
+        plt.savefig(img_path, dpi=300, bbox_inches='tight')
+        print(f"Plot saved to {img_path}")
+

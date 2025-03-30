@@ -12,7 +12,7 @@ if __name__ == "__main__":
     spread1 = (10**-3, 10**1)
     spread2 = (10**1, 10**3)  
     spread3 = (10**3, 10**7)
-    shift = 1.5e5
+    shift = 1.5e3
     n=2000
     tol = 1e-10
 
@@ -40,13 +40,14 @@ if __name__ == "__main__":
     # res = compute_best_v(A, B, alpha, beta, tol=1e-10)
 
     # Compute best relative res naive
-    #res = compute_best_v_naive(A, B, alpha, beta)
+    # Uncomment to compute the best residuals for an idealized eigenvector.
+    #res = compute_best_v_naive(A, B, alpha, beta) 
 
     print(f"Number of converged Ritz pairs: {theta_converged.shape[0]}")
 
-    plot_residuals(eigenvalues_generalized=alpha/beta, residuals_generalized=la.norm(gen_residuals, axis=0),
-                   eigenvalues_ritz=theta_converged, residuals_ritz=ritz_residuals,
-                   save_path="residuals_plot_well_large")
+    plot_residuals(eigenvalues=alpha/beta, residuals=la.norm(gen_residuals, axis=0), label='g', save_path='lu_gs')
+    plot_residuals(eigenvalues=theta_converged, residuals=ritz_residuals, label='r', save_path='lu_rs')
+    #plot_residuals(eigenvalues=alpha/beta, residuals=res, label ='b', save_path='lu_bl')
    
 
     end = time.time()
