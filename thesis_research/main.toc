@@ -26,3 +26,4 @@
 \contentsline {chapter}{\numberline {4}CONCLUSION}{37}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Summary of Key Findings}{37}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Importance and Implications}{38}{section.4.2}%
+\contentsline {chapter}{REFERENCES}{39}{section*.10}%

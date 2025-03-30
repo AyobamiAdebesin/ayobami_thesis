@@ -2,7 +2,7 @@
 
 In this chapter, we shall present a detailed description of the methodologies and implementation of algorithms used in this thesis to solve the generalized eigenvalue problem. We begin by describing the problem setup, followed by a discussion of the algorithms used, together with their implementation details. This chapter aims to provide a comprehensive understanding of how these algorithms are applied to derive the solutions to the problem at hand. We shall also give a description of the numerical experiments we setup to investigate the efficiency of these algorithms.
 
-o compute the eigenvalues and eigenvectors that satisfy equation(\ref{eq:GeneralizedEigValProblemDefinition}) with spectral transformation lanczos algorithm, our approach will be in two steps:
+To compute the eigenvalues and eigenvectors that satisfy (\ref{eq:GenEigVal_Problem}) with spectral transformation lanczos algorithm, our approach will be in two steps:
 \begin{itemize}
 	\item[$\bullet$] Transform the generalized problem into a spectral transformed standard eigenvalue problem.
 	\item[$\bullet$] Solve the spectral problem with Lanczos algorithm.
@@ -68,13 +68,13 @@ The decomposition is given by
 \begin{equation}\label{eq:Lanczos_Decomposition}
 	AQ_n = Q_nT_n + \delta_{n}\mathbf{q_{n+1}}\mathbf{e_n}^T
 \end{equation}
-In theory, the vectors $q_j$'s should be orthonormal, but due to floating-point errors, there will be loss of orthogonalization, hence the need for line 8 in the Algorithm \ref{alg:lanczos_algorithm}.
+In theory, the vectors $q_j$'s should be orthonormal, but due to floating-point errors, there will be loss of orthogonalization, hence the need for line $8$ in Algorithm~\ref{alg:lanczos_algorithm}.
 
-Let $\theta_i, i = 1,2, \ldots n$(which can be computed by standard functions in using any eigenvalue solver) be the eigenvalues of $T_n$, and $\{\mathbf{y_i}\}_{i = 1 : n}$ be the associated eigenvectors. The $\{\theta_i\}$ are called the \textit{Ritz values} and the vectors $\{Q_n\mathbf{y_i}\}_{i = 1 : n}$ are called the \textit{Ritz vectors}. Hence, the eigenvalues of $A$ are on both ends of the are well approximated by the Ritz values, with the Ritz vectors as their approximate corresponding eigenvectors of $A$.
+Let $\theta_i, i = 1,2, \ldots n$ (which can be computed by standard functions using any eigenvalue solver) be the eigenvalues of $T_n$, and $\{\mathbf{y_i}\}_{i = 1 : n}$ be the associated eigenvectors. The $\{\theta_i\}$ are called the \textit{Ritz values} and the vectors $\{Q_n\mathbf{y_i}\}_{i = 1 : n}$ are called the \textit{Ritz vectors}. Hence, the eigenvalues of $A$ are on both ends of the are well approximated by the Ritz values, with the Ritz vectors as their approximate corresponding eigenvectors of $A$.
 
-Since the generalized eigenvalue problem we started with has been reduced to a standard one as shown in equation (\ref{eq:ShiftedEigValProblem}), Algorithm (\ref{alg:lanczos_algorithm}) can be applied to equation (\ref{eq:ShiftedEigValProblem}) with some slight modifications. The spectral form of Algorithm (\ref{alg:lanczos_algorithm}) is give by Algorithm (\ref{alg:spectral_lanczos_algorithm}).
+Since the generalized eigenvalue problem we started with has been reduced to a standard one as shown in equation (\ref{eq:SpectralTransEquation}), Algorithm~\ref{alg:lanczos_algorithm} can be applied to equation (\ref{eq:SpectralTransEquation}) with some slight modifications. The spectral form of Algorithm~\ref{alg:lanczos_algorithm} is given by Algorithm~\ref{alg:spectral_lanczos_algorithm}.
 \begin{algorithm}
-	\caption{Spectral Lanczos Algorithm for (\ref{eq:ShiftedInvertedProblem}) }
+	\caption{Spectral Lanczos Algorithm for (\ref{eq:SpectralTransEquation}) }
 	\label{alg:spectral_lanczos_algorithm}
 	
 	\textbf{Require:} \( A = A^T \), \( B = B^T \), with \(B\) being positive definite or semidefinite\\
@@ -109,7 +109,7 @@ Since the generalized eigenvalue problem we started with has been reduced to a s
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-After applying the lanczos procedure to the spectral transformed problem (\ref{eq:ShiftedInvertedProblem}), we then compute the converged Ritz pairs using a certain tolerance. The converged Ritz pairs are mapped to the generalized eigenvalues and eigenvectors where we can observe the behaviour of these residuals with respect to conditioning.
+After applying the lanczos procedure to the spectral transformed problem (\ref{eq:SpectralTransEquation}), we compute the converged Ritz pairs using a certain tolerance. The converged Ritz pairs are then mapped to the generalized eigenvalues and eigenvectors where we can observe the behaviour of these residuals with respect to conditioning.
 
 \section{Problem Setup}\label{sec:ProblemSetup}
 
