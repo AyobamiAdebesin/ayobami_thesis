@@ -1,39 +1,34 @@
 \chapter{INTRODUCTION}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{definition}{Definition}[section]
 
 \section{Background}\label{sec:Background}
 
-The problem of computing eigenvalues and eigenvectors of matrices in numerical linear algebra is a well-studied one. The computation of eigenvalues and eigenvectors plays a central role in scientific computing with applications in structural analysis, quantum mechanics, data science and control theory. However, eigenvalue problems\added[comment={add space}]{ }(standard and generalized)  involving dense and sparse matrices present significant computational challenges, especially as the size of the matrices increases. These problems are fundamental in many scientific and engineering disciplines where the underlying mathematical models are often expressed in terms of eigenvalue equations. Historically, methods for solving eigenvalue problems date back to the early 20th century with foundational contributions from David Hilbert, Erhard Schmidt, and John von Neumann, who laid the groundwork for understanding linear operators and their spectral properties.
+The problem of computing eigenvalues and eigenvectors of matrices in numerical linear algebra is a well-studied one. The computation of eigenvalues and eigenvectors plays a central role in scientific computing with applications in structural analysis, quantum mechanics, data science and control theory. However, eigenvalue problems (standard and generalized) involving dense and sparse matrices present significant computational challenges, especially as the size of the matrices increases. These problems are fundamental in many scientific and engineering disciplines where the underlying mathematical models are often expressed in terms of eigenvalue equations. Historically, methods for solving eigenvalue problems date back to the early 20th century with foundational contributions from David Hilbert, Erhard Schmidt, and John von Neumann, who laid the groundwork for understanding linear operators and their spectral properties.
 
 With the advent of digital computing in the mid-20th century, numerical methods for eigenvalue problems began to flourish. Classical iterative methods, such as the power iteration and inverse iteration, were among the first to be employed due to their simplicity and effectiveness for small-scale problems. However, as computational requirements grew, particularly with the need to solve larger sparse systems, researchers turned to more sophisticated algorithms. The Lanczos method, introduced by Cornelius Lanczos in 1950,
 represented a significant advancement for efficiently solving eigenvalue problems for large symmetric matrices. The method exploits the sparsity of matrices and reduces the dimensionality of the problem by constructing a tridiagonal matrix whose eigenvalues approximate those of the original matrix.
 
-An important class of eigenvalue problems\added[comment={add comma}]{,} which is the main focus of this thesis, is the generalized eigenvalue problem {} (GEP). The GEP takes the form $A\mathbf{v} = \lambda B\mathbf{v}$ where $A$ and $B$ are square matrices, $\lambda$ is a generalized eigenvalue, and $\mathbf{v}\neq\mathbf{0}$ is the corresponding generalized eigenvector. This class of problems arises naturally in a number of application areas, including structural dynamics, data analysis and has a long history in the research literature on numerical linear algebra.
+An important class of eigenvalue problems, which is the main focus of this thesis, is the generalized eigenvalue problem {} (GEP). The GEP takes the form $A\mathbf{v} = \lambda B\mathbf{v}$ where $A$ and $B$ are square matrices, $\lambda$ is a generalized eigenvalue, and $\mathbf{v}\neq\mathbf{0}$ is the corresponding generalized eigenvector. This class of problems arises naturally in a number of application areas, including structural dynamics, data analysis and has a long history in the research literature on numerical linear algebra.
 
 \section{Literature Review}\label{sec:LiteratureReview}
 Generalized eigenvalue problems involving symmetric and positive definite matrices are fundamental in numerical linear algebra with applications in structural  dynamics, quantum mechanics, and control theory. Solving these kind of problems involve computing the eigenvalues $\lambda$ and eigenvectors $\mathbf{v}$ that satisfies the equation. The choice of method depends on the properties of the matrix involved in the problem we are trying to solve (e.g, sparsity, symmetry) and computational constraints. In this section, we discuss some of the research that has been done on this topic.
 
-When $B$ is invertible, the problem is reduced to $B^{-1}A\mathbf{v} = \lambda \mathbf{v}$. However, explicity forming $B^{-1}A$ is numerically unstable if B\comm{Put B in math mode.} is ill-conditioned. Since $B$ a symmetric and positive definite $B$, one can compute a Cholesky factorization $B = LL^{T}$ which allows us to reduce the equation to a standard eigenvalue problem $L^{-1}AL^{-T}\mathbf{y} = \lambda \mathbf{y}$ where $\mathbf{y}= L^T \mathbf{v}$, which can then be solved by using the symmetric $QR$ algorithm to compute a Schur decomposition. A detailed treatment for this case is presented in \cite{doi:10.1137/1.9781421407944}. In practice, this approach usually results in small relative residuals for eigenvalues that are large in magnitude and larger relative residuals for eigenvalue smaller in magnitude.
+When $B$ is invertible, the problem is reduced to $B^{-1}A\mathbf{v} = \lambda \mathbf{v}$. However, explicity forming $B^{-1}A$ is numerically unstable if $B$ is ill-conditioned. Since $B$ a symmetric and positive definite $B$, one can compute a Cholesky factorization $B = LL^{T}$ which allows us to reduce the equation to a standard eigenvalue problem $L^{-1}AL^{-T}\mathbf{y} = \lambda \mathbf{y}$ where $\mathbf{y}= L^T \mathbf{v}$, which can then be solved by using the symmetric $QR$ algorithm to compute a Schur decomposition. A detailed treatment for this case is presented in \cite{doi:10.1137/1.9781421407944}. In practice, this approach usually results in small relative residuals for eigenvalues that are large in magnitude and larger relative residuals for eigenvalue smaller in magnitude.
 
-The $QZ$ algorithm (\cite{5b3d5fb1-4813-3046-9331-a730b392f611})\comm{remove the parentheses} for the non-symmetric GEP, is an iterative method that \rep{generalizes}{generalized} the $QR$ algorithm \rep{to handle directly the generalized eigenvalue problem instead of the standard eigenvalue problem, thereby avoiding potential problems with inverting ill-conditioned or singular $B$.}{, to handle singular or ill-conditioned $B$.} It applies orthogonal transformations to simutaneously reduce $A$ and $B$ to upper triangular forms from which the eigenvalues are extracted. Although this method is robust and backward stable, it is computationally expensive, thereby limiting its use to small or medium sized matrices.
+The $QZ$ algorithm \cite{5b3d5fb1-4813-3046-9331-a730b392f611} for the non-symmetric GEP, is an iterative method that generalizes the $QR$ algorithm to handle directly the generalized eigenvalue problem instead of the standard eigenvalue problem, thereby avoiding potential problems with inverting ill-conditioned or singular $B$ It applies orthogonal transformations to simutaneously reduce $A$ and $B$ to upper triangular forms from which the eigenvalues are extracted. Although this method is robust and backward stable, it is computationally expensive, thereby limiting its use to small or medium sized matrices.
 
-A more stable approach for a dense symmetric semidefinite problem where $B$ is symmetric positive definite \rep{and possibly}{or} ill-conditioned is described in \cite{5b3d5fb1-4813-3046-9331-a730b392f611}. This approach uses a spectral transformation method that leverages \del{on} a shifted and inverted formulation \rep{of the problem,}{$(A-\sigma B)^{-1}B$} which \added{it} then solves \del{it} using symmetric factorizations. Using a rook pivoted $LDL^T$ factorization for $(A-\sigma B)$ and a Cholesky factorization for $B$, such that $(A-\sigma B) = C_aD_aC_a^T$ and $B = C_bC_b^T$, the generalized problem is transformed to a standard one given by 
-\begin{equation}
+A more stable approach for a dense symmetric semidefinite problem where $B$ is symmetric positive definite and possibly ill-conditioned is described in \cite{stewart2024spectraltransformationdensesymmetric}. This approach uses a spectral transformation method that leverages a shifted and inverted formulation of the problem, which it then solves using symmetric factorizations. Using a rook pivoted $LDL^T$ factorization for $(A-\sigma B)$ and a Cholesky factorization for $B$, such that $(A-\sigma B) = C_aD_aC_a^T$ and $B = C_bC_b^T$, the generalized problem is transformed to a standard one given by
+\begin{equation}\label{eq:SpectralTrans_With_LDL}
 	C_b^TC_a^{-T}D_aC_a^{-1}C_b \mathbf{u} = \theta \mathbf{u}.
 \end{equation}
 It was proved that stability depends on the choice of shift $\sigma$, the conditioning of $A - \sigma B$, and the avoidance of cancellation during factorization. The error analysis proved that for a moderately scaled shift $\sigma_0 = \sigma \frac{\|B\|_2}{\|A\|_2}$, the size of $\eta \|X\|$ can be controlled which stabilize the ill-conditioning in computing $X$ where 
-\begin{equation}
+\begin{equation}\label{eq:ConditioningMetricsFromStewart}
 	X = C_a^{-1}C_b, \text{ and, } \eta = \frac{\|A - \sigma B\|_2^{1/2}}{\|B\|_2^{1/2}},
 \end{equation}
-thereby giving small residuals for eigenvalues not much larger than $\sigma$. This approach was validated by numerical experiments, contrasting it with \del{unstable} Cholesky-based methods \added{that are unstable} for small eigenvalues.
+thereby giving small residuals for eigenvalues not much larger than $\sigma$. This approach was validated by numerical experiments, contrasting it with  Cholesky-based methods that are unstable for small eigenvalues.
 
 \section{Mathematical Preliminaries}\label{sec:MathPrelim}
-
 In this section, we shall introduce some notations and the key mathematical concepts underlying the eigenvalue problems that will be used throughout this study.
-
-\subsection{Notation}
-
+\subsection{Notation}\label{sec:Notation}
 Throughout this study, we make use of the following notations:
 \begin{align*}\nonumber
 	&A \in \mathbb{R}^{m\times n}: \text{denotes a matrix}\\
@@ -41,11 +36,10 @@ Throughout this study, we make use of the following notations:
 	&\mathbf{x} \in \mathbb{R}^{m}: \text{denotes a column vector}\\
 	&A^{T}: \text{denotes the transpose of matrix $A$}\\
 	&\| \cdot \|: \text{denotes a vector or matrix norm }\\
-	&A_{i:i^\prime, j:j^\prime}: \text{denotes the $(i^\prime - i + 1) \times (j^\prime - j + 1)$ submatrix of $A$}\\
-	&A^{(k)}: \text{denotes the matrix A at the $k$th step of an iteration}
+	&A_{i:i^\prime, j:j^\prime}: \text{denotes the $(i^\prime - i + 1) \times (j^\prime - j + 1)$ submatrix of $A$}
 \end{align*}
 
-\subsection{Floating Point Arithmetic}
+\subsection{Floating Point Arithmetic}\label{sec:FloatingPointArith}
 
 We define a \textit{floating point} number system, \textbf{F} as a bounded subset of the real numbers $\mathbb{R}$, such that the elements of $\mathbf{F}$ are the number $0$ together with all numbers of the form
 \begin{align*}
@@ -53,106 +47,133 @@ We define a \textit{floating point} number system, \textbf{F} as a bounded subse
 \end{align*}
 where $m$ is an integer in the range $1\leq m\leq \beta^t$ known as the significand, $\beta \geq 2$ is known as the \textit{base} or \textit{radix} (typically $2$), $e$ is an arbitrary integer known as the exponent and $t\geq 1$ is known as the precision.
 
-To ensure that a nonzero element $x \in$ \text{F} is unique, we can restrict the range of \textbf{F} to $\beta^{t-1} \leq m \leq \beta^t - 1$. The quantity $\pm(m/\beta^t)$ is then known as the \textit{fraction} or \textit{mantissa} of x\comm{use math mode for $x$}. We define the number $u \coloneq \frac{1}{2}\beta^{1-t}$ as the \textit{unit roundoff} or \textit{machine epsilon}. In a relative sense, the \textit{unit roundoff} is as large as the gaps between floating point numbers get.
+To ensure that a nonzero element $x \in$ \text{F} is unique, we can restrict the range of \textbf{F} to $\beta^{t-1} \leq m \leq \beta^t - 1$. The quantity $\pm(m/\beta^t)$ is then known as the \textit{fraction} or \textit{mantissa} of $x$. We define the number $u \coloneq \frac{1}{2}\beta^{1-t}$ as the \textit{unit roundoff} or \textit{machine epsilon}. In a relative sense, the \textit{unit roundoff} is as large as the gaps between floating point numbers get.
 
 Let $fl :  \mathbb{R} \rightarrow \mathbf{F}$ be a function that gives the closest floating point approximation to a real number, then the following theorem gives a property of the unit roundoff.
-\begin{theorem}
+
+\begin{theorem}\label{thrm:FloatingPointSysThrm}
 	If $x \in \mathbb{R}$ is in the range of $\mathbf{F}$, then $\exists$ $\epsilon$ with $|\epsilon| \le u$ such that $fl(x) = x(1+\epsilon)$.
 \end{theorem}
-One way we could think of this is that, the difference between a real number and its closest floating point approximation is always smaller than $u$ in relative terms.\comm{Remove all the newlines and separate paragraphs with spaces in this section as you did elsewhere.}
+
+One way we could think of this is that, the difference between a real number and its closest floating point approximation is always smaller than $u$ in relative terms.
 
 \subsection{Conditioning and Stability}\label{sec:ConditioningAndStability}
 
-Given any mathematical problem $f: X \rightarrow Y$, the conditioning of that problem pertains to \rep{inherent sensitvity}{the perturbation behaviour} of the problem, while stability of \rep{the algorithm}{the problem} pertains to the \rep{propagation of errors in}{perturbation behaviour of} an algorithm used in solving that problem on a computer. A \textit{well-conditioned} problem is one with the property that small perturbations of the input lead to only small changes in the output. An \textit{ill-conditioned} problem is one with the property that small perturbations in the input leads to a large change in the output.
+Given any mathematical problem $f: X \rightarrow Y$, the conditioning of that problem pertains to inherent sensitvity of the problem, while stability of the algorithm pertains to the propagation of errors in an algorithm used in solving that problem on a computer. A \textit{well-conditioned} problem is one with the property that small perturbations of the input lead to only small changes in the output. An \textit{ill-conditioned} problem is one with the property that small perturbations in the input leads to a large change in the output.
 
 For any mathematical problem, we can associate a number called the \textit{condition number} to that problem that tells us how well-conditioned or ill-conditioned the problem is. For the purpose of this thesis, we shall only be considering the condition number of matrices. Since matrices can be viewed as linear transformations from one vector space to another, it makes sense to define a condition number for matrices.
 
 For a matrix $A \in \mathbb{R}^{m\times n}$, the condition number with respect to a given norm is defined as
-
-\[\kappa(A) = \|A\| \cdot \|A\|^{-1}.\]\
-In simpler terms, the condition number quantifies how the relative error in the solution of a linear system $Ax = b$\comm{bold for vectors} can be amplified when there is a small perturbation in the input vector $x$\comm{bold} If $\kappa(A)$ is small, A\comm{math mode} is said to be \textit{well-conditioned}; if $\kappa(A)$ is large, then A\comm{math mode} is said to be \textit{ill-conditioned}. It should be noted that the notion of being ``small'' or ``large'' depends on the application or problem we are solving. If $\| \cdot\| = \| \cdot \|_2$ (spectral norm or $2$-norm), then $\|A\| = \sigma_1$ and $\| A^{-1} \| = 1/\sigma_m$, so that
-\begin{equation}\label{eq:ConditionNumber}
+\begin{equation}\label{eq:ConditionNoOfAMatrix}
+	\kappa(A) = \|A\| \cdot \|A\|^{-1}.
+\end{equation}
+In simpler terms, the condition number quantifies how the relative error in the solution of a linear system $A\mathbf{x} = \mathbf{b}$ can be amplified when there is a small perturbation in the input vector $\mathbf{x}$. If $\kappa(A)$ is small, $A$ is said to be \textit{well-conditioned}; if $\kappa(A)$ is large, then $A$ is said to be \textit{ill-conditioned}. It should be noted that the notion of being ``small'' or ``large'' depends on the application or problem we are solving. If $\| \cdot\| = \| \cdot \|_2$ (spectral norm or $2$-norm), then $\|A\| = \sigma_1$ and $\| A^{-1} \| = 1/\sigma_m$, so that
+\begin{equation}\label{eq:ConditionNoWithSingularVal}
 	\kappa(A) = \frac{\sigma_1}{\sigma_m},
 \end{equation}
-where $\sigma_1$ and $\sigma_m$ are the largest and smallest singular values of $A$ respectively.
+where $\sigma_1$ and $\sigma_m$ are the largest and smallest singular values of $A$ respectively. Throughout the remainder of this thesis, unless stated otherwise, $\| \cdot \|$ will refer to the spectral norm, or $2$-norm.
 
-\subsection{The Generalized Eigenvalue Problem}
-\label{sec:GeneralizedEigValProblem}
+\subsection{The Generalized Eigenvalue Problem}\label{sec:GeneralizedEigValProblem}
 
-Let $A, B \in \mathbb{R}^{m\times m}$, be any general square matrices. A \textit{pencil} is an expression of the form $A - \lambda B$, with \rep{$\lambda \in \mathbb{C}$}{$\lambda \in \mathbb{R}$}.  The \textit{generalized eigenvalues} of $A - \lambda B$ are the elements of the set $\Lambda(A, B)$ defined by
+Let $A, B \in \mathbb{R}^{m\times m}$, be any general square matrices. A \textit{pencil} is an expression of the form $A - \lambda B$, with $\lambda \in \mathbb{C}$. The \textit{generalized eigenvalues} of $A - \lambda B$ are the elements of the set $\Lambda(A, B)$ defined by
 \begin{equation}\label{eq:GeneralizedEigValDefinition}
-	\Lambda(A, B) = \{z \in \mathbb{R}: \det(A-zB) = 0\}.
+	\Lambda(A, B) = \{z \in \mathbb{C}: \det(A-zB) = 0\}.
 \end{equation}
-\comm{You should have $z\in\mathbb{C}$, since real matrices can still have complex eigenvalues, even if it doesn't happen for the symmetric definite version of the generalized eigenvalue problem.  You haven't specialized the problem enough to assume eigenvalues are real at this point.}
 In other words, the generalized eigenvalues of $A$ and $B$ are the roots of the characteristic polynomial of the pencil $A- \lambda B$ given by
 \begin{equation}\label{eq:GeneralizedXteristicPolynomial}
-	p_{A, B}(\lambda) = \det(A-\lambda B) = 0
+	p_{A, B}(\lambda) = \det(A-\lambda B) = 0.
 \end{equation}
 A pencil is said to be \textit{regular} if there exists at least one value of $\lambda \in \mathbb{R}$ such that $\det(A-\lambda B) = 0$, otherwise it is called \textit{singular}.
 
-\comm{There were still newlines without blank lines between paragraphs in this section.  I have removed some because I find the \LaTeX\ hard to read without any blank lines, but make sure to fix this for the entire document.} If $\lambda$ $\in$ $\Lambda(A, B)$ and \rep{$0 \neq \mathbf{v} \in \mathbb{C}^m$}{$0 \neq \mathbf{v} \in \mathbb{R}^m$}\comm{The eigenvalues can be complex still, which means the eigenvectors might be complex, even if the matrices are real.} satisfies
-\begin{equation}\label{GenEigValProblemDefinition}
+If $\lambda$ $\in$ $\Lambda(A, B)$ and $0 \neq \mathbf{v} \in \mathbb{C}^m$ satisfies
+\begin{equation}\label{eq:GenEigValProblemDefinition}
 	A\mathbf{v} = \lambda B\mathbf{v},
 \end{equation}
-then $\mathbf{v}$ is a generalized eigenvector of $A$ and $B$ corresponding to $\lambda$. The problem of finding non-trivial solutions to (\ref{GenEigValProblemDefinition}) is known as the \textit{generalized eigenvalue problem}.
+then $\mathbf{v}$ is a generalized eigenvector of $A$ and $B$ corresponding to $\lambda$. The problem of finding non-trivial solutions to (\ref{eq:GenEigValProblemDefinition}) is known as the \textit{generalized eigenvalue problem}.
 
 If $B$ is non-singular, then the problem reduces to a standard eigenvalue problem
 \begin{equation}\label{eq:StandardReduction}
 	B^{-1}A \mathbf{v} = \lambda \mathbf{v}
 \end{equation}
-In this case, the generalized eigenvalue problem has \textit{m} eigenvalues if $\text{rank}(B) = m$. This suggests that the generalized eigenvalues of $A$ and $B$ are equal to the eigenvalues of $B^{-1}A$. If $B$ is singular or rank deficient, then the set of generalized eigenvalues $\Lambda(A, B)$ may be finite, empty or infinite. If \del{the} $\Lambda(A, B)$ is finite, the number of eigenvalues will be less than $m$. This is because the characteristic polynomial $\det(A- \lambda B)$ is of degree less than $m$, so that there is not a complete set of eigenvalues for the problem.
+In this case, the generalized eigenvalue problem has \textit{m} eigenvalues if $\text{rank}(B) = m$. This suggests that the generalized eigenvalues of $A$ and $B$ are equal to the eigenvalues of $B^{-1}A$. If $B$ is singular or rank deficient, then the set of generalized eigenvalues $\Lambda(A, B)$ may be finite, empty or infinite. If $\Lambda(A, B)$ is finite, the number of eigenvalues will be less than $m$. This is because the characteristic polynomial $\det(A- \lambda B)$ is of degree less than $m$, so that there is not a complete set of eigenvalues for the problem.
 
-If $A$ and $B$ have a common null space, then every choice of $\lambda$ will be a solution to (\ref{GenEigValProblemDefinition}). In this case, we say that the pencil $A-\lambda I$ is {\em singular}.  Otherwise, we say that the pencil is {\em regular.}   For the purpose of this study, we shall assume that $A$ and $B$ do not have a common null space, that is
+If $A$ and $B$ have a common null space, then every choice of $\lambda$ will be a solution to (\ref{eq:GenEigValProblemDefinition}). In this case, we say that the pencil $A-\lambda I$ is {\em singular}.  Otherwise, we say that the pencil is {\em regular.}   For the purpose of this study, we shall assume that $A$ and $B$ do not have a common null space, that is
 \begin{equation}\label{eq:EmptyCommonNullSpace}
 	\mathcal{N}(A) \cap \mathcal{N}(B) = \{\mathbf{0} \}
 \end{equation}
-When $A$ and $B$ are symmetric and $B$ is positive definite, we shall call the problem symmetric-definite generalized eigenvalue problem, which will be the focus of this thesis.  \added{The symmetric definite generalized eigenvalue problem is fully analogous to the symmetric standard eigenvalue problem.  In this case we will see that the pencil is regular, the generalized eigenvalues are all real, and the generalized eigenvectors are orthogonal with respect to the inner product $\langle\vec{x}, \vec{y}\rangle_B = \vec{y}^T B \vec{x}$.}
+When $A$ and $B$ are symmetric and $B$ is positive definite, we shall call the problem symmetric-definite generalized eigenvalue problem, which will be the focus of this thesis. The symmetric definite generalized eigenvalue problem is fully analogous to the symmetric standard eigenvalue problem.  In this case we will see that the pencil is regular, the generalized eigenvalues are all real, and the generalized eigenvectors are orthogonal with respect to the inner product $\langle\vec{x}, \vec{y}\rangle_B = \vec{y}^T B \vec{x}$.
 
-\subsection{Lanczos Algorithm}\label{sec:LanczosAlgorithm}
+\subsection{Generalized Eigenvalue Problem with Symmetry}\label{sec:ProblemDiscussion}
+In this section, we shall consider the symmetric version of the generalized eigenvalue problem that was described in Section (\ref{sec:GeneralizedEigValProblem}), which will be the main focus of this thesis. We will also consider the methodological approach used in solving the problem, and discuss the challenges involved in solving these kind of problems.
 
-The Lanczos algorithm is an iterative method in numerical linear algebra used in finding the eigenvalues and eigenvectors of a \textit{symmetric} matrix. It is particularly useful when dealing with large scale problems, where directly computing the eigenvalues and eigenvectors of the matrix would be computationally expensive of infeasible. It works by finding the ``most useful'' eigenvalues of the matrix \textemdash\, typically those at the extreme of the spectrum, and their eigenvectors. At it's core, the main goal of the algorithm is to approximate the extreme eigenvalues and eigenvectors of a large, sparse, symmetric matrix by transforming the matrix into a smaller tridiagonal matrix that preserves the extremal spectral properties of the original matrix. This reduction is achieved by iteratively constructing an orthonormal basis of the Krylov subspace associated with the matrix.
-
-Given a symmetric matrix $A \in \mathbb{R}^{m\times m}$, and an initial vector $\mathbf{v}_1$\comm{You had subscripts inside mathbf.  Subscripts shouldn't be bold.  I've moved them, so you want to make sure to merge that in.}, the Lanczos algorithm produces a sequence of vectors $\mathbf{q}_1, \mathbf{q}_2, \cdots, \mathbf{q}_n$ (where $n$ is the number of iterations) that forms an orthonormal basis for the $n$-dimensional Krylov subspace
-\begin{equation}\label{eq:KrylovSubspaceDefinition}
-       \mathcal{K}_n(A, \mathbf{v}_1) = \text{span}(\{\mathbf{v}_1, A\mathbf{v}_1, A^2\mathbf{v}_1, \ldots, A^{n-1}\mathbf{v}_1\})
+The symmetric-definite generalized eigenvalue problem is formally given by:
+\begin{equation}\label{eq:GenEigVal_Problem}
+	A\mathbf{v} = \lambda B\mathbf{v}, \qquad \mathbf{v} \neq 0
 \end{equation}
-This orthonormal basis is used to form a tridiagonal matrix $T_n$ whose eigenvalues approximate the eigenvalues of $A$.
+where $A \in \mathbb{R}^{m \times m}$ is symmetric and $B \in \mathbb{R}^{m \times m}$ is symmetric positive definite.
 
-\subsection{Spectral Transformation}
-\label{sec:SpectralTransformationDefinition}
+Problem (\ref{eq:GenEigVal_Problem}) can be reformulated  as
+\begin{equation}\label{eq:ModifiedGeneralizedEigValProblem}
+	\beta A\mathbf{v} = \alpha B\mathbf{v}, \qquad \mathbf{v} \neq 0
+\end{equation}
+We have replaced $\lambda$ with $\alpha/\beta$ for convenience so that the generalized eigenvalues will be of the form $(\alpha, \beta)$. If $ \beta = 0$, then the generalized eigenvalues $\Lambda(A, B)$ will be infinite. The formulation using equation(\ref{eq:ModifiedGeneralizedEigValProblem}) is useful when describing the error bounds, as we shall later see. We shall alternate between (\ref{eq:GenEigVal_Problem}) and (\ref{eq:ModifiedGeneralizedEigValProblem}) when convenient.
 
+It is known that the eigenvalues of a symmetric definite generalized eigenvalue problem are real. An interesting property of the symmetric-definite problem is that it can be transformed to an equivalent symmetric definite problem with a congruence transformation. Let $P$ be a non-singular matrix, then (\ref{eq:GenEigVal_Problem}), is equivalent to the transformed equation
+\begin{equation}\label{eq:CongruenceTransGenEigVal}
+	(P{^T}AP) \mathbf{v}= \lambda (P^{T}BP) \mathbf{v},
+\end{equation}
+so that
+\begin{equation}\label{eq:EquivalenceOfEigVals}
+	\Lambda(A, B) = \Lambda(P^{T}AP, P^{T}BP).
+\end{equation}
+Furthermore, for any symmetric-definite pair $(A, B)$, $A$ and $B$ can be simultaneously diagonalized by a non-singular matrix $P$ such that
+\begin{equation}\label{eq:SimultaneousDiag}
+	P^{T}AP = D_a \qquad \text{ and } \qquad P^TBP = D_b
+\end{equation}
+where $D_a = \text{diag}(a_1, \ldots a_n) $, and $D_b = \text{diag}(b_1, \ldots b_n) $. The generalized eigenvalues $\lambda$ of $A$ and $B$ will be the diagonal elements of $D^{-1}_bD_a$, or put simply $\lambda_i = a_i/b_i$, and the eigenvectors will be the columns of $P$. The existence of $P$ when $B$ is not positive definite is given in \cite[p.~498]{doi:10.1137/1.9781421407944}.
+
+To compute the set of generalized eigenvalues $\Lambda(A, B)$ that satisfies (\ref{eq:GenEigVal_Problem}), our approach in this thesis, similar to what was used in \cite{stewart2024spectraltransformationdensesymmetric} and \cite{Ericsson1980TheST}, is to transform the problem into a standard eigenvalue problem using a spectral transformation, after which we apply an iterative algorithm, like the Lanczos algorithm to compute the eigenvalues. In practice, we often compute a subset of these generalized eigenvalues corresponding to those in the vicinity of a given shift $\sigma$. To have a deep understanding of this approach, the next section discusses this approach in detail, focusing on the relationship between the eigenvalues of the original problem and the eigenvalues of the transformed problem.
+
+\subsection{Spectral Transformation}\label{sec:SpectralTransformationDefinition}
 Spectral transformation in numerical linear algebra is a technique that is used to modify the spectrum of matrix in a controlled way. This is usually done to improve the convergence properties of an algorithm or to make certain matrix properties more accessible. In the context of eigenvalue problems, spectral transformation is often used in direct and iterative methods, where manipulating the matrix can help focus on certain eigenvalues or improve numerical stability.
 
 The central idea behind spectral transformation is that by applying a rational or polynomial transformation to the matrix $A$, we can manipulate its eigenvalues to increase the magnitude of the eigenvalues we are interested in without changing their eigenvectors. There are various types of spectral transformation, but the one of particular interest in this thesis is the \textit{shift-invert} transformation. The shift-invert transformation involves transforming the original problem into a shifted and inverted one which can then be solved using a direct or iterative solver. This method focuses on finding the eigenvalues near a specified shift $\sigma$. It is useful when one is interested in a few eigenvalues near a given point in the spectrum.
 
 Consider the problem of computing the eigenvalues of a matrix $A \in \mathbb{R}^{m \times m}$. Assume that $m$ is so large that computing all the eigenvalues of $A$ is not computationally feasible but rather, we are interested in computing the eigenvalues in a certain region of the spectrum of $A$. We can pick a shift $\sigma \in \mathbb{R}$ that is not an eigenvalue of A. The shifted and inverted matrix is then given by $(A - \sigma I)^{-1}$. The eigenvectors of $(A - \sigma I)^{-1}$ are the same as the eigenvectors of $A$, and the corresponding eigenvalues are $(\lambda_j - \sigma)^{-1}$, for each eigenvalue $\lambda_j$ of $A$. This shifts the spectrum of $A$, making the eigenvalues near $\sigma$ much more prominent in the transformed matrix.
 
-For a generalized eigenvalue problem given in (\ref{GenEigValProblemDefinition}), if we introduce a shift $\sigma \in \mathbb{R}$ so that $A - \sigma B$ is non singular, the shifted and inverted formulation of the problem is given by
+For the generalized eigenvalue problem given in (\ref{eq:GenEigVal_Problem}), if we introduce a shift $\sigma \in \mathbb{R}$ so that $A - \sigma B$ is non singular, the shifted and inverted formulation of the problem is given by
 \begin{equation}\label{eq:SpectralTransFormulation}
-       (A - \sigma B)^{-1} B\mathbf{v} = \theta \mathbf{v},
+	(A - \sigma B)^{-1} B\mathbf{v} = \theta \mathbf{v},
 \end{equation}
 where $\theta = 1 / (\lambda - \sigma)$.
 
-Suppose $\sigma$ is close enough to a generalized eigenvalue $\lambda_J \in \Lambda(A, B)$ much more than the other generalized eigenvalues, then $(\lambda_J - \sigma)^{-1}$ may be much larger than $(\lambda_j - \sigma)^{-1}$ for all $j \neq J$. \rep{This transformation will map the eigenvalues in the neighborhood of $\sigma$ to the extreme part of the new spectrum, which can be favorable for the convergence of Krylov methods.  However there is a problem.  The formulation (\ref{eq:SpectralTransFormulation}) is not symmetric, so we cannot use the Lanczos algorithm.  We now consider a shift-and-invert formulation that preserves symmetry.}{This transformation will map the eigenvalues in the neighborhood of $\sigma$ to the extreme part of the new spectrum and, by using an iterative method like the Lanczos algorithm, it is likely that the algorithm will converge quickly to these extreme eigenvalues in the new spectrum.}
-\comm{You still need to state a precise Lemma on the relation of the spectral transformation to the generalized eigenvalue problem.  I would suggest you just restate the lemma from my paper.  This appears to be the right place to do it.}
+Suppose $\sigma$ is close enough to a generalized eigenvalue $\lambda_J \in \Lambda(A, B)$ much more than the other generalized eigenvalues, then $(\lambda_J - \sigma)^{-1}$ may be much larger than $(\lambda_j - \sigma)^{-1}$ for all $j \neq J$. This transformation will map the eigenvalues in the neighborhood of $\sigma$ to the extreme part of the new spectrum, which can be favorable for the convergence of Krylov methods.  However there is a problem.  The formulation (\ref{eq:SpectralTransFormulation}) is not symmetric, so we cannot use the Lanczos algorithm.  We now consider a shift-and-invert formulation that preserves symmetry. Since $B$ is positive definite, we can compute a Cholesky factorization $B = C_bC_b^T$. Given this decomposition, we can have a formulation that preserves symmetry, guaranteed by the following lemma
+ \begin{lemma}\label{lemma:SpectralTransLemma}
+ 	Let $A-\sigma B$ be nonsingular and $B = C_bC_b^T$, where $C_b$ is a lower triangular matrix. Assume that $\lambda \neq \infty$ and $\mathbf{v} \neq \mathbf{0}$ satisfies (\ref{eq:GenEigVal_Problem}). Then $\theta = 1/(\lambda - \sigma)$  is an eigenvalue of the problem
+ 	\begin{equation}\label{eq:SpectralTransEquation}
+ 		C_b^T(A-\sigma B)^{-1}C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0},
+ 	\end{equation}
+ 	with eigenvector $\mathbf{u} = C_b^T\mathbf{v} \neq \mathbf{0}$.
+ 	
+ 	Conversely, assume that $\mathbf{u} \neq \mathbf{0}$ is an eigenvector for (\ref{eq:SpectralTransEquation}), with eigenvalue $\theta$. If $C_b\mathbf{u} \neq \mathbf{0}$, then the eigenvector $\mathbf{v} = (A -\sigma B)^{-1}C_b\mathbf{u} \neq \mathbf{0}$ is an eigenvector for (\ref{eq:ModifiedGeneralizedEigValProblem}) with eigenvalue $(1+\sigma \theta, \theta)$. In this case, with $\mathbf{v}$ defined in ths way, we have $C_b^T\mathbf{v} = \theta \mathbf{u}$. If instead we have$C_b\mathbf{u} = \mathbf{0}$, then $\theta = 0$ and $(1, 0)$ is an eigenvalue for (\ref{eq:ModifiedGeneralizedEigValProblem}) with eigenvector given by $\mathbf{v} = \mathbf{u}$. If $C_b$ is $m \times m$ and invertible, then we have $C_b\mathbf{u} \neq \mathbf{0}$ and can use the alternative formula $\mathbf{v} = C_b^{-T}\mathbf{u}$ to obtain an eigenvector of (\ref{eq:ModifiedGeneralizedEigValProblem}).
+ \end{lemma}
+The proof of this lemma can be found in \cite{stewart2024spectraltransformationdensesymmetric}. In essence, lemma~\ref{lemma:SpectralTransLemma} describes the relationship between the eigenvalues(\textit{resp}.\ eigenvectors) of the original problem (\ref{eq:GenEigVal_Problem}) and the eigenvalues(\textit{resp}.\ eigenvectors) of the spectral transformed problem (\ref{eq:SpectralTransEquation}). Equation (\ref{eq:SpectralTransEquation}) gives us the spectral transformed version of the original generalized problem that preserves symmetry. Since the problem is now in a standard form, we can then apply the Lanczos algorithm to compute the desired eigenvalues within the neighborhood of $\sigma$, together with their corresponding eigenvectors. It should be noted that forming the spectral matrix in (\ref{eq:SpectralTransEquation}) is not desirable in a realistic problem since it does not preserve sparsity and will be very inefficient on most realistic problems. In reality, we employ stable factorizations of $(A-\sigma B)^{-1}$ that preserves symmetry in order to solve (\ref{eq:SpectralTransEquation}) effectively. Our choice of factorizations will be discussed in later chapters. For now, we turn our attention to the Krylov subspace method that will be employed in solving (\ref{eq:SpectralTransEquation}).
 
-\section{Problem Discussion}\label{sec:ProblemDiscussion}
+\subsection{Lanczos Algorithm}\label{sec:LanczosAlgorithm}
 
-In this section, we provide a brief but formal statement of the problem we are trying to solve, the methodological approach we used in solving the problem, and discuss the challenges involved in solving these kind of problems.
+The Lanczos algorithm is an iterative method in numerical linear algebra used in finding the eigenvalues and eigenvectors of a \textit{symmetric} matrix. It is particularly useful when dealing with large scale problems, where directly computing the eigenvalues and eigenvectors of the matrix would be computationally expensive of infeasible. It works by finding the ``most useful'' eigenvalues of the matrix \textemdash\, typically those at the extreme of the spectrum, and their eigenvectors. At it's core, the main goal of the algorithm is to approximate the extreme eigenvalues and eigenvectors of a large, sparse, symmetric matrix by transforming the matrix into a smaller tridiagonal matrix that preserves the extremal spectral properties of the original matrix. This reduction is achieved by iteratively constructing an orthonormal basis of the Krylov subspace associated with the matrix.
 
-The symmetric-definite dense generalized eigenvalue problem is formally given by:
-\begin{equation}\label{eq:GenEigVal_Problem}
-	A\mathbf{v} = \lambda B\mathbf{v}, \qquad \mathbf{v} \neq 0
+Given a symmetric matrix $A \in \mathbb{R}^{m\times m}$, and an initial vector $\mathbf{v}_1$, the Lanczos algorithm produces a sequence of vectors $\mathbf{q}_1, \mathbf{q}_2, \cdots, \mathbf{q}_n$ (where $n$ is the number of iterations) that forms an orthonormal basis for the $n$-dimensional Krylov subspace
+\begin{equation}\label{eq:KrylovSubspaceDefinition}
+       \mathcal{K}_n(A, \mathbf{v}_1) = \text{span}(\{\mathbf{v}_1, A\mathbf{v}_1, A^2\mathbf{v}_1, \ldots, A^{n-1}\mathbf{v}_1\})
 \end{equation}
-where $A$ and $B$ are $m \times m$ real symmetric matrices, $B$ positive definite. Both $A$ and $B$ are dense matrices, meaning that a significant proportion of their entries are non-zero.
+This orthonormal basis is used to form a tridiagonal matrix $T_n$ whose eigenvalues approximate the eigenvalues of $A$.
 
-The goal is to compute the set of generalized eigenvalues $\Lambda(A, B)$ that satisfy this equation using the ST-Lanczos algorithm. We then proceed by formulating a shift-inverted form of the problem given by equation (\ref{eq:SpectralTransFormulation}), thereby transforming it into a standard eigenvalue problem, which can then be solved using the Lanczos algorithm. In practice, we often compute a subset of these generalized eigenvalues corresponding to those in the vicinity of a given shift $\sigma$. To have a deep understanding of how well this method performs \rep{on this type of}{of these type of problems}, we will setup a well-defined problem by generating synthetic matrices with known eigenvalue distribution, and we will implement the ST-Lanczos algorithm and see if we can achieve the same level of accuracy with direct methods. We will then investigate the relationship between matrix conditioning, the accuracy of computed eigenvalues and the \rep{sensitivity}{sensitvity} of the residuals to ill-conditioning.
-
-\section{Motivation of Study}\label{sec:MoitavationOfStudy}
+\section{Motivation of Study}\label{sec:MotivationOfStudy}
 
 This study is motivated by several key factors that underscore the importance of advancing our understanding and capabilities in solving these type of problems. Originally, the motivation for this study arises from the need to compare the efficiency, accuracy and stability of iterative and direct methods for solving eigenvalue problems. In particular, the proven error bounds for the direct method in the paper by \cite{stewart2024spectraltransformationdensesymmetric}, shows that for a shift of moderate size, the relative residuals are small for generalized eigenvalues that are not much larger than the shift. It is natural to ask if the same can be said for an iterative method like the lanczos algorithm.
 
-On another hand, the motivation is based on the goal of advancing the field of numerical linear algebra. The insights gained from analyzing the ST-Lanczos algorithm for dense generalized eigenvalue problems may inform the development of new algorithms or hybrid methods that combine the strengths of different methods. This could potentially lead to breakthroughs in the development of eigenvalue algorithms that are \rep{more reliable than}{faster and more efficient that} the current ones we have today.
+On another hand, the motivation is based on the goal of advancing the field of numerical linear algebra. The insights gained from analyzing the ST-Lanczos algorithm for generalized eigenvalue problems may inform the development of new algorithms or hybrid methods that combine the strengths of different methods. This could potentially lead to breakthroughs in the development of eigenvalue algorithms that are more reliable than the current ones we have today.
 
 
 %%% Local Variables:

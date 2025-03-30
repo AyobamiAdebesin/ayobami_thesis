@@ -1,56 +1,32 @@
 \chapter{METHODOLOGY AND ALGORITHM DESCRIPTION}
-\newtheorem{lemma}[theorem]{Lemma}
-\section{Spectral Transformation}
-\label{sec:SpectralTransformationDescription}
 
 In this chapter, we shall present a detailed description of the methodologies and implementation of algorithms used in this thesis to solve the generalized eigenvalue problem. We begin by describing the problem setup, followed by a discussion of the algorithms used, together with their implementation details. This chapter aims to provide a comprehensive understanding of how these algorithms are applied to derive the solutions to the problem at hand. We shall also give a description of the numerical experiments we setup to investigate the efficiency of these algorithms.
 
-Consider the symmetric-definite generalized eigenvalue problem:
-\begin{equation}\label{eq:GeneralizedEigValProblemDefinition}
-	A\mathbf{v} = \lambda B\mathbf{v}, \qquad \mathbf{v} \neq 0
-\end{equation}
-where $A$ and $B$ are $m \times m$ real, sparse, symmetric and $B$ is positive definite or positive semi-definite.
-
-Problem (\ref{eq:GeneralizedEigValProblemDefinition}) can be reformulated  as
-\begin{equation}\label{eq:ModifiedGeneralizedEigeValProblem}
-	\beta A\mathbf{v} = \alpha B\mathbf{v}, \qquad \mathbf{v} \neq 0
-\end{equation}
-We have replaced $\lambda$ with $\alpha/\beta$ for convenience so that the generalized eigenvalues will be of the form $(\alpha, \beta)$. If $ \beta = 0$, then the generalized eigenvalues $\Lambda(A, B)$ will be infinite. The formulation using equation(\ref{eq:ModifiedGeneralizedEigeValProblem}) is useful when describing the error bounds, as we shall later see. We shall alternate between (\ref{eq:GeneralizedEigValProblemDefinition}) and (\ref{eq:ModifiedGeneralizedEigeValProblem}) when convenient. We also observe that the symmetric-definite generalized eigenvalue problem have real eigenvalues.
-
-To compute the eigenvalues and eigenvectors that satisfy equation(\ref{eq:GeneralizedEigValProblemDefinition}) with spectral transformation lanczos algorithm, our approach will be in two steps:
+o compute the eigenvalues and eigenvectors that satisfy equation(\ref{eq:GeneralizedEigValProblemDefinition}) with spectral transformation lanczos algorithm, our approach will be in two steps:
 \begin{itemize}
 	\item[$\bullet$] Transform the generalized problem into a spectral transformed standard eigenvalue problem.
 	\item[$\bullet$] Solve the spectral problem with Lanczos algorithm.
 \end{itemize}
-Let $\sigma \in \mathbb{R}$ be a desired shift such that $A - \sigma B$ is non-singular. The shifted problem takes the form:
-\begin{equation}\label{eq:ShiftedEigValProblem}
-	(A - \sigma B)\mathbf{v} = (\lambda - \sigma)B\mathbf{v}.
-\end{equation}
-We shall begin by computing decompositions for $A - \sigma B$ and $B$. If $B$ is positive  definite, we can compute a Cholesky decomposition $B = C_bC_b^T$ using \added{the} SciPy \texttt{cholesky} method which calls LAPACK \textbf{\texttt{xPOTRF}}. However, if $B$ is semi positive definite, this function call fails and we use the more robust pivoted Cholesky factorization \textbf{\texttt{xPSTRF}} by calling the inbuilt LAPACK bindings in SciPy.
+As described in Section~\ref{sec:SpectralTransformationDefinition}, 
+Lemma~\ref{lemma:SpectralTransLemma} gives us the relationship between the eigenvalues(\textit{resp.} eigenvectors) of the original problem and the eigenvalues(\textit{resp.} eigenvectors) of the spectral transformed problem. We also recall that solving \ref{eq:SpectralTransEquation} relies on symmetric factorization of the $A - \sigma B$ and $B$. The following section describes the possible ways of doing this.
+\section{Stable Decompositions}
+We shall begin by computing decompositions for $A - \sigma B$ and $B$. If $B$ is positive  definite, we can compute a Cholesky decomposition $B = C_bC_b^T$ using the SciPy \texttt{cholesky} method which calls LAPACK \textbf{\texttt{xPOTRF}}. However, if $B$ is semi positive definite, this function call fails and we use the more robust pivoted Cholesky factorization \textbf{\texttt{xPSTRF}} by calling the inbuilt LAPACK bindings in SciPy.
 
-There are various possible factorization options for $A-\sigma B$. One option is to use the pivoted $LDL^{T}$ factorization used by \cite{stewart2024spectraltransformationdensesymmetric} and \cite{Ericsson1980TheST} where $D$ is a block diagonal matrix with $1 \times 1$ and $2 \times 2$ on the diagonal, and $L$ is a lower triangular matrix. This factorization uses \del{the Bunch-Kaufman pivoting scheme with}  ``rook pivoting'' \added{scheme,}\comm{rook pivoting and Bunch-Kaufman pivoting are separate things.  They aren't combined together.} which is stable. Although the standard $LDL^T$ factorization (without "rook pivoting") is available in \added{the} SciPy linear algebra module, there is no option to use the rook pivoting scheme except if one chooses to write a custom LAPACK binding that makes use of \textbf{\texttt{DSYTRF\_ROOK}}. While this can guarantee some stability for the problem we are trying to solve, it usually involves extra work in processing the $2 \times 2$ blocks to make $D$ diagonal.
+There are various possible factorization options for $A-\sigma B$. One option is to use the pivoted $LDL^{T}$ factorization used by \cite{stewart2024spectraltransformationdensesymmetric} and \cite{Ericsson1980TheST} where $D$ is a block diagonal matrix with $1 \times 1$ and $2 \times 2$ on the diagonal, and $L$ is a lower triangular matrix. This factorization uses ``rook pivoting'' scheme, which is stable. Although the standard $LDL^T$ factorization (without "rook pivoting") is available in the SciPy linear algebra module, there is no option to use the rook pivoting scheme except if one chooses to write a custom LAPACK binding that makes use of \textbf{\texttt{DSYTRF\_ROOK}}. While this can guarantee some stability for the problem we are trying to solve, it usually involves extra work in processing the $2 \times 2$ blocks to make $D$ diagonal.
 
-Another \added{possible choice of} factorization is an eigenvalue decomposition of $A - \sigma B$. If we use a symmetric eigenvalue decomposition $A- \sigma B = WDW^T$, our numerical experiments reveals that this stabilizes the Ritz residuals and generalized form of the residuals together with the advantage that these residuals are insensitive to \rep{ill-conditioning in $A-\sigma B$.}{the conditioning of $A$ and $B$.} This can be done using inbuilt eigenvalue solvers in SciPy or any linear algebra library. This is the most promising factorization, however computing eigenvalue decompositions for large \added{sparse} problems become computationally expensive and not feasible in reality.  \added{So, although the eigenvalue decomposition allows tests of stability, in a real implementation it would be replaced by an $LDL^T$ factorization.}
+Another possible choice of factorization is an eigenvalue decomposition of $A - \sigma B$. If we use a symmetric eigenvalue decomposition $A- \sigma B = WDW^T$, our numerical experiments reveals that this stabilizes the Ritz residuals and generalized form of the residuals together with the advantage that these residuals are insensitive to ill-conditioning in $A-\sigma B$. This can be done using inbuilt eigenvalue solvers in SciPy or any linear algebra library. This is the most promising factorization, however computing eigenvalue decompositions for large sparse problems become computationally expensive and not feasible in reality. So, although the eigenvalue decomposition allows tests of stability, in a real implementation it would be replaced by an $LDL^T$ factorization.
 
-Lastly, we \added{could}{can} make use of an $LU$ factorization for $A-\sigma B$. Unlike the previous factorizations, the stability for the Ritz residuals is not as great, as we observe that they depend on the conditioning of \rep{$A-\sigma B$.}{$A$ and $B$.}  However, for the purpose of this thesis, we make use of the $LU$ decomposition since it is computationally less expensive and easy to use and implement.  \added{Comparing it to the eigenvalue decomposition of $A-\sigma B$ also illustrates a potential mechanism of instability in implementing the spectral shift.}
+Lastly, we could make use of an $LU$ factorization for $A-\sigma B$. Unlike the previous factorizations, the stability for the Ritz residuals is not as great, as we observe that they depend on the conditioning of $A-\sigma B$.  However, for the purpose of this thesis, we make use of the $LU$ decomposition since it is computationally less expensive and easy to use and implement. Comparing it to the eigenvalue decomposition of $A-\sigma B$ also illustrates a potential mechanism of instability in implementing the spectral shift.
 
 One major takeaway from our experiments with the various options of factorizing $A-\sigma B$ is that symmetry is clearly important for stability. We plan to give a mathematical justification for this in future work.
 
-Continuing with the algorithm derivation, if we assume $\lambda \neq \infty$ and $\mathbf{v} \neq \mathbf{0}$. Since $B$ is positive definite, \cite{stewart2024spectraltransformationdensesymmetric}, proved that we can compute a Cholesky factorization $B = C_bC_b^T$, and apply the shift-invert spectral transformation to transform equation(\ref{eq:GeneralizedEigValProblemDefinition}) into its spectral form as described in section (\ref{sec:SpectralTransformationDefinition}) such that $\theta = 1/(\lambda - \sigma)$ is an eigenvalue of the problem :
-\begin{equation}\label{eq:ShiftedInvertedProblem}
-	C_b^T (A-\sigma B)^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
-\end{equation}
-where  $\mathbf{u} = C_b^T \mathbf{v} \neq \mathbf{0}.$
+Given our recent results, one might suggest using a stable decomposition such as the LU factorization. However, as we will demonstrate, decompositions that preserve symmetry exhibit certain stability advantages in practice.
 
-Conversely, assume that $\mathbf{u} \neq \mathbf{0}$ is an eigenvector of (\ref{eq:ShiftedInvertedProblem}) and $\theta$ its corresponding eigenvalue, then the vector $\mathbf{v} = (A-\sigma B)^{-1}C_b \mathbf{u} \neq \mathbf{0}$ is an eigenvector for (\ref{eq:ModifiedGeneralizedEigeValProblem}), with eigenvalue $(1+\sigma \theta, \theta)$, provided $C_b\mathbf{u} \neq \mathbf{0}$.\comm{You probably don't need all of this if you have the lemma in the place I suggested earlier.  You can refer back to it.}
-
-Equation (\ref{eq:ShiftedInvertedProblem}) gives us the spectral transformed version of the original generalized problem. Since the problem is now in a standard form, we can then apply the Lanczos algorithm to compute the desired eigenvalues within the neighborhood of $\sigma$, together with their corresponding eigenvectors. It should be noted that forming the spectral matrix in (\ref{eq:ShiftedInvertedProblem}) is not desirable in a realistic problem since it does not preserve sparsity and will be very inefficient on most realistic problems. Given our recent results, one might suggest using a stable decomposition such as the LU factorization. However, as we will demonstrate, decompositions that preserve symmetry exhibit certain stability advantages in practice.
-
-\section{\added{The} Lanczos decomposition}\label{sec:LanczosDecomposition}
+\section{The Lanczos decomposition}\label{sec:LanczosDecomposition}
 
 In this section, we revisit the Lanczos algorithm, and discuss how we apply it to the spectral transformed problem. As discussed in section (\ref{sec:LanczosAlgorithm}), the Lanczos algorithm approximates the eigenvalues of the original problem by projecting it onto a Krylov subspace spanned by successive powers of the system matrix applied to an initial vector. The eigenvalues approximation arises from the tridiagonal matrix obtained through the Lanczos process, which captures the essential spectral characteristics of the original matrix.
 
-Given $A \in \mathbb{R}^{m \times m}$, with $A=A^T$, the pesudocode for the lanczos algorithm is described by Algorithm \ref{alg:lanczos_algorithm}.
+Given $A \in \mathbb{R}^{m \times m}$, with $A=A^T$, the pesudocode for the lanczos algorithm is described by Algorithm~\ref{alg:lanczos_algorithm}.
 \begin{algorithm}
 	\caption{Lanczos Algorithm for a Symmetric Matrix}
 	\label{alg:lanczos_algorithm}
@@ -74,7 +50,7 @@ Given $A \in \mathbb{R}^{m \times m}$, with $A=A^T$, the pesudocode for the lanc
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-After the completion of algorithm \ref{alg:lanczos_algorithm}, the $\gamma$'s and $\delta$'s are used to construct the tridiagonal matrix $T_n \in \mathbb{R}^{n \times n}$ and the vectors $\mathbf{q_j}$'s are stacked together to form an orthogonal matrix $Q_n \in \mathbb{R}^{m \times n}$ given by:
+After the completion of Algorithm~\ref{alg:lanczos_algorithm}, the $\gamma$'s and $\delta$'s are used to construct the tridiagonal matrix $T_n \in \mathbb{R}^{n \times n}$ and the vectors $\mathbf{q_j}$'s are stacked together to form an orthogonal matrix $Q_n \in \mathbb{R}^{m \times n}$ given by:
 \[T_n = \begin{pmatrix}
 			\gamma_1 & \delta_1 & & & \\\delta_1 & \gamma_2 & \delta_2 & & \\ & \delta_2 & \gamma_3 & \delta_3 & \\ & & \ddots & \ddots & \vdots \\ & & & \delta_{n-1} & \gamma_n
 		\end{pmatrix}\] 
@@ -137,16 +113,16 @@ After applying the lanczos procedure to the spectral transformed problem (\ref{e
 
 \section{Problem Setup}\label{sec:ProblemSetup}
 
-To evaluate the performance and robustness of the spectral transformation lanczos algorithm, we setup a problem with predetermined eigenvalues, use the algorithm to compute the eigenvalues, and show that the residuals follow closely with the bounds predicted \rep{for}{by} direct methods \added{in \cite{stewart2024spectraltransformationdensesymmetric}}. While there are other options of using matrices from open source repositories like Matrix Market, we choose to use this approach so that we can control the size, condition number and other properties of the matrix so as to observe the effect of this properties on the algorithm.
+To evaluate the performance and robustness of the spectral transformation lanczos algorithm, we setup a problem with predetermined eigenvalues, use the algorithm to compute the eigenvalues, and show that the residuals follow closely with the bounds predicted for direct methods in \cite{stewart2024spectraltransformationdensesymmetric}. While there are other options of using matrices from open source repositories like Matrix Market, we choose to use this approach so that we can control the size, condition number and other properties of the matrix so as to observe the effect of this properties on the algorithm.
 
 Starting with a diagonal matrix $D \in \mathbb{R}^{m \times m}$ with known eigenvalues, we generate a random matrix $P$ of size $m \times m $ with standard normal distribution. Since the $QR$ factorization is guaranteed to exist for any matrix, we take the $QR$ factorization of $P$ to obtain an orthogonal matrix $Q$, which is used to create a matrix $C$ using orthogonal transformation. Hence $C = QDQ^T$ is unitarily similar to $D$.
 
 Next, we initialize a random lower triangular matrix $L_0 \in \mathbb{R}^{m \times m}$ with a normal distribution. A symmetric positive definite $B \in \mathbb{R}^{m \times m}$ is formed by
 
 \begin{equation}\label{eq:FormingB}
-	B = L_0 L_0^T + \delta I_m, \qquad \delta > 0
+	B = L_0 L_0^T + \delta I_m, \qquad \delta > 0,
 \end{equation}
-\comm{add comma at end of previous equation}where $I_m$ is an identity matrix of order $m$. Clearly, $B$ is symmetric. The matrix $L_0L_0^T$ is positive semi-definite since for any non-zero vector $\mathbf{x}$
+where $I_m$ is an identity matrix of order $m$. Clearly, $B$ is symmetric. The matrix $L_0L_0^T$ is positive semi-definite since for any non-zero vector $\mathbf{x}$
 \begin{equation}
 	\mathbf{x}^T(L_0L_0^T)\mathbf{x} = (L_0^T\mathbf{x})^T(L_0^T\mathbf{x}) = \| L_0^T\mathbf{x} \|^2 \geq \mathbf{0}.
 \end{equation}

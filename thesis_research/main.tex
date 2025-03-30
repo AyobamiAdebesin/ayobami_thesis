@@ -22,6 +22,9 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{mathtools}
 \usepackage{todonotes}
+\usepackage{subcaption}
+\captionsetup[subfigure]{labelformat=simple}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
 
 \usepackage[commentmarkup=footnote]{changes}
 \definechangesauthor[name=MS]{MS}
@@ -55,8 +58,8 @@
 \usepackage[caption = false]{subfig}
 % The ltcaption package supports \CaptionLabelFont & \CaptionTextFont
 % introduced by the NTG document classes
-\renewcommand\CaptionLabelFont{\normalsize}
-\renewcommand\CaptionTextFont{\normalsize}
+%\renewcommand\CaptionLabelFont{\normalsize}
+%\renewcommand\CaptionTextFont{\normalsize}
 
 % \usepackage{aas}                   % Some abbreviations for AAS references.
 % \citestyle{aa}                     % Astronomy & Astrophysics cite style.
@@ -90,6 +93,12 @@
 \usepackage{fancyvrb}
 \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
 \DefineVerbatimEnvironment{example}{Verbatim}{fontsize=\small}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
 
 
 
