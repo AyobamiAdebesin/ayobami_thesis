@@ -20,11 +20,18 @@ A more stable approach for a dense symmetric semidefinite problem where $B$ is s
 \begin{equation}\label{eq:SpectralTrans_With_LDL}
 	C_b^TC_a^{-T}D_aC_a^{-1}C_b \mathbf{u} = \theta \mathbf{u}.
 \end{equation}
-It was proved that stability depends on the choice of shift $\sigma$, the conditioning of $A - \sigma B$, and the avoidance of cancellation during factorization. The error analysis proved that for a moderately scaled shift $\sigma_0 = \sigma \frac{\|B\|_2}{\|A\|_2}$, the size of $\eta \|X\|$ can be controlled which stabilize the ill-conditioning in computing $X$ where 
-\begin{equation}\label{eq:ConditioningMetricsFromStewart}
-	X = C_a^{-1}C_b, \text{ and, } \eta = \frac{\|A - \sigma B\|_2^{1/2}}{\|B\|_2^{1/2}},
+
+Under some technical assumptions that typically hold in practice, it was proved that if the scaled shift
+\begin{equation}
+  \label{eq:ScaledShift}
+  \sigma_0 = \sigma \frac{\|B\|}{\|A\|}
 \end{equation}
-thereby giving small residuals for eigenvalues not much larger than $\sigma$. This approach was validated by numerical experiments, contrasting it with  Cholesky-based methods that are unstable for small eigenvalues.
+is not too large and the shift $\sigma$ is not chosen to be too close to a generalized eigenvalue, then this approach is stable in the sense that it gives generalized eigenvalues of a pair of matrices close to $A$ and $B$.  This is true regardless of any ill conditioning in $A-\sigma B$.  This approach was validated by numerical experiments, contrasting it with Cholesky-based methods that are unstable for small eigenvalues.  \comm{This paragraph is substantially changed and some equations moved to Chapter 3.}
+% It was proved that stability depends on the choice of shift $\sigma$, the conditioning of $A - \sigma B$, and the avoidance of cancellation during factorization. The error analysis proved that for a moderately scaled shift $\sigma_0 = \sigma \frac{\|B\|_2}{\|A\|_2}$, the size of $\eta \|X\|$ can be controlled which stabilize the ill-conditioning in computing $X$ where 
+% \begin{equation}\label{eq:ConditioningMetricsFromStewart}
+% 	X = C_a^{-1}C_b, \text{ and, } \eta = \frac{\|A - \sigma \|B\|_2^{1/2}}{\|B\|_2^{1/2}},
+% \end{equation}
+% thereby giving small residuals for eigenvalues not much larger than $\sigma$.}
 
 \section{Mathematical Preliminaries}\label{sec:MathPrelim}
 In this section, we shall introduce some notations and the key mathematical concepts underlying the eigenvalue problems that will be used throughout this study.
@@ -97,13 +104,14 @@ If $B$ is non-singular, then the problem reduces to a standard eigenvalue proble
 \end{equation}
 In this case, the generalized eigenvalue problem has \textit{m} eigenvalues if $\text{rank}(B) = m$. This suggests that the generalized eigenvalues of $A$ and $B$ are equal to the eigenvalues of $B^{-1}A$. If $B$ is singular or rank deficient, then the set of generalized eigenvalues $\Lambda(A, B)$ may be finite, empty or infinite. If $\Lambda(A, B)$ is finite, the number of eigenvalues will be less than $m$. This is because the characteristic polynomial $\det(A- \lambda B)$ is of degree less than $m$, so that there is not a complete set of eigenvalues for the problem.
 
-If $A$ and $B$ have a common null space, then every choice of $\lambda$ will be a solution to (\ref{eq:GenEigValProblemDefinition}). In this case, we say that the pencil $A-\lambda I$ is {\em singular}.  Otherwise, we say that the pencil is {\em regular.}   For the purpose of this study, we shall assume that $A$ and $B$ do not have a common null space, that is
+If $A$ and $B$ have a \added{nontrivial} common null space, then every choice of $\lambda$ will be a solution to (\ref{eq:GenEigValProblemDefinition}). In this case, we say that the pencil $A-\lambda I$ is {\em singular}.  Otherwise, we say that the pencil is {\em regular.}   For the purpose of this study, we shall assume that $A$ and $B$ do not have a \added{nontrivial} common null space, that is
 \begin{equation}\label{eq:EmptyCommonNullSpace}
 	\mathcal{N}(A) \cap \mathcal{N}(B) = \{\mathbf{0} \}
 \end{equation}
 When $A$ and $B$ are symmetric and $B$ is positive definite, we shall call the problem symmetric-definite generalized eigenvalue problem, which will be the focus of this thesis. The symmetric definite generalized eigenvalue problem is fully analogous to the symmetric standard eigenvalue problem.  In this case we will see that the pencil is regular, the generalized eigenvalues are all real, and the generalized eigenvectors are orthogonal with respect to the inner product $\langle\vec{x}, \vec{y}\rangle_B = \vec{y}^T B \vec{x}$.
 
 \subsection{Generalized Eigenvalue Problem with Symmetry}\label{sec:ProblemDiscussion}
+
 In this section, we shall consider the symmetric version of the generalized eigenvalue problem that was described in Section~\ref{sec:GeneralizedEigValProblem}, which will be the main focus of this thesis. We will also consider the methodological approach used in solving the problem, and discuss the challenges involved in solving these kind of problems.
 
 The symmetric-definite generalized eigenvalue problem is formally given by:
@@ -130,7 +138,7 @@ Furthermore, for any symmetric-definite pair $(A, B)$, $A$ and $B$ can be simult
 \begin{equation}\label{eq:SimultaneousDiag}
 	P^{T}AP = D_a \qquad \text{ and } \qquad P^TBP = D_b
 \end{equation}
-where $D_a = \text{diag}(a_1, \ldots a_n) $, and $D_b = \text{diag}(b_1, \ldots b_n) $. The generalized eigenvalues $\lambda$ of $A$ and $B$ will be the diagonal elements of $D^{-1}_bD_a$, or put simply $\lambda_i = a_i/b_i$, and the eigenvectors will be the columns of $P$. The existence of $P$ when $B$ is not positive definite is given in \cite[p.~498]{doi:10.1137/1.9781421407944}.
+where $D_a = \text{diag}(a_1, \ldots a_n) $, and $D_b = \text{diag}(b_1, \ldots b_n) $. The generalized eigenvalues $\lambda$ of $A$ and $B$ will be the diagonal elements of $D^{-1}_bD_a$, or put simply $\lambda_i = a_i/b_i$, and the eigenvectors will be the columns of $P$. The existence of $P$ when $B$ is \rep{semidefinite}{not positive definite} is given in \cite[p.~498]{doi:10.1137/1.9781421407944}.
 
 To compute the set of generalized eigenvalues $\Lambda(A, B)$ that satisfies (\ref{eq:GenEigVal_Problem}), our approach in this thesis, similar to what was used in \cite{stewart2024spectraltransformationdensesymmetric} and \cite{Ericsson1980TheST}, is to transform the problem into a standard eigenvalue problem using a spectral transformation, after which we apply an iterative algorithm, like the Lanczos algorithm to compute the eigenvalues. In practice, we often compute a subset of these generalized eigenvalues corresponding to those in the vicinity of a given shift $\sigma$. To have a deep understanding of this approach, the next section discusses this approach in detail, focusing on the relationship between the eigenvalues of the original problem and the eigenvalues of the transformed problem.
 
@@ -141,11 +149,11 @@ The central idea behind spectral transformation is that by applying a rational o
 
 Consider the problem of computing the eigenvalues of a matrix $A \in \mathbb{R}^{m \times m}$. Assume that $m$ is so large that computing all the eigenvalues of $A$ is not computationally feasible but rather, we are interested in computing the eigenvalues in a certain region of the spectrum of $A$. We can pick a shift $\sigma \in \mathbb{R}$ that is not an eigenvalue of A. The shifted and inverted matrix is then given by $(A - \sigma I)^{-1}$. The eigenvectors of $(A - \sigma I)^{-1}$ are the same as the eigenvectors of $A$, and the corresponding eigenvalues are $(\lambda_j - \sigma)^{-1}$, for each eigenvalue $\lambda_j$ of $A$. This shifts the spectrum of $A$, making the eigenvalues near $\sigma$ much more prominent in the transformed matrix. This shifting strategy can be used in other iterative algorithms like the inverse iteration \cite{doi:10.1137/1.9781611977165}.
 
-For the generalized eigenvalue problem given in (\ref{eq:GenEigVal_Problem}), if we introduce a shift $\sigma \in \mathbb{R}$ so that $A - \sigma B$ is non singular, the shifted and inverted formulation of the problem is given by
+For the generalized eigenvalue problem given in (\ref{eq:GenEigVal_Problem}), if we introduce a shift $\sigma \in \mathbb{R}$ so that $A - \sigma B$ is non singular, \rep{a simple}{the} shifted and inverted formulation of the problem is given by
 \begin{equation}\label{eq:SpectralTransFormulation}
 	(A - \sigma B)^{-1} B\mathbf{v} = \theta \mathbf{v},
 \end{equation}
-where $\theta = 1 / (\lambda - \sigma)$.
+where $\theta = 1 / (\lambda - \sigma)$.  \added{Note, however, that this formulation does not result in a symmetric standard eigenvalue problem.}
 
 Suppose $\sigma$ is close enough to a generalized eigenvalue $\lambda_J \in \Lambda(A, B)$ much more than the other generalized eigenvalues, then $(\lambda_J - \sigma)^{-1}$ may be much larger than $(\lambda_j - \sigma)^{-1}$ for all $j \neq J$. This transformation will map the eigenvalues in the neighborhood of $\sigma$ to the extreme part of the new spectrum, which can be favorable for the convergence of Krylov methods.  However there is a problem.  The formulation (\ref{eq:SpectralTransFormulation}) is not symmetric, so we cannot use the Lanczos algorithm.  We now consider a shift-and-invert formulation that preserves symmetry. Since $B$ is positive definite, we can compute a Cholesky factorization $B = C_bC_b^T$. Given this decomposition, we can have a formulation that preserves symmetry, guaranteed by the following lemma
  \begin{lemma}\label{lemma:SpectralTransLemma}
@@ -157,7 +165,7 @@ Suppose $\sigma$ is close enough to a generalized eigenvalue $\lambda_J \in \Lam
  	
  	Conversely, assume that $\mathbf{u} \neq \mathbf{0}$ is an eigenvector for (\ref{eq:SpectralTransEquation}), with eigenvalue $\theta$. If $C_b\mathbf{u} \neq \mathbf{0}$, then the eigenvector $\mathbf{v} = (A -\sigma B)^{-1}C_b\mathbf{u} \neq \mathbf{0}$ is an eigenvector for (\ref{eq:ModifiedGeneralizedEigValProblem}) with eigenvalue $(1+\sigma \theta, \theta)$. In this case, with $\mathbf{v}$ defined in ths way, we have $C_b^T\mathbf{v} = \theta \mathbf{u}$. If instead we have$C_b\mathbf{u} = \mathbf{0}$, then $\theta = 0$ and $(1, 0)$ is an eigenvalue for (\ref{eq:ModifiedGeneralizedEigValProblem}) with eigenvector given by $\mathbf{v} = \mathbf{u}$. If $C_b$ is $m \times m$ and invertible, then we have $C_b\mathbf{u} \neq \mathbf{0}$ and can use the alternative formula $\mathbf{v} = C_b^{-T}\mathbf{u}$ to obtain an eigenvector of (\ref{eq:ModifiedGeneralizedEigValProblem}).
  \end{lemma}
-The proof of this lemma can be found in \cite{stewart2024spectraltransformationdensesymmetric}. In essence, lemma~\ref{lemma:SpectralTransLemma} describes the relationship between the eigenvalues(\textit{resp}.\ eigenvectors) of the original problem (\ref{eq:GenEigVal_Problem}) and the eigenvalues(\textit{resp}.\ eigenvectors) of the spectral transformed problem (\ref{eq:SpectralTransEquation}). Equation (\ref{eq:SpectralTransEquation}) gives us the spectral transformed version of the original generalized problem that preserves symmetry. Since the problem is now in a standard form, we can then apply the Lanczos algorithm to compute the desired eigenvalues within the neighborhood of $\sigma$, together with their corresponding eigenvectors. It should be noted that forming the spectral matrix in (\ref{eq:SpectralTransEquation}) is not desirable in a realistic problem since it does not preserve sparsity and will be very inefficient on most realistic problems. In reality, we employ stable factorizations of $(A-\sigma B)^{-1}$ that preserves symmetry in order to solve (\ref{eq:SpectralTransEquation}) effectively. Our choice of factorizations will be discussed in later chapters. For now, we turn our attention to the Krylov subspace method that will be employed in solving (\ref{eq:SpectralTransEquation}).
+ The proof of this lemma can be found in \cite{stewart2024spectraltransformationdensesymmetric}, although most claims of the lemma were used in \cite{Ericsson1980TheST}. In essence, \rep{Lemma}{lemma}~\ref{lemma:SpectralTransLemma} describes the relationship between the eigenvalues (\textit{resp}.\ eigenvectors) of the original problem (\ref{eq:GenEigVal_Problem}) and the eigenvalues (\textit{resp}.\ eigenvectors) of the spectral transformed problem (\ref{eq:SpectralTransEquation}). Equation (\ref{eq:SpectralTransEquation}) gives us the spectral transformed version of the original generalized problem that preserves symmetry. Since the problem is now in a standard form, we can then apply the Lanczos algorithm to compute the desired eigenvalues within the neighborhood of $\sigma$, together with their corresponding eigenvectors. It should be noted that forming the spectral matrix in (\ref{eq:SpectralTransEquation}) is not desirable in a realistic problem since it does not preserve sparsity and will be very inefficient on most realistic problems. In reality, we employ stable factorizations of $(A-\sigma B)^{-1}$ that preserves symmetry in order to solve (\ref{eq:SpectralTransEquation}) effectively. Our choice of factorizations will be discussed in later chapters. For now, we turn our attention to the Krylov subspace method that will be employed in solving (\ref{eq:SpectralTransEquation}).
 
 \subsection{Lanczos Algorithm}\label{sec:LanczosAlgorithm}
 

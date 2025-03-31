@@ -1,0 +1,57 @@
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{4}{section*.6}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{nontrivial}}{8}{section*.7}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{nontrivial}}{9}{section*.8}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{semidefinite}}{10}{section*.9}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{a simple}}{12}{section*.10}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{Note, however, that this formulation does not result in a symmetric standard eigenvalue problem.}}{12}{section*.11}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{Lemma}}{13}{section*.12}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{16}{section*.13}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{ideally}}{17}{section*.14}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{the}}{17}{section*.15}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{``rook pivoting''}}{17}{section*.16}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{$LU$}}{18}{section*.17}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{eigenvalue approximations}}{19}{section*.18}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{$\gamma _j$}}{19}{section*.19}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{$\delta _j$}}{19}{section*.20}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{$\mathbf {q}_j$}}{19}{section*.21}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{19}{section*.22}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{20}{section*.23}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{20}{section*.24}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{Section\nobreakspace {}\ref {sec:ProblemSetup}}}{27}{section*.25}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{Section\nobreakspace {}\ref {sec:SpectralTransformationDefinition}}}{28}{section*.26}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{explore}}{28}{section*.27}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{28}{section*.28}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{29}{section*.29}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{29}{section*.30}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{It should be noted that these bounds are not dependent on the exact algorithm used in computing the eigenvalues and eigenvectors.}}{30}{section*.31}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{30}{section*.32}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{31}{section*.33}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{Let $E$, $F$, and $F_1$ be as in (\ref {eq:mixed_errors}) and (\ref {eq:B_errors}). In what follows $e_n$ and $f_n$ are modestly growing functions of $n$ more precisely described in \cite {stewart2024spectraltransformationdensesymmetric}.}}{31}{section*.34}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{Lanczos}}{32}{section*.35}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{32}{section*.36}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{if neither $\sigma _0$ nor $\eta \|X\|$ are large, then there exists an approximate eigenvector for which the computed eigenvalues achieve a small residual, although this eigenvector is not actually the computed eigenvector. Thus, the computation of the eigenvalues on their own is stable.}}{32}{section*.37}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{What}}{32}{section*.38}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{remember}}{32}{section*.39}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{33}{section*.40}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{The situation for the computed eigenvectors is not as satisfactory.}}{33}{section*.41}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{where $\gamma = \|A\|/ \|A-\sigma B\|$ and $c_n$ does not grow quickly in $n$.}}{34}{section*.42}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{Lemma\nobreakspace {}\ref {lemma:ResidualBoundsEigenvectors} establishes a foundational bound for the eigenvector residual, emphasizing the role of $\eta = \|A - \sigma B\|_2^{1/2}/\|B\|_2^{1/2} $, which quantifies the stability of solving systems involving $A-\sigma B$, in making sure that the residuals for the computed eigenvectors are bounded. Small residuals require $\eta \|X\|_2$ (where $X = C_a^{-1}C_b$) to remain moderate, which is achievable through stable factorizations like pivoted Cholesky for $B$ and rook pivoting $LDL^T$ for $A-\sigma B$.}}{34}{section*.43}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{On the other hand, }}{34}{section*.44}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{which builds on Lemma\nobreakspace {}\ref {lemma:ResidualBoundsEigenvectors}, refines this into two interpretations.}}{34}{section*.45}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{The first case is of primary interest when $\sigma _0$ is large.}}{34}{section*.46}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{In this case the}}{34}{section*.47}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{and $\lvert 1 - \lambda _i/\sigma \rvert $}}{34}{section*.48}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{but suggesting a loss of accuracy if $\lambda _i$ is either much larger or smaller than $\sigma $}}{34}{section*.49}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{The second case includes $|\sigma _0|$ as a factor in the bounds and is more useful when the scaled shift is not too large. In this case, the residuals scale with only with $\lvert 1 - \lambda _i/\sigma \rvert $, so that we do not expect a loss of accuracy when $\lambda _i$ is much smaller than $\sigma _0$}}{34}{section*.50}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{This reduction in accuracy is attributed to pivot-limited accuracy.}}{35}{section*.51}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{35}{section*.52}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{35}{section*.53}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{much}}{36}{section*.55}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{and stability}}{40}{section*.58}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{appears to be}}{41}{section*.59}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{41}{section*.60}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{$A-\sigma B$.}}{41}{section*.61}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{41}{section*.62}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{dense}}{41}{section*.63}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{conditional}}{41}{section*.64}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{appear to hold}}{41}{section*.65}%
