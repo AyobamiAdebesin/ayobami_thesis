@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.1)  1 APR 2025 07:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.1)  1 APR 2025 07:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1362,75 +1362,72 @@ Chapter 3.
 
 
 
-] [26] [27]
-Package hyperref Info: bookmark level for unknown added defaults to 0 on input 
-line 47.
- [28] [29] [30] [31]
+] [26] [27] [28] [29] [30] [31]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 140.
+(hyperref)                removing `math shift' on input line 139.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 140.
+(hyperref)                removing `math shift' on input line 139.
 
 [32]
-<./Plots/LU/residual_lu_gs.png, id=481, 570.2103pt x 425.1885pt>
+<./Plots/LU/residual_lu_gs.png, id=474, 570.2103pt x 425.1885pt>
 File: ./Plots/LU/residual_lu_gs.png Graphic file (type png)
 <use ./Plots/LU/residual_lu_gs.png>
-Package pdftex.def Info: ./Plots/LU/residual_lu_gs.png  used on input line 151.
+Package pdftex.def Info: ./Plots/LU/residual_lu_gs.png  used on input line 150.
 
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
-<./Plots/LU/residual_lu_rs.png, id=483, 570.2103pt x 425.1885pt>
+<./Plots/LU/residual_lu_rs.png, id=476, 570.2103pt x 425.1885pt>
 File: ./Plots/LU/residual_lu_rs.png Graphic file (type png)
 <use ./Plots/LU/residual_lu_rs.png>
-Package pdftex.def Info: ./Plots/LU/residual_lu_rs.png  used on input line 157.
+Package pdftex.def Info: ./Plots/LU/residual_lu_rs.png  used on input line 156.
 
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
-<./Plots/LU/residual_lu_bs.png, id=484, 570.2103pt x 425.1885pt>
+<./Plots/LU/residual_lu_bs.png, id=477, 570.2103pt x 425.1885pt>
 File: ./Plots/LU/residual_lu_bs.png Graphic file (type png)
 <use ./Plots/LU/residual_lu_bs.png>
-Package pdftex.def Info: ./Plots/LU/residual_lu_bs.png  used on input line 166.
+Package pdftex.def Info: ./Plots/LU/residual_lu_bs.png  used on input line 165.
 
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
-<./Plots/LU/residual_lu_gl.png, id=486, 570.2103pt x 425.1885pt>
+<./Plots/LU/residual_lu_gl.png, id=479, 570.2103pt x 425.1885pt>
 File: ./Plots/LU/residual_lu_gl.png Graphic file (type png)
 <use ./Plots/LU/residual_lu_gl.png>
-Package pdftex.def Info: ./Plots/LU/residual_lu_gl.png  used on input line 180.
+Package pdftex.def Info: ./Plots/LU/residual_lu_gl.png  used on input line 179.
 
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
-<./Plots/LU/residual_lu_rl.png, id=487, 570.2103pt x 425.1885pt>
+<./Plots/LU/residual_lu_rl.png, id=480, 570.2103pt x 425.1885pt>
 File: ./Plots/LU/residual_lu_rl.png Graphic file (type png)
 <use ./Plots/LU/residual_lu_rl.png>
-Package pdftex.def Info: ./Plots/LU/residual_lu_rl.png  used on input line 186.
+Package pdftex.def Info: ./Plots/LU/residual_lu_rl.png  used on input line 185.
 
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
-<./Plots/LU/residual_lu_bl.png, id=488, 570.2103pt x 425.1885pt>
+<./Plots/LU/residual_lu_bl.png, id=481, 570.2103pt x 425.1885pt>
 File: ./Plots/LU/residual_lu_bl.png Graphic file (type png)
 <use ./Plots/LU/residual_lu_bl.png>
-Package pdftex.def Info: ./Plots/LU/residual_lu_bl.png  used on input line 195.
+Package pdftex.def Info: ./Plots/LU/residual_lu_bl.png  used on input line 194.
 
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
  [33] [34 <./Plots/LU/residual_lu_gs.png> <./Plots/LU/residual_lu_rs.png> <./Pl
 ots/LU/residual_lu_bs.png>] [35 <./Plots/LU/residual_lu_gl.png> <./Plots/LU/res
 idual_lu_rl.png> <./Plots/LU/residual_lu_bl.png>]
-<./Plots/eigdecomp/residual_eig_gs.png, id=515, 570.2103pt x 425.1885pt>
+<./Plots/eigdecomp/residual_eig_gs.png, id=508, 570.2103pt x 425.1885pt>
 File: ./Plots/eigdecomp/residual_eig_gs.png Graphic file (type png)
 <use ./Plots/eigdecomp/residual_eig_gs.png>
 Package pdftex.def Info: ./Plots/eigdecomp/residual_eig_gs.png  used on input l
-ine 220.
+ine 219.
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
-<./Plots/eigdecomp/residual_eig_rs.png, id=516, 570.2103pt x 425.1885pt>
+<./Plots/eigdecomp/residual_eig_rs.png, id=509, 570.2103pt x 425.1885pt>
 File: ./Plots/eigdecomp/residual_eig_rs.png Graphic file (type png)
 <use ./Plots/eigdecomp/residual_eig_rs.png>
 Package pdftex.def Info: ./Plots/eigdecomp/residual_eig_rs.png  used on input l
-ine 226.
+ine 225.
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
-<./Plots/eigdecomp/residual_eig_bs.png, id=517, 570.2103pt x 425.1885pt>
+<./Plots/eigdecomp/residual_eig_bs.png, id=510, 570.2103pt x 425.1885pt>
 File: ./Plots/eigdecomp/residual_eig_bs.png Graphic file (type png)
 <use ./Plots/eigdecomp/residual_eig_bs.png>
 Package pdftex.def Info: ./Plots/eigdecomp/residual_eig_bs.png  used on input l
-ine 235.
+ine 234.
 (pdftex.def)             Requested size: 187.90271pt x 140.11151pt.
 ) [36 <./Plots/eigdecomp/residual_eig_gs.png> <./Plots/eigdecomp/residual_eig_r
 s.png> <./Plots/eigdecomp/residual_eig_bs.png>]
@@ -1466,43 +1463,39 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 65887E24942606010F3388C1AE01094B;4711.
+(rerunfilecheck)             Checksum: 34B2A66D946D0E3F4058504062360678;4710.
  ) 
 Here is how much of TeX's memory you used:
- 29216 strings out of 474486
- 539240 string characters out of 5745644
+ 29199 strings out of 474486
+ 539046 string characters out of 5745644
  1944542 words of memory out of 5000000
- 50765 multiletter control sequences out of 15000+600000
- 569751 words of font info for 82 fonts, out of 8000000 for 9000
+ 50753 multiletter control sequences out of 15000+600000
+ 567479 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,13n,131p,1488b,656s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,13n,131p,1488b,654s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx
-10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
-/cmbx12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmbx8.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
-sfonts/cm/cmbxti10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmcsc10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/amsfonts/cm/cmex10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/H/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/H/AppData/Local/Programs/
-MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/H/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/H/AppData/Local/P
-rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/H/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/H/AppData
-/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/H/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/H/
-AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users
-/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/
-Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
-<C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.
-pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-ti12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
-cm/cmtt12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
-onts/euler/eusm10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (49 pages, 1366841 bytes).
+12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmbx8.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmbxti10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmcsc10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmex10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmmi12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/H/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/H/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/H/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/H/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/H/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/H/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/H/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/User
+s/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:
+/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/euler/eusm10
+.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symb
+ols/msbm10.pfb>
+Output written on main.pdf (49 pages, 1328891 bytes).
 PDF statistics:
- 660 PDF objects out of 1000 (max. 8388607)
- 132 named destinations out of 1000 (max. 500000)
+ 637 PDF objects out of 1000 (max. 8388607)
+ 130 named destinations out of 1000 (max. 500000)
  282 words of extra memory for PDF output out of 10000 (max. 10000000)
 
