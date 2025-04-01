@@ -41,7 +41,7 @@ This residual measures how well the Lanczos algorithm has approximated the eigen
 \begin{definition}[Generalized Relative Residual]\label{def:GeneralizedRelativeResidual}
 	Let $(\alpha_i, \beta_i)$ be the generalized eigenvalues of $A$ and $B$, and $\mathbf{v}_i \neq \mathbf{0}$ be the corresponding computed eigenvector obtained from computing the eigenvalues of $T_n$, such that $\mathbf{r}_i = (\beta_i A - \alpha_i B)\mathbf{v}_i$. Then we define the relative residual for each $i = 1, 2, \ldots n$ as:
 	\begin{equation}\label{eq:GeneralizedResidual}
-		\|\tilde{\mathbf{r}}_i\| = \frac{\| (\beta_i A - \alpha_i B)\mathbf{v}_i \| }{(\lvert \beta_i \rvert \|A\| - \lvert \alpha_i \rvert \|B\|)\|\mathbf{v}_i\| }
+		\|\tilde{\mathbf{r}}_i\| = \frac{\| (\beta_i A - \alpha_i B)\mathbf{v}_i \| }{(\lvert \beta_i \rvert \|A\| + \lvert \alpha_i \rvert \|B\|)\|\mathbf{v}_i\| }
 	\end{equation}
 \end{definition}
 \comm{You need $(\lvert \beta_i \rvert \|A\| + \lvert \alpha_i \rvert \|B\|)$ in the denominator.  (add instead of subtract.)}
@@ -85,7 +85,7 @@ where the minimum is taken over all generalized eigenvalues $\lambda_i$ and $\si
   \label{eq:B_errors}
   B+F = (C_b + F_1)^T (C_b +F_1),
 \end{equation}
-where $\Theta$ is the diagonal matrix of computed eigenvalues and $\tilde{U}$ is an exactly orthogonal matrix that is close to the matrix of \added{computed} eigenvectors for the spectral transformation matrix \rep{$C_b^T(A-\sigma B)^{-1} C_b$}{$C_b^T(A-\sigma B) C_b$}.  The error matrices $E$, $F$, and $G$ can be suitably bounded in terms of the unit roundoff.  From these error relations it follows that the computed eigenvalues in $\Theta$ are close to the eigenvalues of the matrix obtained from a spectral transformation of matrices $A+E$ and $B+F$ that are close to $A$ and $B$.  These error bounds also have consequences for the residuals associated with the computed solution to the generalized eigenvalue problem.
+where $\Theta$ is the diagonal matrix of computed eigenvalues and $\tilde{U}$ is an exactly orthogonal matrix that is close to the matrix of computed eigenvectors for the spectral transformation matrix $C_b^T(A-\sigma B)^{-1} C_b$.  The error matrices $E$, $F$, and $G$ can be suitably bounded in terms of the unit roundoff.  From these error relations it follows that the computed eigenvalues in $\Theta$ are close to the eigenvalues of the matrix obtained from a spectral transformation of matrices $A+E$ and $B+F$ that are close to $A$ and $B$.  These error bounds also have consequences for the residuals associated with the computed solution to the generalized eigenvalue problem.
 
 \begin{theorem}[Residual Bounds for Eigenvalues]
 \label{thrm:ResidualBoundsEigenvalues}
@@ -133,9 +133,9 @@ The situation for the computed eigenvectors is not as satisfactory.
         where $\gamma = \|A\|_2/ \|A-\sigma B\|_2$ and $c_n$ does not grow quickly in $n$.
 \end{theorem}
 
-Theorem~\ref{thrm:ResidualBounds} covers two distinct cases. The first case is of primary interest when $\sigma_0$ is large. \rep{Again, assuming the $\sigma$ is not so close to an eigenvalue that $\eta \|X\|$ becomes large, in}{In} this case the residuals scale with $\lvert 1 - \sigma/ \lambda_i \rvert$ and $\lvert 1 - \lambda_i/\sigma\rvert$, ensuring accuracy when $\sigma$ aligns \added{somewhat} closely with $\lambda_i$ but suggesting a loss of accuracy if $\lambda_i$ is either much larger or smaller than $\sigma$. The second case includes $|\sigma_0|$ as a factor in the bounds and is more useful when the scaled shift is not too large.  In this case, the residuals scale with only with $\lvert 1 - \lambda_i/\sigma\rvert$, so that we do not expect a loss of accuracy when $\lambda_i$ is much smaller than $\sigma_0$.
+Theorem~\ref{thrm:ResidualBounds} covers two distinct cases. The first case is of primary interest when $\sigma_0$ is large. Again, assuming the $\sigma$ is not so close to an eigenvalue that $\eta \|X\|$ becomes large, in this case the residuals scale with $\lvert 1 - \sigma/ \lambda_i \rvert$ and $\lvert 1 - \lambda_i/\sigma\rvert$, ensuring accuracy when $\sigma$ aligns somewhat closely with $\lambda_i$ but suggesting a loss of accuracy if $\lambda_i$ is either much larger or smaller than $\sigma$. The second case includes $|\sigma_0|$ as a factor in the bounds and is more useful when the scaled shift is not too large.  In this case, the residuals scale with only with $\lvert 1 - \lambda_i/\sigma\rvert$, so that we do not expect a loss of accuracy when $\lambda_i$ is much smaller than $\sigma_0$.
 
-So the key takeaway useful for this thesis is, in order to ensure small residuals and stability, the shift $\sigma$ should not be too close to any generalized eigenvalue and should not be too large in magnitude. A moderate shift will guarantee small residuals for eigenvalues not much larger than $\sigma$ but a large shift will result in having small residuals only for eigenvalues near $\sigma$.  \added{The question that we will resolve in the experiments is whether this pattern holds for the Lanczos algorithm and not just for the direct method from \cite{stewart2024spectraltransformationdensesymmetric}}.
+So the key takeaway useful for this thesis is, in order to ensure small residuals and stability, the shift $\sigma$ should not be too close to any generalized eigenvalue and should not be too large in magnitude. A moderate shift will guarantee small residuals for eigenvalues not much larger than $\sigma$ but a large shift will result in having small residuals only for eigenvalues near $\sigma$. The question that we will resolve in the experiments is whether this pattern holds for the Lanczos algorithm and not just for the direct method from \cite{stewart2024spectraltransformationdensesymmetric}.
 
 \section{$LU$ decomposition}
 

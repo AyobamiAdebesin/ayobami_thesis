@@ -1,6 +1,5 @@
 \contentsline {chapter}{ACKNOWLEDGMENTS}{v}{chapter*.2}%
-\contentsline {chapter}{LIST OF TABLES}{ix}{chapter*.4}%
-\contentsline {chapter}{LIST OF FIGURES}{x}{chapter*.5}%
+\contentsline {chapter}{LIST OF FIGURES}{ix}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Literature Review}{2}{section.1.2}%
@@ -26,4 +25,4 @@
 \contentsline {chapter}{\numberline {4}CONCLUSION}{37}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Summary of Key Findings}{37}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Importance and Implications}{38}{section.4.2}%
-\contentsline {chapter}{REFERENCES}{39}{section*.22}%
+\contentsline {chapter}{REFERENCES}{39}{section*.10}%

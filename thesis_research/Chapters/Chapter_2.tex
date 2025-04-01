@@ -141,7 +141,7 @@ Since $B$ is symmetric and positive definite, we can compute its Cholesky factor
 \end{equation}
 So that the generalized eigenvalues $\Lambda(A, B)$ is equal to the eigenvalues of the diagonal matrix $D$. This can be summarized by the following lemma:
 \begin{lemma}
-  Let $A-\lambda B$ be a pencil, where $A$ and $B$ are symmetric, and $B$ is strictly positive definite. Let $D$ be a diagonal matrix and $C$ be unitarily similar to $D$. Assuming (\ref{eq:FormingA}) holds, then the  generalized eigenvalues \added{in} $\Lambda(A, B)$ \rep{are the diagonal elements of}{is similar to} $D$
+  Let $A-\lambda B$ be a pencil, where $A$ and $B$ are symmetric, and $B$ is strictly positive definite. Let $D$ be a diagonal matrix and $C$ be unitarily similar to $D$. Assuming (\ref{eq:FormingA}) holds, then the  generalized eigenvalues in $\Lambda(A, B)$ are the diagonal elements of $D$.
 \end{lemma}
 
 \begin{proof}
@@ -158,7 +158,7 @@ So that the generalized eigenvalues $\Lambda(A, B)$ is equal to the eigenvalues 
 		& = (L^{-T}Q)D(Q^{-1}L^{T}) \\
 		& = (L^{-T}Q)D(L^{-T}Q)^{-1}
 	\end{align*}
-	Therefore $B^{-1}A$ is similar to $D$\del{and hence $\Lambda(A,B)$ is similar to $D$}.
+	Therefore $B^{-1}A$ is similar to $D$.
 \end{proof}
 The pseudocode for generating $A$ and $B$ is described in Algorithm~\ref{alg:problem_setup}.
 \begin{algorithm}
