@@ -9,22 +9,36 @@
 %%  (Running this ``template'' will generate the documentation.)     %
 %%                                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+ 
 %\documentclass[12pt,gsu,online,openright,doubleside]{gsudiss}
 \documentclass[12pt,gsu,online,openany,singleside,hidelinks]{gsudiss}
-\usepackage{natbib}
+% \usepackage[square, numbers]{natbib}
 %\usepackage{subfigure}                % To format bibliographies.
 %% \usepackage{aastex}
-\setlength{\bibsep}{0pt}           % Necessary for bib entries to have
-                                   % correct line spacing.
+\bibliographystyle{siam}
+% \setlength{\bibsep}{0pt}           % Necessary for bib entries to have
+%                                    % correct line spacing.
 \usepackage{tocloft}
 \usepackage[hidelinks]{hyperref}
+\usepackage{mathtools}
+\usepackage{todonotes}
+\usepackage{subcaption}
+\captionsetup[subfigure]{labelformat=simple}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
 
+\usepackage[commentmarkup=footnote]{changes}
+\definechangesauthor[name=MS]{MS}
+% \def\comm#1{\added[comment={#1}]{}}
+\newcommand{\comm}[1]{\added[comment={#1}]{}}
+\newcommand{\del}[1]{\deleted[comment={remove}]{#1}}
+\newcommand{\rep}[2]{\replaced{#1}{#2}}
+\def\vec#1{\mathbf{#1}} % \newcommand won't override existing definitions.
+\def\eqand{\qquad\text{and}\qquad}
 \hypersetup{
     colorlinks=false,
     pdfborder={0 0 0},
 }
-
+%%%%%%%%%%%%%
 
 \renewcommand{\cftfigfont}{Figure\ }
 \renewcommand{\cfttabfont}{Table\ }
@@ -37,22 +51,29 @@
 \usepackage{lscape}
 \usepackage{geometry}
 \usepackage{array}
-\usepackage{deluxetable}
+% \usepackage{deluxetable}
 %\usepackage{aastex_hack}
-\usepackage{longtable,ltcaption}
+% \usepackage{longtable,ltcaption}
 \usepackage{float}
-\usepackage[caption = false]{subfig}
+% \usepackage[caption = false]{subfig}
 % The ltcaption package supports \CaptionLabelFont & \CaptionTextFont
 % introduced by the NTG document classes
-\renewcommand\CaptionLabelFont{\normalsize}
-\renewcommand\CaptionTextFont{\normalsize}
-\usepackage{aas}                   % Some abbreviations for AAS references.
-\citestyle{aa}                     % Astronomy & Astrophysics cite style.
+%\renewcommand\CaptionLabelFont{\normalsize}
+%\renewcommand\CaptionTextFont{\normalsize}
+
+% \usepackage{aas}                   % Some abbreviations for AAS references.
+% \citestyle{aa}                     % Astronomy & Astrophysics cite style.
+
+
 \usepackage{eucal}                 % Euler fonts for equations.
 \usepackage{verbatim}              % Allows quoting source with commands.
 \usepackage{graphicx}              % For powerful manipulation of figures.
+\usepackage{ragged2e}
+\usepackage{algorithm}
+\usepackage{float}
+\usepackage{algpseudocode}
 \usepackage{amsmath,amsthm,amsfonts,amsopn,amssymb} % Some nice math packages.
-\usepackage{ctable}                % My preference table package.
+% \usepackage{ctable}                % My preference table package.
 \usepackage[overlay]{textpos}      % Put stuff anywhere, I mean anywhere ...
 \usepackage{pstricks}              % Draw stuff especially on top figures etc...
 \usepackage{afterpage}             % Useful for absolute placement of figures and tables.
@@ -73,6 +94,12 @@
 \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
 \DefineVerbatimEnvironment{example}{Verbatim}{fontsize=\small}
 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+
 
 
 
@@ -84,7 +111,7 @@
 \BeforeEnd{equation*}{\addtolength{\belowdisplayskip}{-0.5\baselineskip}}
 
 \renewcommand{\topfraction}{0.85}        % These modify figure placement on
-\renewcommand{\bottomfraction}{0.85}     % the page and various other space
+% \renewcommand{\bottomfraction}{0.85}     % the page and various other space
 \renewcommand{\textfraction}{0.10}       % requirements for figures.
 \renewcommand{\floatpagefraction}{0.80}  % These 5 lines are not
 \renewcommand{\arraystretch}{0.5}        % necessary but I think its better
@@ -199,9 +226,9 @@
                                    % you disable the draft option
                                    % before final printing.
 
-\author(First and Last Name)              % Name required.
+\author(Ayobami Adebesin)              % Name required.
 
-\title(Your Title in Title Caps)    % Title of dissertation Required.
+\title(The Spectral Transformation Lanczos Algorithm for the Symmetric-Definite Generalized Eigenvalue Problems: A Comparative Analysis with Conditioning Insights)    % Title of dissertation Required.
 
 \titlesize(11)(11)                               % This is for changing
                                              % the default font size
@@ -225,13 +252,13 @@
 %         below. Note that there is no need to put the "Dr." title in front of any of the names.
 % Adjust margins to 1.0in on all sides
 
-\committee(Committee Chair)[]
-          (Committee Member)
-          (Committee Member)
-          (Committee Member)
-          (Committee Member)
+\committee(Michael Stewart)[]
+          (Russell Jeter)
+          (Vladimir Bondarenko)
+          (\qquad)
+          (\qquad)
 
-\department(Department of Physics and Astronomy)
+\department(Department of Mathematics and Statistics)
                                    % Your Department name.
                                    % Other departments you can
                                    % use include
@@ -242,13 +269,13 @@
                                    % students use
                                    % \departmenttitle{Director}
 
-\graduationyear(YEAR)              % Defaults to the same year
+\graduationyear(2025)              % Defaults to the same year
                                    % you are writing this
                                    % Dissertation. Do
                                    % \graduationyear(200x) if
                                    % you ever need to change it.
 
-\graduationmonth(Month)           % This is the date of the
+\graduationmonth(May)           % This is the date of the
                                    % official graduation ceremony.
                                    % Do \graduationmonth{January}
                                    % for example. Defaults to "August"
@@ -265,14 +292,11 @@
 \mainmatter                        % Main chapters starts here
 \include{./Chapters/Chapter_1}
 \include{./Chapters/Chapter_2}
+\include{./Chapters/Chapter_3}
+\include{./Chapters/Chapter_4}
 
-\appendix
-\section*{Appendices}
-\addcontentsline{toc}{section}{Appendices}
-\renewcommand{\thesubsection}{\Alph{subsection}}
 
-\include{./Chapters/Appendix_A}
-\include{./Chapters/Appendix_B}
+
 
 \include{backmatter}               % See the backmatter.tex file
 

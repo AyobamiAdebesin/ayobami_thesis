@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+Reallocating 'name_of_file' (item size: 1) to 5 items.
+The style file: siam.bst
+Reallocating 'name_of_file' (item size: 1) to 18 items.
+A level-1 auxiliary file: TitleAbstract.aux
+Reallocating 'name_of_file' (item size: 1) to 16 items.
+A level-1 auxiliary file: frontmatter.aux
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+A level-1 auxiliary file: ./Chapters/Chapter_1.aux
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+A level-1 auxiliary file: ./Chapters/Chapter_2.aux
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+A level-1 auxiliary file: ./Chapters/Chapter_3.aux
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+A level-1 auxiliary file: ./Chapters/Chapter_4.aux
+Reallocating 'name_of_file' (item size: 1) to 15 items.
+A level-1 auxiliary file: backmatter.aux
+Illegal, another \bibstyle command---line 3 of file backmatter.aux
+ : \bibstyle
+ :          {apj}
+I'm skipping whatever remains of this command
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Database file #1: bibliography.bib
+You've used 5 entries,
+            2030 wiz_defined-function locations,
+            534 strings with 4742 characters,
+and the built_in function-call counts, 1534 in all, are:
+= -- 139
+> -- 59
+< -- 0
++ -- 25
+- -- 18
+* -- 106
+:= -- 240
+add.period$ -- 5
+call.type$ -- 5
+change.case$ -- 22
+chr.to.int$ -- 0
+cite$ -- 5
+duplicate$ -- 75
+empty$ -- 130
+format.name$ -- 18
+if$ -- 330
+int.to.chr$ -- 0
+int.to.str$ -- 5
+missing$ -- 6
+newline$ -- 18
+num.names$ -- 10
+pop$ -- 30
+preamble$ -- 1
+purify$ -- 19
+quote$ -- 0
+skip$ -- 63
+stack$ -- 0
+substring$ -- 95
+swap$ -- 28
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 0
+while$ -- 15
+width$ -- 6
+write$ -- 45
+(There was 1 error message)
