@@ -1,0 +1,12 @@
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{diagonal eigenvalue}}{3}{section*.6}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{eigenvalues that are}}{3}{section*.7}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{singular $B$.}}{3}{section*.8}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{in}}{23}{section*.9}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{are the diagonal elements of}}{23}{section*.10}%
+\contentsline {deleted}{Deleted: \truncate {\Changestruncatewidth }{and hence $\Lambda (A,B)$ is similar to $D$}}{24}{section*.11}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{}}{28}{section*.12}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{computed}}{29}{section*.13}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{$C_b^T(A-\sigma B)^{-1} C_b$}}{29}{section*.14}%
+\contentsline {replaced}{Replaced: \truncate {\Changestruncatewidth }{Again, assuming the $\sigma $ is not so close to an eigenvalue that $\eta \|X\|$ becomes large, in}}{32}{section*.15}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{somewhat}}{32}{section*.16}%
+\contentsline {added}{Added: \truncate {\Changestruncatewidth }{The question that we will resolve in the experiments is whether this pattern holds for the Lanczos algorithm and not just for the direct method from \cite {stewart2024spectraltransformationdensesymmetric}}}{32}{section*.17}%

@@ -22,8 +22,8 @@
 \contentsline {section}{\numberline {3.2}Experimental Setup}{26}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Residual and Error Analysis}{27}{section.3.3}%
 \contentsline {section}{\numberline {3.4}$LU$ decomposition}{32}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Eigenvalue Decomposition}{35}{section.3.5}%
+\contentsline {section}{\numberline {3.5}Eigenvalue Decomposition}{34}{section.3.5}%
 \contentsline {chapter}{\numberline {4}CONCLUSION}{37}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Summary of Key Findings}{37}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Importance and Implications}{38}{section.4.2}%
-\contentsline {chapter}{REFERENCES}{39}{section*.10}%
+\contentsline {chapter}{REFERENCES}{39}{section*.22}%
