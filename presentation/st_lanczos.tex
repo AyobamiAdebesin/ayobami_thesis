@@ -66,6 +66,14 @@
 \newcommand{\mstrut}{\rule{0pt}{1.2em}}
 \newenvironment{mtx}[1]{\left[\begin{array}{#1}}{\end{array}\right]}
 \newcommand{\mcal}[1]{\mathcal{#1}}
+
+\usepackage{todonotes}
+\usepackage[commentmarkup=footnote]{changes}
+\newcommand{\comm}[1]{\added[comment={#1}]{}}
+\newcommand{\del}[1]{\deleted[comment={remove}]{#1}}
+\newcommand{\rep}[2]{\replaced{#1}{#2}}
+
+
 \DeclareMathOperator{\Gr}{Gr}
 \DeclareMathOperator{\grad}{grad}
 \DeclareMathOperator{\hess}{Hess}
@@ -86,10 +94,10 @@
 
 \usefonttheme[onlymath]{serif}
 
-\title[Spectral Transformation Lanczos Algorithm]{Spectral Transformation Lanczos Algorithm for the
-  Symmetric Definite Generalized Eigenvalue Problem}
-  \author{Ayobami Adebesin}
-\date{April 8th, 2025}
+\title[Spectral Transformation Lanczos Algorithm]{Spectral Transformation
+  Lanczos Algorithm for the Symmetric Definite Generalized Eigenvalue
+  Problem\comm{I think it is appropriate to use your thesis title.}}
+\author{Ayobami Adebesin} \date{April 8th, 2025}
 
 \begin{document}
 
@@ -125,23 +133,33 @@
   \frametitle{Applications and Algorithms}
 
   \begin{itemize}
-  \item Vibration Analysis in Structural engineering e.g (Boeing).
-  
-  For example, equation of a vibrating system:
-  \begin{equation*}
-  	K\mathbf{x} = \lambda M\mathbf{x}
-  \end{equation*}
-  where $M$ is the mass matrix, $K$ is the stiffness matrix, $\mathbf{x}$ is the displacement vector, and $\lambda$ is the eigenfrequencies of the system.
-  \item Existing factorization algorithms for the dense problem all
-    have performance and/or stability issues.
-  \item Recent work on direct methods have proven residual bounds for dense problems. [Michael Stewart, 2024].
-  \item This work is about applying an iterative method to the sparse problem, and verifying the residual bounds predicted by direct methods.
-  \item We start with a survey of existing methods.
+  \item \added{Generalized eigenvalues are real for this problem.}
+  \item Vibration Analysis in Structural engineering e.g (Boeing).  For
+    example, equation of a vibrating system:
+    \begin{equation*}
+      K\mathbf{x} = \lambda M\mathbf{x}
+    \end{equation*}
+    where $M$ is the mass matrix, $K$ is the stiffness matrix, $\mathbf{x}$ is
+    the displacement vector, and $\lambda$ is the eigenfrequencies of the
+    system.
+  \item \rep{Existing algorithms for both dense and sparse problems typically
+      reduce to a symmetric standard eigenvalue problem.}{Existing
+      factorization algorithms for the dense problem all have performance
+      and/or stability issues.}
+  \item \added{Reducing to a symmetric eigenvalue problem preserves symmetry
+      and we get real eigenvalues.}
+  \item \added{Stability has been a long-standing concern.}
+  \item Recent work on direct methods have proven residual bounds for dense
+    problems. [Michael Stewart, 2024].
+  \item This work is about applying an iterative method to the sparse problem,
+    and verifying the residual bounds predicted \rep{for}{by} direct methods.
+  \item \rep{We start with some general background.}{We start with a survey of
+      existing methods.}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Standard Algorithm\\
+  \frametitle{The Standard \rep{Reduction}{Algorithm}\\
     (J.H. Wilkinson, 1965)}
   
   If $B$ is positive definite then it has a Cholesky factor
@@ -149,12 +167,18 @@
     B = C_b C_b^\T.
   \end{equation*}
   Thus
+  % \begin{equation*}
+  %   \begin{array}{l}
+  %     A \vec{v} = \lambda B\vec{v} \\
+  %     \Leftrightarrow A \vec{v} = \lambda C_b C_b^\T \vec{v} \\
+  %     \Leftrightarrow C_b^{-1} A C_b^{-\T} C_b^\T \vec{v} = \lambda C_b^{\T} \vec{v}.
+  %   \end{array}
+  % \end{equation*}
+
   \begin{equation*}
-    \begin{array}{l}
-      A \vec{v} = \lambda B\vec{v} \\
-      \Leftrightarrow A \vec{v} = \lambda C_b C_b^\T \vec{v} \\
+      A \vec{v} = \lambda B\vec{v} 
+      \Leftrightarrow A \vec{v} = \lambda C_b C_b^\T \vec{v}
       \Leftrightarrow C_b^{-1} A C_b^{-\T} C_b^\T \vec{v} = \lambda C_b^{\T} \vec{v}.
-    \end{array}
   \end{equation*}
 
   \begin{block}{Standard Reduction to an Ordinary Eigenvalue Problem}
@@ -164,6 +188,8 @@
     \end{equation*}
     Then solve $C_b^\T\vec{v} = \vec{u}$.
   \end{block}
+  \added{This is a symmetric eigenvalue problem that can be solved using either
+    a direct method or the Lanczos algorithm}
 \end{frame}
 
 \begin{frame}
@@ -174,18 +200,25 @@
     problem has real eigenvalues.  Eigenvectors are orthogonal with
     respect to the inner product
     $(\vec{x}, \vec{y}) = \vec{y}^\T B \vec{x}$.
-  \item It is fast and it is the approach used by LAPACK.
+  \item \rep{For dense problems}{It is fast and} it is the approach used by
+    LAPACK.  It is also used frequently, but not universally, with the Lanczos
+    algorithm for sparse problems.
+  \item \added{For efficiency on sparse problems, a sparse Cholesky
+      factorization is required to use it with Lanczos.}
   \item It fails if $B$ is semidefinite and is unstable when $B$ is
     ill-conditioned (i.e. $\kappa_2(B) = \|B\|_2\|B^{-1}\|_2$ is
     large.)
-  \item If $B$ is ill-conditioned, it usually delivers small residuals for large eigenvalues and large residuals for small eigenvalues. 
-  \item There are alternatives, each with its own set of problems\ldots
+  \item If $B$ is ill-conditioned, it usually delivers small residuals for
+    large eigenvalues and large residuals for small eigenvalues.
+  \item \del{There are alternatives, each with its own set of problems\ldots}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{An Alternate Formulation}
-  The generalized eigenvalue problem can be formulated in another way as follows:
+  \frametitle{An Alternate Formulation} 
+
+  The generalized eigenvalue problem can be formulated in another way as
+  follows:
 
   \begin{block}{The Generalized Eigenvalue Problem Version II}
     The eigenvalue problem can be written
@@ -206,8 +239,11 @@
 
 
 \begin{frame}
-\frametitle{The $QZ$ Algorithm I \\
-  (C. B. Moler and G. W. Stewart, 1972)}
+  \frametitle{The $QZ$ Algorithm I \\
+    (C. B. Moler and G. W. Stewart, 1972)\comment{I would remove this slide,
+      but maybe mention elsewhere that the $QZ$ algorithm is standard for the dense
+      non-symmetric problem, but is not suitable for the symmetric definite
+      problem because it does not preserve the symmetry.}}
 
 \begin{block}{Generalized Schur Form}
   For $A$ and $B$ not necessarily symmetric, there exist unitary $Q$
@@ -236,7 +272,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{More on the $QZ$ Algorithm}
+  \frametitle{More on the $QZ$ Algorithm\comm{also remove}}
 
   \begin{itemize}
   \item The errors satisfy $\|E\| = O(u)\|A\|$ and
@@ -254,7 +290,7 @@
 
 \begin{frame}
   \frametitle{Diagonalization Using Congruences \\
-  S. Chandrasekaran 2000}
+  S. Chandrasekaran 2000\comm{remove}}
 
 \begin{block}{Diagonalization}
   For the symmetric definite problem there exists nonsingular $Z$ such that
@@ -277,7 +313,7 @@
 
 \begin{frame}
   \frametitle{Spectral Transformation Lanczos
-    [T. Ericsson and A. Ruhe, 1980]}
+    [T. Ericsson and A. Ruhe, 1980]\comm{add a slide before this one describing the spectral transformation more generally for the standard eigenvalue problem and the nonsymmetric problem; you had that in your thesis and I think it is helpful here.}}
 
   \begin{lemma}
     \label{lm:spectral_transformation}
@@ -300,7 +336,8 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Spectral Transformation for Dense Problems [Michael Stewart, 2024]}
+  \frametitle{Spectral Transformation for Dense Problems [Michael Stewart,
+    2024]}
 	This direct method employs the spectral transformation described by [T. Ericsson and A. Ruhe, 1980], and symmetric decompositions of $A- \sigma B$ and $B$ such that
 	\begin{equation*}
 		A-\sigma B = C_a D C_a^\T, \eqand B = C_b C_b^\T,
@@ -321,10 +358,12 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle {Interesting Questions}
+  \frametitle {Interesting Questions\comm{you refer to residual bounds for
+      direct methods.  I would also point out here, before mentioning residual
+      bounds, that such bounds were proven in my paper for the direct method.}}
 	\begin{center}
 		\begin{itemize}
-			\item \large Do the residual bounds proven for a direct method applies when an iterative method is used for the spectral transformed problem?
+                \item \large Do the residual bounds proven for a direct method \rep{apply}{applies} when an iterative method is used for the spectral transformed problem?
 			\item \large Does the spectral transformed problem respects symmetry in the decomposition of $A - \sigma B$?
 		\end{itemize}
 	\end{center}
@@ -334,13 +373,14 @@
 	\frametitle{What is our approach?}
 	\begin{itemize}
 		\item Apply the Lanczos algorithm to the spectral problem
-		\item Investigate if the residuals for the computed eigenvalues follows the bounds for the direct methods in terms of the choice of shift?
-		\item Explore the effect of symmetric decomposition of $A- \sigma B$ on residuals
+		\item Investigate if the residuals for the computed eigenvalues follows the bounds for the direct methods in terms of the choice of shift\rep{.}{?}
+		\item Explore the effect of \rep{preserving symmetry in
+                    the}{symmetric} decomposition of $A- \sigma B$ on residuals
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
-	\frametitle{Spectral Transformation Lanczos Algorithm}
+	\frametitle{Spectral Transformation Lanczos Algorithm\comm{You could really use a slide before this of math describing the Lanczos algorithm and the Lanczos decomposition, along with the Lanczos decomposition error that you reference in a later slide.  I didn't know about the allowframebreaks option.  That's good to know.}}
 	
 	\begin{algorithmic}[1]
 		\Function{\textsc{Spectral\_Lanczos}}{$A, B, m, n, \sigma, tol$}
@@ -366,7 +406,7 @@
 		\State $\mathbf{q}_{j+1} := \mathbf{v} / \beta_{j}$
 		\EndIf
 		\EndFor
-		\State $Q = Q[:, :n]$
+		\State $Q = Q[:, :n]$\comm{I would use $Q[:, 1:n]$.  The notation $:n$ is very specific to Python and not widely used in pseudocode.}
 		\State $\mathbf{q} = Q[:, n]$
 		\State \Return $(Q, T, \mathbf{q})$
 		\EndFunction
@@ -435,6 +475,7 @@
       \eta^2 \|X\|_2^2 \leq 
       \left(1 + \frac{1}{1}\right) \frac{1}{\min_i \left| 1 + \frac{|\lambda_i|}{|\sigma|}\right|} \leq 2
     \end{equation*}
+    \added{This is a very common special case in structural engineering.}
 
   \end{itemize}
 \end{frame}
@@ -508,7 +549,11 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Setting up a Generalized Eigenvalue Problem I}
+  \frametitle{Setting up a Generalized Eigenvalue Problem I\comm{You could add
+      a slide before this one reminding the audience that we want to see to
+      what extent the residual bounds from the previous slides might transfer
+      over to the ST Lanczos algorithm.}}
+
 	Given a diagonal matrix $D \in \mathbb{R}^{m \times m}$ with predefined eigenvalues, and regularization hyperparameter $\delta$, the following algorithm sets up a generalized eigenvalue problem
 		\begin{algorithmic}[1]
 		\Function{\textsc{Generate\_Matrix}}{$D, \delta$}
@@ -525,7 +570,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Setting up a Generalized Eigenvalue Problem II}
+  \frametitle{Setting up a Generalized Eigenvalue Problem II\comm{I think it is important to include the subranges.  The ones that are farther away are lead to a lot of nonconverged Ritz pairs in the graphs, so you might want to point that out.}}
   \begin{itemize}
   \item Generate a diagonal matrix $D \in \mathbb{R}^{3000 \times 3000}$ of eigenvalues in the range $(10^{-3}, 10^7)$
   \item Set regularization hyperparameter $\delta = 10^1$
@@ -535,7 +580,7 @@
     \end{equation*}
     \begin{equation*}
       \kappa_2(B) = 8.09\times 10^{2}, \eqand \|B\|_2 = 1.34 \times 10^{5}.
-    \end{equation*}
+    \end{equation*}\comm{What is the condition of $A-\sigma B$?  That is more important than any of the other condition numbers.}
    \item Both matrices are positive definite with their eigenvalues $\Lambda(A, B)$ equal to the diagonal elements of $D$.
   \end{itemize}
 \end{frame}
@@ -566,7 +611,12 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Standard Algorithm}
+  \frametitle{Standard Algorithm\comm{This is a bit awkward, since you didn't
+      run the standard reduction with the Lanczos algorithm and $B$ is actually
+      kind of well conditioned here, so if you ran it for the same problem, you
+      would get excellent results.  I'm actually worried about the condition of
+      $B$.  At some point I thought it was closer to $10^{5}$.  It needs to be
+      larger than 800 for the experiments to be meaningful.}}
 
 
   \begin{figure}
@@ -608,7 +658,7 @@
  
   
   The computation gave the decomposition residual as $6.63 \times 10^{-11}$. Plot ($a$) is the generalized relative residual with the curve given by
-  $10^{-14}|1-\lambda_i/\sigma|$. Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
+  $10^{-14}|1-\lambda_i/\sigma|$. \comm{I don't see a curve here.  Just the points representing eigenvalue residuals.  The curves would be nice to see both here and in the thesis.  You can change the factor $10^{-14}$ to place the curve near the points but not covered by them.}  Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
@@ -669,25 +719,27 @@
 	The computation gave the decomposition residual to the order of $10^{-29}$. Plot ($a$) is the generalized relative residual which shows lower residual to the order of unit round off $u \approx10^{-16}$ for eigenvalues close the shift as compared to an $LU$ decomposition. Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
 \end{frame}
 \begin{frame}
-  \frametitle{Pros and Cons}
+  \frametitle{Pros and Cons\comm{There should be a slide discussing how the error bounds for the dense problem match the graphs.  You have material on that in the thesis.  Some of the points below are really only relevant for the direct method.}}
   
   {\bf Pros:}
   \begin{itemize}
-  \item The algorithm is fast for sparse matrices since it uses Lanczos algorithm which is $O(nm^2 + n^2m)$.
+  \item The algorithm is fast for sparse matrices since it uses Lanczos
+    algorithm which is $O(nm^2 + n^2m)$.
   \item It is efficient in computing a subset of eigenvalues, making it memory efficient.
-  \item Since all the work is done in matrix decompositions that are
+  \item \del{Since all the work is done in matrix decompositions that are
     implemented in LAPACK, the algorithm is almost as fast as the
     standard method and is easy to implement efficiently, even in a
-    slow language.
-  \item With a little effort, it can be designed to handles the case of semidefinite $B$ effectively.
+    slow language.}
+  \item With a little effort, it can be designed to handles the case of
+    semidefinite $B$ effectively.
   \item Delivers really small residuals for symmetric decompositions.
   \end{itemize}
 
   {\bf Cons:}
   \begin{itemize}
   \item The eigenvector computation is not unconditionally stable.
-  \item Choosing the shift annoying, even if it is relatively easy to
-    choose, especially if one wants a black box algorithm.
+  \item \del{Choosing the shift annoying, even if it is relatively easy to
+    choose, especially if one wants a black box algorithm.}\comm{This is mostly relevant to the direct method.}
   \end{itemize}
 \end{frame}
 
