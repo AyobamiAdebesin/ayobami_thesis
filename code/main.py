@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ Main function """
 import numpy as np
 import scipy.io as sio
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     D = eigenvalue_distribution_groups(m1, m2, m3, spread1, spread2, spread3)
     D = np.diag(D)
 
-    A, B, L = generate_matrix(D, delta=1e1)
+    A, B, L = generate_matrix(D, delta=1e-3)
     L = la.cholesky(B)
     T, Q, q, x = spectral_lanczos(A, B, L, m=A.shape[0], n=n, shift=shift)
     
@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
     print(f"Condition number of A: {la.cond(A)}\n")
     print(f"Condition number of B: {la.cond(B)}\n")
+    print(f"Condition number of A-sigma*B: {la.cond(A-shift*B)}\n")
     print(f"Decomposition residual: {decomp_res}\n")
 
     # Compute the converged ritz pairs and the (spectral transformation) relative ritz residuals
@@ -48,7 +49,6 @@ if __name__ == "__main__":
     plot_residuals(eigenvalues=alpha/beta, residuals=la.norm(gen_residuals, axis=0), label='g', save_path='lu_gs')
     plot_residuals(eigenvalues=theta_converged, residuals=ritz_residuals, label='r', save_path='lu_rs')
     #plot_residuals(eigenvalues=alpha/beta, residuals=res, label ='b', save_path='lu_bl')
-   
 
     end = time.time()
     elapsed_time = end - start
