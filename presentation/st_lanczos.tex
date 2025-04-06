@@ -200,9 +200,9 @@
 \begin{frame}
 	\frametitle{Other Algorithms}
 	\begin{itemize}
-		\item $QZ$ Algorithm, (C. B. Moler and G. W. Stewart, 1972) - Useful for non-symmetric dense problems. So it is not suitable for sparse symmetric problems since it does not preserve symmetry. It is also very slow.
+        \item $QZ$ Algorithm, (C. B. Moler and G. W. Stewart, 1972) - Useful for non-symmetric dense problems. So it is not suitable for sparse symmetric problems since it does not preserve symmetry. It is \added{stable but} also \rep{relatively}{very} slow.
 		
-		\item Simultaneous Diagonalization of $A$ and $B$, (S. Chandrasekaran 2000) - Uses simulatenous diagonalization of $A$ and $B$ using congruence to compute eigenvalues. It is slow and expensive.
+        \item Simultaneous Diagonalization of $A$ and $B$, (S. Chandrasekaran 2000) - Uses \rep{simultaneous}{simulatenous} diagonalization of $A$ and $B$ using congruence to compute eigenvalues. It is slow and \rep{of uncertain stability}{expensive.}
 	\end{itemize}
 \end{frame}
 
@@ -341,7 +341,7 @@
 				\item Residual bounds were proven for the direct method by [Michael Stewart,
 				2024], which employs spectral transformation.
                 \item \large Do these residual bounds proven apply when an iterative method is used for the spectral transformed problem?
-			\item \large Does the spectral transformed problem respects symmetry in the decomposition of $A - \sigma B$?
+			\item \large \rep{How does symmetry in the decomposition of $A-\sigma B$ impact the spectral transformation Lanczos algorithm?}{Does the spectral transformed problem respects symmetry in the decomposition of $A - \sigma B$?}
 		\end{itemize}
 	\end{center}
 \end{frame}
@@ -610,13 +610,13 @@
   	\vspace{1ex}
   	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
   		\centering
-  		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_mod_shift.png}
+  		\includegraphics[scale=.25]{../code/plots/LU/gen_residual_mod_shift.png}
   		\subcaption{}
   	\end{minipage}%
   	\hfill
   	\begin{minipage}{0.45\textwidth}
   		\centering
-  		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/ritz_residual_mod_shift.png}
+  		\includegraphics[scale=.25]{../code/plots/LU/ritz_residual_mod_shift.png}
   		\subcaption{}
   	\end{minipage}
   	
@@ -637,20 +637,20 @@
 		\vspace{1ex}
 		\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 			\centering
-			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_large_shift.png}
+			\includegraphics[scale=.25]{../code/plots/LU/gen_residual_large_shift.png}
 			\subcaption{}
 		\end{minipage}%
 		\hfill
 		\begin{minipage}{0.45\textwidth}
 			\centering
-			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/ritz_residual_large_shift.png}
+			\includegraphics[scale=.25]{../code/plots/LU/ritz_residual_large_shift.png}
 			\subcaption{}
 		\end{minipage}
 		
 		\vspace{2ex}  % Adjust the space between rows of images
 		
 		\centering % 
-		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/presentation/Plots/LU/residual_lu_bl.png}
+		\includegraphics[scale=.25]{./Plots/LU/residual_lu_bl.png}
 		\subcaption{}
 	\end{figure}
 	For a large shift, we obtain a Lanczos decomposition residual of as $6.14 \times 10^{-10}$. Plot ($a$) shows the generalized relative residual with the curve approximately given by
@@ -666,20 +666,20 @@
 	\vspace{1ex}
 	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 		\centering
-		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_mod_shift.png}
+		\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_mod_shift.png}
 		\subcaption{}
 	\end{minipage}%
 	\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering
-		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/ritz_residual_mod_shift.png}
+		\includegraphics[scale=.25]{../code/plots/WDW/ritz_residual_mod_shift.png}
 		\subcaption{}
 	\end{minipage}
 	
 	\vspace{2ex}  % Adjust the space between rows of images
 	
 	\centering
-	\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/presentation/Plots/eigdecomp/residual_eig_bs.png}
+	\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bs.png}
 	\subcaption{}
 \end{figure}
 For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10^{-27}$ which is significantly lower than that of a non-symmetric decomposition.  Plot ($a$) shows the generalized relative residual. The curve is approximately a plot of $10^{-15}|1-\lambda_i/\sigma|$. Eigenvalues not much lower than the shift achieves a residual of unit precision ($ u \approx 10^{-16}$). Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows the best achievable residual for an idealized eigenvector.
@@ -694,20 +694,20 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\vspace{1ex}
 	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 		\centering
-		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_large_shift.png}
+		\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_large_shift.png}
 		\subcaption{}
 	\end{minipage}%
 	\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering
-		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/ritz_residual_large_shift.png}
+		\includegraphics[scale=.25]{../code/plots/WDW/ritz_residual_large_shift.png}
 		\subcaption{}
 	\end{minipage}
 	
 	\vspace{2ex}  % Adjust the space between rows of images
 	
 	\centering
-	\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/presentation/Plots/eigdecomp/residual_eig_bl.png}
+	\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bl.png}
 	\subcaption{}
 \end{figure}
 	For a large shift, we obtain a Lanczos decomposition residual of order $10^{-32}$. Plot ($a$) shows the generalized relative residual. Eigenvalues of orders of magnitude smaller than the shift achieves large residuals, with those close to eh shift achieving small residuals. Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows that eigenvalues that are several orders of magnitude smaller than the shift cannot achieve a large residual, except for those close to the shift.
@@ -718,7 +718,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\frametitle{Does the conditioning of $A-\sigma B$ affects stability?}
 	\begin{itemize}
 		\item Does conditioning affects stability for a symmetric decomposition and $LU$ decomposition?
-		\item Does conditioning affects the residual bounds?
+		\item Does conditioning \rep{affect}{affects} the residual bounds?
 		\item  Set $\delta = 10^{-12}$ to increase the conditioning of $A-\sigma B$ and compare generalized residuals for a moderate shift $\sigma = 1.5\times 10^3$ with those obtained when $\delta = 10^{-3}$
 	\end{itemize}
 \end{frame}
@@ -731,13 +731,13 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 		\vspace{1ex}
 		\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 			\centering
-			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_ill_cond.png}
+			\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_ill_cond.png}
 			\subcaption{}
 		\end{minipage}%
 		\hfill
 		\begin{minipage}{0.45\textwidth}
 			\centering
-			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_well_cond.png}
+			\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_well_cond.png}
 			\subcaption{}
 		\end{minipage}
 	\end{figure}
@@ -753,13 +753,13 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\vspace{1ex}
 	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 		\centering
-		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_ill-cond.png}
+		\includegraphics[scale=.25]{../code/plots/LU/gen_residual_ill-cond.png}
 		\subcaption{}
 	\end{minipage}%
 	\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering
-		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_mod_shift.png}
+		\includegraphics[scale=.25]{../code/plots/LU/gen_residual_mod_shift.png}
 		\subcaption{}
 	\end{minipage}
 \end{figure}
@@ -793,7 +793,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 
   {\bf Cons:}
   \begin{itemize}
-  \item The eigenvector computation is not unconditionally stable.
+  \item The \added{generalized} eigenvector computation is not unconditionally stable.
   \end{itemize}
 \end{frame}
 
