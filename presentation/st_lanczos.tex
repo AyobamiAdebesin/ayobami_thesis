@@ -94,10 +94,9 @@
 
 \usefonttheme[onlymath]{serif}
 
-\title[Spectral Transformation Lanczos Algorithm]{Spectral Transformation
-  Lanczos Algorithm for the Symmetric Definite Generalized Eigenvalue
-  Problem\comm{I think it is appropriate to use your thesis title.}}
-\author{Ayobami Adebesin} \date{April 8th, 2025}
+\title[Spectral Transformation Lanczos Algorithm]{The Spectral Transformation Lanczos Algorithm for the Symmetric-Definite Generalized
+	Eigenvalue Problem: A Comparative Analysis with Conditioning Insights}
+\author{Ayobami Adebesin} \institute{Department of Mathematics and Statistics\\Georgia State University} \date{April 8th, 2025}
 
 \begin{document}
 
@@ -129,11 +128,11 @@
   We assume throughout that $A\neq 0$ and $B\neq 0$.
 \end{frame}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]{Outline}
   \frametitle{Applications and Algorithms}
 
   \begin{itemize}
-  \item \added{Generalized eigenvalues are real for this problem.}
+  \item Generalized eigenvalues are real for this problem.
   \item Vibration Analysis in Structural engineering e.g (Boeing).  For
     example, equation of a vibrating system:
     \begin{equation*}
@@ -142,24 +141,21 @@
     where $M$ is the mass matrix, $K$ is the stiffness matrix, $\mathbf{x}$ is
     the displacement vector, and $\lambda$ is the eigenfrequencies of the
     system.
-  \item \rep{Existing algorithms for both dense and sparse problems typically
-      reduce to a symmetric standard eigenvalue problem.}{Existing
-      factorization algorithms for the dense problem all have performance
-      and/or stability issues.}
-  \item \added{Reducing to a symmetric eigenvalue problem preserves symmetry
-      and we get real eigenvalues.}
-  \item \added{Stability has been a long-standing concern.}
+  \item Existing algorithms for both dense and sparse problems typically
+      reduce to a symmetric standard eigenvalue problem.
+  \item Reducing to a symmetric eigenvalue problem preserves symmetry
+      and we get real eigenvalues.
+  \item Stability has been a long-standing concern.
   \item Recent work on direct methods have proven residual bounds for dense
     problems. [Michael Stewart, 2024].
   \item This work is about applying an iterative method to the sparse problem,
-    and verifying the residual bounds predicted \rep{for}{by} direct methods.
-  \item \rep{We start with some general background.}{We start with a survey of
-      existing methods.}
+    and verifying the residual bounds predicted for direct methods.
+  \item We start with some general background.
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Standard \rep{Reduction}{Algorithm}\\
+  \frametitle{The Standard Reduction\\
     (J.H. Wilkinson, 1965)}
   
   If $B$ is positive definite then it has a Cholesky factor
@@ -167,14 +163,6 @@
     B = C_b C_b^\T.
   \end{equation*}
   Thus
-  % \begin{equation*}
-  %   \begin{array}{l}
-  %     A \vec{v} = \lambda B\vec{v} \\
-  %     \Leftrightarrow A \vec{v} = \lambda C_b C_b^\T \vec{v} \\
-  %     \Leftrightarrow C_b^{-1} A C_b^{-\T} C_b^\T \vec{v} = \lambda C_b^{\T} \vec{v}.
-  %   \end{array}
-  % \end{equation*}
-
   \begin{equation*}
       A \vec{v} = \lambda B\vec{v} 
       \Leftrightarrow A \vec{v} = \lambda C_b C_b^\T \vec{v}
@@ -188,30 +176,34 @@
     \end{equation*}
     Then solve $C_b^\T\vec{v} = \vec{u}$.
   \end{block}
-  \added{This is a symmetric eigenvalue problem that can be solved using either
-    a direct method or the Lanczos algorithm}
+  This is a symmetric eigenvalue problem that can be solved using either a direct method or the Lanczos algorithm.
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Standard Algorithm (cont'd)}
+  \frametitle{The Standard Reduction (cont'd)}
 
   \begin{itemize}
   \item This shows that the symmetric definite generalized eigenvalue
-    problem has real eigenvalues.  Eigenvectors are orthogonal with
+    problem has real eigenvalues. Eigenvectors are orthogonal with
     respect to the inner product
     $(\vec{x}, \vec{y}) = \vec{y}^\T B \vec{x}$.
-  \item \rep{For dense problems}{It is fast and} it is the approach used by
-    LAPACK.  It is also used frequently, but not universally, with the Lanczos
-    algorithm for sparse problems.
-  \item \added{For efficiency on sparse problems, a sparse Cholesky
-      factorization is required to use it with Lanczos.}
+  \item For dense problems it is the approach used by LAPACK. It is also used frequently, but not universally, with the Lanczos algorithm for sparse problems.
+  \item For efficiency on sparse problems, a sparse Cholesky
+      factorization is required to use it with Lanczos.
   \item It fails if $B$ is semidefinite and is unstable when $B$ is
     ill-conditioned (i.e. $\kappa_2(B) = \|B\|_2\|B^{-1}\|_2$ is
     large.)
   \item If $B$ is ill-conditioned, it usually delivers small residuals for
     large eigenvalues and large residuals for small eigenvalues.
-  \item \del{There are alternatives, each with its own set of problems\ldots}
   \end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Other Algorithms}
+	\begin{itemize}
+		\item $QZ$ Algorithm, (C. B. Moler and G. W. Stewart, 1972) - Useful for non-symmetric dense problems. So it is not suitable for sparse symmetric problems since it does not preserve symmetry. It is also very slow.
+		
+		\item Simultaneous Diagonalization of $A$ and $B$, (S. Chandrasekaran 2000) - Uses simulatenous diagonalization of $A$ and $B$ using congruence to compute eigenvalues. It is slow and expensive.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -237,83 +229,68 @@
   \end{block}
 \end{frame}
 
-
-\begin{frame}
-  \frametitle{The $QZ$ Algorithm I \\
-    (C. B. Moler and G. W. Stewart, 1972)\comment{I would remove this slide,
-      but maybe mention elsewhere that the $QZ$ algorithm is standard for the dense
-      non-symmetric problem, but is not suitable for the symmetric definite
-      problem because it does not preserve the symmetry.}}
-
-\begin{block}{Generalized Schur Form}
-  For $A$ and $B$ not necessarily symmetric, there exist unitary $Q$
-  and $Z$ such that
-  \begin{equation*}
-    Q^H A Z = T_a, \qquad
-    Q^H B Z = T_b.
-  \end{equation*}
-  where $T_a$ and $T_b$ are upper triangular with diagonal elements
-  $\alpha_i$ and $\beta_i$.  The eigenvalues for
-  $A\vec{v} = \lambda B\vec{v}$ are given by
-  $\lambda_i = \alpha_{i}/\beta_{i}$.  Eigenvectors can be obtained from $Z$
-  with additional computation.
-\end{block}
-
-\begin{itemize}
-\item With rounding, the $QZ$ algorithm for computing this is backward
-  stable: There exist exactly unitary $\tilde{Q}$ and $\tilde{Z}$
-  close to the computed $Q$ and $Z$ for which the computed $T_a$ and
-  $T_b$ satisfy
-  \begin{equation*}
-    \tilde{Q}^H (A+E) \tilde{Z} = T_a , \qquad
-    \tilde{Q}^H (B+F) \tilde{Z} = T_b.
-  \end{equation*}
-\end{itemize}
+\begin{frame}[allowframebreaks]{Outline}
+	\frametitle{Lanczos Algorithm}
+	\begin{itemize}
+		\item Iterative method for finding eigenvalues and eigenvectors of symmetric matrices that works by transforming the matrix into a smaller tridiagonal matrix that retains the extremal spectral properties of the original matrix
+		\item Builds an orthonormal basis of the Krylov subspace associated with the matrix.
+		\item The basis is constructed iteratively, with vectors $\mathbf{q}_1, \mathbf{q}_2, \ldots \mathbf{q}_n$ formed during $n$ iterations, and stacked together to form an orthogonal matrix: $Q_n = [\mathbf{q}_1 | \mathbf{q}_2 | \ldots | \mathbf{q}_n]$
+		\item For a symmetric matrix $A \in \mathbb{R}^{m\times m}$ and an initial vector $\mathbf{v}_1$, the algorithm constructs the $n$-dimnensional Krylov subspace
+		\begin{equation*}
+			\mathcal{K}_n(A, \mathbf{v}_1) = \text{span}(\{\mathbf{v}_1, A\mathbf{v}_1, A^2\mathbf{v}_1, \ldots, A^{n-1}\mathbf{v}_1\}).
+		\end{equation*}
+		\item The resulting orthonormal basis is used to form a tridiagonal matrix 
+		\[T_n = \begin{pmatrix}
+			\gamma_1 & \delta_1 & & & \\\delta_1 & \gamma_2 & \delta_2 & & \\ & \delta_2 & \gamma_3 & \delta_3 & \\ & & \ddots & \ddots & \vdots \\ & & & \delta_{n-1} & \gamma_n
+		\end{pmatrix}\] 
+		whose eigenvalues approximate those of $A$.
+		\item In general, the Lanczos algorithm computes a decomposition
+		\begin{equation*}
+			AQ_n = Q_nT_n + \delta_{n}\mathbf{q_{n+1}}\mathbf{e_n}^T
+		\end{equation*}
+	\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]{Outline}
+	\frametitle{Overview of Spectral Transformation}
+	\begin{itemize}
+		\item Spectral Transformation is a technique that is used to modify the spectrum of a matrix in a controlled way.
+		\item It is usually done to improve convergence for an algorithm or to make certain matrix properties more accessible.
+		\item For a standard eigenvalue problem
+		\begin{equation*}
+			A\mathbf{v} = \lambda \mathbf{v},\qquad \mathbf{v} \neq \mathbf{0}
+		\end{equation*}
+		It transforms the problem into a shifted and inverted version
+		\begin{equation*}
+			(A - \sigma I)^{-1} \mathbf{v} = \frac{1}{\lambda - \sigma} \mathbf{v}, \qquad \mathbf{v} \neq \mathbf{0}
+		\end{equation*}
+		where $\sigma \in \mathbb{R}$ is the shift.
+		\item Shifting makes the eigenvalues near $\sigma$ more prominent in the new spectrum and also has the advantage that it preserves eigenvectors.
+		\item  One can apply a direct or an iterative method to the shifted and inverted problem.
+		\item Ideal when focusing on eigenvalues near a specified shift $\sigma$.
+		\item  For the generalized eigenvalue problem involving \textbf{general matrices}
+		\begin{equation*}
+			A\mathbf{v} = \lambda B\mathbf{v}, \qquad \mathbf{v} \neq \mathbf{0}
+		\end{equation*}
+		The spectral transformed problem will be
+		\begin{equation*}
+			(A - \sigma B)^{-1}B\mathbf{v} = \frac{1}{\lambda - \sigma}\mathbf{v}, \qquad \mathbf{v} \neq \mathbf{0}
+		\end{equation*} 
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{More on the $QZ$ Algorithm\comm{also remove}}
-
-  \begin{itemize}
-  \item The errors satisfy $\|E\| = O(u)\|A\|$ and
-    $\|F\| = O(u)\|B\|$, where $u$ is the unit roundoff.
-    ($u\approx 10^{-16}$ for double precision.)
-  \item The pairs $(\alpha_{i},\beta_{i})$ are exact generalized
-    eigenvalues of matrices close to $A$ and $B$.
-  \item The algorithm is much slower than the standard algorithm.
-  \item Unfortunately $E$ and $F$ are not guaranteed to be symmetric
-    even when $A$ and $B$ are.  The computed eigenvalues can even have
-    imaginary parts that are not small.  Simply truncating the imaginary
-    part does not give satisfactory results.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Diagonalization Using Congruences \\
-  S. Chandrasekaran 2000\comm{remove}}
-
-\begin{block}{Diagonalization}
-  For the symmetric definite problem there exists nonsingular $Z$ such that
-  \begin{equation*}
-    A = Z D_a Z^\T, \qquad B = Z D_b Z^\T.
-  \end{equation*}
-  If $\alpha_i$ and $\beta_i$ are the diagonal elements of $D_a$ and
-  $D_b$, then the generalized eigenvalues are $(\alpha_i, \beta_i)$ or
-  $\lambda_i = \alpha_i/ \beta_i$.  The eigenvectors are the columns
-  of $V= Z^{-\T}$.
-\end{block}
-
-\begin{itemize}
-\item It can be shown that $V=Z^{-\T}$ is a good eigenvector matrix.
-\item It is as close to ideal numerically as any current algorithm.
-\item It involves solving multiple ordinary eigenvalue problems and its
-  complexity is not proven to be $O(n^3)$.
-\end{itemize}
+	\frametitle{Spectral Transformation for the Symmetric-Definite Problem}
+	\begin{itemize}
+		\item  For a symmetric-definite generalized eigenvalue problem $(A - \sigma B)^{-1}B$ is not \textbf{symmetric}!
+		\item Can we obtain a symmetric formulation with the spectral transformation? \textbf{YES!}
+		\item Spectral Transformation when applied to a symmetric-definite generalized eigenvalue problem, can be designed to preserve symmetry by employing a symmetric decomposition of $B$.
+		\item We explore this in detail.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Spectral Transformation Lanczos
-    [T. Ericsson and A. Ruhe, 1980]\comm{add a slide before this one describing the spectral transformation more generally for the standard eigenvalue problem and the nonsymmetric problem; you had that in your thesis and I think it is helpful here.}}
+    [T. Ericsson and A. Ruhe, 1980]}
 
   \begin{lemma}
     \label{lm:spectral_transformation}
@@ -358,12 +335,12 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle {Interesting Questions\comm{you refer to residual bounds for
-      direct methods.  I would also point out here, before mentioning residual
-      bounds, that such bounds were proven in my paper for the direct method.}}
+  \frametitle {Interesting Questions}
 	\begin{center}
 		\begin{itemize}
-                \item \large Do the residual bounds proven for a direct method \rep{apply}{applies} when an iterative method is used for the spectral transformed problem?
+				\item Residual bounds were proven for the direct method by [Michael Stewart,
+				2024], which employs spectral transformation.
+                \item \large Do these residual bounds proven apply when an iterative method is used for the spectral transformed problem?
 			\item \large Does the spectral transformed problem respects symmetry in the decomposition of $A - \sigma B$?
 		\end{itemize}
 	\end{center}
@@ -373,14 +350,13 @@
 	\frametitle{What is our approach?}
 	\begin{itemize}
 		\item Apply the Lanczos algorithm to the spectral problem
-		\item Investigate if the residuals for the computed eigenvalues follows the bounds for the direct methods in terms of the choice of shift\rep{.}{?}
-		\item Explore the effect of \rep{preserving symmetry in
-                    the}{symmetric} decomposition of $A- \sigma B$ on residuals
+		\item Investigate if the residuals for the computed eigenvalues follows the bounds for the direct methods in terms of the choice of shift.
+		\item Explore the effect of preserving symmetry in the decomposition of $A- \sigma B$ on residuals.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
-	\frametitle{Spectral Transformation Lanczos Algorithm\comm{You could really use a slide before this of math describing the Lanczos algorithm and the Lanczos decomposition, along with the Lanczos decomposition error that you reference in a later slide.  I didn't know about the allowframebreaks option.  That's good to know.}}
+	\frametitle{Spectral Transformation Lanczos Algorithm}
 	
 	\begin{algorithmic}[1]
 		\Function{\textsc{Spectral\_Lanczos}}{$A, B, m, n, \sigma, tol$}
@@ -406,7 +382,7 @@
 		\State $\mathbf{q}_{j+1} := \mathbf{v} / \beta_{j}$
 		\EndIf
 		\EndFor
-		\State $Q = Q[:, :n]$\comm{I would use $Q[:, 1:n]$.  The notation $:n$ is very specific to Python and not widely used in pseudocode.}
+		\State $Q = Q[:, 1:n]$
 		\State $\mathbf{q} = Q[:, n]$
 		\State \Return $(Q, T, \mathbf{q})$
 		\EndFunction
@@ -475,7 +451,7 @@
       \eta^2 \|X\|_2^2 \leq 
       \left(1 + \frac{1}{1}\right) \frac{1}{\min_i \left| 1 + \frac{|\lambda_i|}{|\sigma|}\right|} \leq 2
     \end{equation*}
-    \added{This is a very common special case in structural engineering.}
+   This is a very common special case in structural engineering.
 
   \end{itemize}
 \end{frame}
@@ -549,13 +525,20 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Setting up a Generalized Eigenvalue Problem I\comm{You could add
-      a slide before this one reminding the audience that we want to see to
-      what extent the residual bounds from the previous slides might transfer
-      over to the ST Lanczos algorithm.}}
+	\frametitle{Do these residual bounds applies to the ST Lanczos Algorithm?}
+	\begin{itemize}
+		\item We have previously reviewed the residual bounds for a direct method.
+		\item \textit{To what extent do these bounds carry over to the Spectral Transform Lanczos algorithm?}
+		\item Understanding how residual behaviour translates helps validate ST Lanczos in practice.
+		\item Guides us in accessing convergence and numerical stability.
+	\end{itemize}
+\end{frame}
 
-	Given a diagonal matrix $D \in \mathbb{R}^{m \times m}$ with predefined eigenvalues, and regularization hyperparameter $\delta$, the following algorithm sets up a generalized eigenvalue problem
-		\begin{algorithmic}[1]
+\begin{frame}
+  \frametitle{Setting up a Generalized Eigenvalue Problem}
+
+	Given a diagonal matrix $D \in \mathbb{R}^{m \times m}$ with predefined eigenvalues, and a regularization hyperparameter $\delta$, the following algorithm sets up a generalized eigenvalue problem
+	\begin{algorithmic}[1]
 		\Function{\textsc{Generate\_Matrix}}{$D, \delta$}
 		\State Set $m$ = \texttt{size}($D$)
 		\State $Q$, \_\_ = \texttt{qr}(random.randn($m$, $m$))
@@ -569,19 +552,28 @@
 	\end{algorithmic}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Setting up a Generalized Eigenvalue Problem II\comm{I think it is important to include the subranges.  The ones that are farther away are lead to a lot of nonconverged Ritz pairs in the graphs, so you might want to point that out.}}
+\begin{frame}[allowframebreaks]{Outline}
+  \frametitle{Numerical Experiments}
   \begin{itemize}
-  \item Generate a diagonal matrix $D \in \mathbb{R}^{3000 \times 3000}$ of eigenvalues in the range $(10^{-3}, 10^7)$
-  \item Set regularization hyperparameter $\delta = 10^1$
+  \item Generate a diagonal matrix $D \in \mathbb{R}^{3000 \times 3000}$ of eigenvalues using a uniform distribution in the range $(10^{-3}, 10^7)$
+  \item $D$ is composed of $3$ groups of eigenvalues with the following subranges
+  \begin{enumerate}
+  	\item Group 1 contains $1000$ eigenvalues in the range $(10^{-3}, 10^1)$
+  	\item Group 2 contains $1000$ eigenvalues in the range $(10^{1}, 10^3)$
+  	\item Group 3 contains $1000$ eigenvalues in the range $(10^{3}, 10^7)$
+  \end{enumerate}
+  
+  \item Set regularization hyperparameter $\delta = 10^{-3}$(\textit{ill-conditioned}).
+  
   \item Generate matrices $A$ and $B$ with $\texttt{GENERATE\_MATRIX}$ function so that 
-    \begin{equation*}
-      \kappa_2(A) = 5.96\times 10^{11}, \qquad \|A\|_2 = 1.18\times 10^{11}
-    \end{equation*}
-    \begin{equation*}
-      \kappa_2(B) = 8.09\times 10^{2}, \eqand \|B\|_2 = 1.34 \times 10^{5}.
-    \end{equation*}\comm{What is the condition of $A-\sigma B$?  That is more important than any of the other condition numbers.}
-   \item Both matrices are positive definite with their eigenvalues $\Lambda(A, B)$ equal to the diagonal elements of $D$.
+    \begin{align*}
+      &\kappa_2(A) = 4.25\times 10^{15}, \qquad \|A\|_2 = 1.17\times 10^{11}\\
+      &\kappa_2(B) = 8.08\times 10^{6}, \qquad \|B\|_2 = 1.34 \times 10^{5}
+    \end{align*}
+   \pagebreak
+   \item Both matrices $A$ and $B$ are positive definite with their eigenvalues $\Lambda(A, B)$ equal to the diagonal elements of $D$.
+   \item We run Lanczos algorithm for $n=2000$ iterations.
+   \item We use a tolerance of $10^{-9}$ for the Ritz pair convergence for all experiments.
   \end{itemize}
 \end{frame}
 
@@ -610,42 +602,21 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Standard Algorithm\comm{This is a bit awkward, since you didn't
-      run the standard reduction with the Lanczos algorithm and $B$ is actually
-      kind of well conditioned here, so if you ran it for the same problem, you
-      would get excellent results.  I'm actually worried about the condition of
-      $B$.  At some point I thought it was closer to $10^{5}$.  It needs to be
-      larger than 800 for the experiments to be meaningful.}}
-
-
-  \begin{figure}
-    \caption{Relative Residual vs. $\pm \lambda$, Standard Algorithm}
-    \label{fig:standard}
-    \vspace{1ex}
-    \begin{tabular}{lr}
-      \includegraphics[scale=.25]{./images/pl1_standard.png} 
-      & \includegraphics[scale=.25]{./images/pl1_standard_cond.png}
-    \end{tabular}
-  \end{figure}
-\end{frame}
-
-
 \begin{frame}[allowframebreaks]{Outline}
-  \frametitle{Spectral Transformation Lanczos($LU$ Decomposition)}
+  \frametitle{$LU$ Decomposition (Moderate Shift with ill-conditioning)}
   
   \begin{figure}
-  	\caption{Residuals plot with moderate shift $\sigma=1.5 \times 10^3$}
+  	\caption{Residual plot with moderate shift $\sigma=1.5 \times 10^3$ and  $\kappa_2(A- \sigma B) = 5.5\times 10^{12}$}
   	\vspace{1ex}
   	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
   		\centering
-  		\includegraphics[scale=.25]{./Plots/LU/residual_lu_gs.png}
+  		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_mod_shift.png}
   		\subcaption{}
   	\end{minipage}%
   	\hfill
   	\begin{minipage}{0.45\textwidth}
   		\centering
-  		\includegraphics[scale=.25]{./Plots/LU/residual_lu_rs.png}
+  		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/ritz_residual_mod_shift.png}
   		\subcaption{}
   	\end{minipage}
   	
@@ -655,81 +626,166 @@
   	\includegraphics[scale=.25]{./Plots/LU/residual_lu_bs.png}
   	\subcaption{}
   \end{figure}
- 
+  The computation gave a Lanczos decomposition residual of $1.30 \times 10^{-7}$. Plot ($a$) shows the generalized relative residual. The curve is approximation of the plot of $10^{-12}|1-\lambda_i/\sigma|$. Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Outline}
+	\frametitle{$LU$ Decomposition (Large Shift with ill-conditioning)}
+	
+	 \begin{figure}
+		\caption{Residual plot with large shift $\sigma=1.5 \times 10^6$ and $\kappa_2(A- \sigma B) = 3.10\times 10^{8}$}
+		\vspace{1ex}
+		\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
+			\centering
+			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_large_shift.png}
+			\subcaption{}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/ritz_residual_large_shift.png}
+			\subcaption{}
+		\end{minipage}
+		
+		\vspace{2ex}  % Adjust the space between rows of images
+		
+		\centering % 
+		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/presentation/Plots/LU/residual_lu_bl.png}
+		\subcaption{}
+	\end{figure}
+	For a large shift, we obtain a Lanczos decomposition residual of as $6.14 \times 10^{-10}$. Plot ($a$) shows the generalized relative residual with the curve approximately given by
+	$10^{-14}|(1-\lambda_i/\sigma)(1-\sigma/\lambda_i)|$. Plot ($b$) is the relative Ritz residuals. Plot ($c$) shows that eigenvalues that several orders of magnitude smaller than the shift cannot achieve a small residuals, except for those close to the shift.
+\end{frame}
   
-  The computation gave the decomposition residual as $6.63 \times 10^{-11}$. Plot ($a$) is the generalized relative residual with the curve given by
-  $10^{-14}|1-\lambda_i/\sigma|$. \comm{I don't see a curve here.  Just the points representing eigenvalue residuals.  The curves would be nice to see both here and in the thesis.  You can change the factor $10^{-14}$ to place the curve near the points but not covered by them.}  Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
-\end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
-  \frametitle{Spectral Transformation Lanczos($LU$ Decomposition)}
+  \frametitle{Eigenvalue Decomposition (Moderate Shift with ill-conditioning)}
 
 \begin{figure}
-	\caption{Residuals plot with large shift $\sigma=1.5 \times 10^5$}
+	\caption{Residual plot with moderate shift $\sigma=1.5 \times 10^3$ and  $\kappa_2(A- \sigma B) = 5.5\times 10^{12}$}
 	\vspace{1ex}
 	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 		\centering
-		\includegraphics[scale=.25]{./Plots/LU/residual_lu_gl.png}
+		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_mod_shift.png}
 		\subcaption{}
 	\end{minipage}%
 	\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering
-		\includegraphics[scale=.25]{./Plots/LU/residual_lu_rl.png}
+		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/ritz_residual_mod_shift.png}
 		\subcaption{}
 	\end{minipage}
 	
 	\vspace{2ex}  % Adjust the space between rows of images
 	
 	\centering
-	\includegraphics[scale=.25]{./Plots/LU/residual_lu_bl.png}
+	\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/presentation/Plots/eigdecomp/residual_eig_bs.png}
 	\subcaption{}
 \end{figure}
-
-  The computation gave the decomposition residual as $5.42 \times 10^{-12}$. Plot ($a$) is the generalized relative residual with the curve given by
- $10^{-15}|(1-\lambda_i/\sigma)(1-\sigma/\lambda_i)|$. Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
+For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10^{-27}$ which is significantly lower than that of a non-symmetric decomposition.  Plot ($a$) shows the generalized relative residual. The curve is approximately a plot of $10^{-15}|1-\lambda_i/\sigma|$. Eigenvalues not much lower than the shift achieves a residual of unit precision ($ u \approx 10^{-16}$). Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows the best achievable residual for an idealized eigenvector.
 \end{frame}
 
 
 \begin{frame}[allowframebreaks]{Outline}
-	\frametitle{ST Lanczos with Eigenvalue Decomposition}
+	\frametitle{Eigenvalue Decomposition (Large Shift with ill-conditioning}
 	
 \begin{figure}
-	\caption{Residuals plot with small shift $\sigma=1.5 \times 10^3$}
+	\caption{Residual plot with large shift $\sigma=1.5 \times 10^6$ and $\kappa_2(A- \sigma B) = 3.10\times 10^{8}$}
 	\vspace{1ex}
 	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 		\centering
-		\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_gs.png}
+		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_large_shift.png}
 		\subcaption{}
 	\end{minipage}%
 	\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering
-		\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_rs.png}
+		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/ritz_residual_large_shift.png}
 		\subcaption{}
 	\end{minipage}
 	
 	\vspace{2ex}  % Adjust the space between rows of images
 	
 	\centering
-	\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bs.png}
+	\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/presentation/Plots/eigdecomp/residual_eig_bl.png}
 	\subcaption{}
 \end{figure}
-	
-	The computation gave the decomposition residual to the order of $10^{-29}$. Plot ($a$) is the generalized relative residual which shows lower residual to the order of unit round off $u \approx10^{-16}$ for eigenvalues close the shift as compared to an $LU$ decomposition. Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
+	For a large shift, we obtain a Lanczos decomposition residual of order $10^{-32}$. Plot ($a$) shows the generalized relative residual. Eigenvalues of orders of magnitude smaller than the shift achieves large residuals, with those close to eh shift achieving small residuals. Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows that eigenvalues that are several orders of magnitude smaller than the shift cannot achieve a large residual, except for those close to the shift.
 \end{frame}
+
+
 \begin{frame}
-  \frametitle{Pros and Cons\comm{There should be a slide discussing how the error bounds for the dense problem match the graphs.  You have material on that in the thesis.  Some of the points below are really only relevant for the direct method.}}
+	\frametitle{Does the conditioning of $A-\sigma B$ affects stability?}
+	\begin{itemize}
+		\item Does conditioning affects stability for a symmetric decomposition and $LU$ decomposition?
+		\item Does conditioning affects the residual bounds?
+		\item  Set $\delta = 10^{-12}$ to increase the conditioning of $A-\sigma B$ and compare generalized residuals for a moderate shift $\sigma = 1.5\times 10^3$ with those obtained when $\delta = 10^{-3}$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+	\frametitle{Eigenvalue Decomposition \textemdash More Conditioning}
+	
+	\begin{figure}
+		\caption{Residual plot comparison with a moderate shift $\sigma = 1.5\times 10^3$}
+		\vspace{1ex}
+		\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
+			\centering
+			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_ill_cond.png}
+			\subcaption{}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/WDW/gen_residual_well_cond.png}
+			\subcaption{}
+		\end{minipage}
+	\end{figure}
+	\pagebreak
+	Plot ($a$) shows the residual plot for $\kappa_2(A-\sigma B) = 3.75 \times 10^{18}$ while Plot ($b$) shows the residual plot for $\kappa_2(A- \sigma B) = 5.5\times 10^{12}$. Eigenvalues not much smaller than $\sigma$ delivers small residuals in both cases, which is as expected by the residual bounds, indicating that the symmetric decomposition is stable.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Outline}
+	\frametitle{$LU$ Decomposition \textemdash More Conditioning}
+	
+	\begin{figure}
+	\caption{Residual plot comparison with a moderate shift $\sigma = 1.5\times 10^3$}
+	\vspace{1ex}
+	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
+		\centering
+		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_ill-cond.png}
+		\subcaption{}
+	\end{minipage}%
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.25]{/home/ayobami/ayobami_thesis/code/plots/LU/gen_residual_mod_shift.png}
+		\subcaption{}
+	\end{minipage}
+\end{figure}
+\pagebreak
+	Plot ($a$) shows the residual plot for $\kappa_2(A-\sigma B) = 3.75 \times 10^{18}$ while Plot ($b$) shows the residual plot for $\kappa_2(A- \sigma B) = 5.5\times 10^{12}$. It is observed that residual bounds were greatly affected by the conditioning of the system as seen from Plot ($a$). This implies that non-symmetric factorization of $A-\sigma B$ does not stablize the Lanczos process.
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Summary}
+	\begin{itemize}
+		\item Moderate shift $\sigma$ that is not too close to a generalized eigenvalue will guarantee small residuals for eigenvalues not much larger than $\sigma$, but a large shift will result in having
+		small residuals only for eigenvalues near $\sigma$. This is what we expect from the residual bounds for direct methods.
+		\item Symmetric factorization stabilizes the ST-Lanczos algorithm.
+		\item Stability of non-symmetric factorization depends on the conditioning of $A-\sigma B$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pros and Cons}
   
   {\bf Pros:}
   \begin{itemize}
   \item The algorithm is fast for sparse matrices since it uses Lanczos
     algorithm which is $O(nm^2 + n^2m)$.
   \item It is efficient in computing a subset of eigenvalues, making it memory efficient.
-  \item \del{Since all the work is done in matrix decompositions that are
-    implemented in LAPACK, the algorithm is almost as fast as the
-    standard method and is easy to implement efficiently, even in a
-    slow language.}
   \item With a little effort, it can be designed to handles the case of
     semidefinite $B$ effectively.
   \item Delivers really small residuals for symmetric decompositions.
@@ -738,9 +794,20 @@
   {\bf Cons:}
   \begin{itemize}
   \item The eigenvector computation is not unconditionally stable.
-  \item \del{Choosing the shift annoying, even if it is relatively easy to
-    choose, especially if one wants a black box algorithm.}\comm{This is mostly relevant to the direct method.}
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Future work}
+	\begin{itemize}
+		\item Provide a mathematical justification for the improved stability of spectral transformation methods when a symmetric factorization of $A-\sigma B$ is used.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+		\Huge{Thank you!}
+	\end{center}
 \end{frame}
 
 \end{document}
