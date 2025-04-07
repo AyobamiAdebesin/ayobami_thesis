@@ -200,9 +200,9 @@
 \begin{frame}
 	\frametitle{Other Algorithms}
 	\begin{itemize}
-        \item $QZ$ Algorithm, (C. B. Moler and G. W. Stewart, 1972) - Useful for non-symmetric dense problems. So it is not suitable for sparse symmetric problems since it does not preserve symmetry. It is \added{stable but} also \rep{relatively}{very} slow.
+        \item $QZ$ Algorithm, (C. B. Moler and G. W. Stewart, 1972) - Useful for non-symmetric dense problems. So it is not suitable for sparse symmetric problems since it does not preserve symmetry. It is stable but also relatively slow.
 		
-        \item Simultaneous Diagonalization of $A$ and $B$, (S. Chandrasekaran 2000) - Uses \rep{simultaneous}{simulatenous} diagonalization of $A$ and $B$ using congruence to compute eigenvalues. It is slow and \rep{of uncertain stability}{expensive.}
+        \item Simultaneous Diagonalization of $A$ and $B$, (S. Chandrasekaran, 2000) - Uses simultaneous diagonalization of $A$ and $B$ using congruence to compute eigenvalues. It is slow and of uncertain stability.
 	\end{itemize}
 \end{frame}
 
@@ -341,7 +341,7 @@
 				\item Residual bounds were proven for the direct method by [Michael Stewart,
 				2024], which employs spectral transformation.
                 \item \large Do these residual bounds proven apply when an iterative method is used for the spectral transformed problem?
-			\item \large \rep{How does symmetry in the decomposition of $A-\sigma B$ impact the spectral transformation Lanczos algorithm?}{Does the spectral transformed problem respects symmetry in the decomposition of $A - \sigma B$?}
+			\item \large How does symmetry in the decomposition of $A-\sigma B$ impact the spectral transformation Lanczos algorithm?
 		\end{itemize}
 	\end{center}
 \end{frame}
@@ -710,7 +710,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bl.png}
 	\subcaption{}
 \end{figure}
-	For a large shift, we obtain a Lanczos decomposition residual of order $10^{-32}$. Plot ($a$) shows the generalized relative residual. Eigenvalues of orders of magnitude smaller than the shift achieves large residuals, with those close to eh shift achieving small residuals. Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows that eigenvalues that are several orders of magnitude smaller than the shift cannot achieve a large residual, except for those close to the shift.
+	For a large shift, we obtain a Lanczos decomposition residual of order $10^{-32}$. Plot ($a$) shows the generalized relative residual. Eigenvalues of orders of magnitude smaller than the shift achieves large residuals, with those close to the shift achieving small residuals. Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows that eigenvalues that are several orders of magnitude smaller than the shift cannot achieve a large residual, except for those close to the shift.
 \end{frame}
 
 
@@ -718,7 +718,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\frametitle{Does the conditioning of $A-\sigma B$ affects stability?}
 	\begin{itemize}
 		\item Does conditioning affects stability for a symmetric decomposition and $LU$ decomposition?
-		\item Does conditioning \rep{affect}{affects} the residual bounds?
+		\item Does conditioning affect the residual bounds?
 		\item  Set $\delta = 10^{-12}$ to increase the conditioning of $A-\sigma B$ and compare generalized residuals for a moderate shift $\sigma = 1.5\times 10^3$ with those obtained when $\delta = 10^{-3}$
 	\end{itemize}
 \end{frame}
@@ -793,7 +793,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 
   {\bf Cons:}
   \begin{itemize}
-  \item The \added{generalized} eigenvector computation is not unconditionally stable.
+  \item The generalized eigenvector computation is not unconditionally stable.
   \end{itemize}
 \end{frame}
 
