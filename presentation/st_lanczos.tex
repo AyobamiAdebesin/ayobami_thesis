@@ -235,7 +235,7 @@
 		\item Iterative method for finding eigenvalues and eigenvectors of symmetric matrices that works by transforming the matrix into a smaller tridiagonal matrix that retains the extremal spectral properties of the original matrix
 		\item Builds an orthonormal basis of the Krylov subspace associated with the matrix.
 		\item The basis is constructed iteratively, with vectors $\mathbf{q}_1, \mathbf{q}_2, \ldots \mathbf{q}_n$ formed during $n$ iterations, and stacked together to form an orthogonal matrix: $Q_n = [\mathbf{q}_1 | \mathbf{q}_2 | \ldots | \mathbf{q}_n]$
-		\item For a symmetric matrix $A \in \mathbb{R}^{m\times m}$ and an initial vector $\mathbf{v}_1$, the algorithm constructs the $n$-dimnensional Krylov subspace
+		\item For a symmetric matrix $A \in \mathbb{R}^{m\times m}$ and an initial vector $\mathbf{v}_1$, the algorithm constructs the $n$-dimensional Krylov subspace
 		\begin{equation*}
 			\mathcal{K}_n(A, \mathbf{v}_1) = \text{span}(\{\mathbf{v}_1, A\mathbf{v}_1, A^2\mathbf{v}_1, \ldots, A^{n-1}\mathbf{v}_1\}).
 		\end{equation*}
@@ -341,19 +341,20 @@
 				\item Residual bounds were proven for the direct method by [Michael Stewart,
 				2024], which employs spectral transformation.
                 \item \large Do these residual bounds proven apply when an iterative method is used for the spectral transformed problem?
-			\item \large How does symmetry in the decomposition of $A-\sigma B$ impact the spectral transformation Lanczos algorithm?
+			\item \large How does \emph{symmetry} in the decomposition of $A-\sigma B$ impact the spectral transformation Lanczos algorithm?
+			\item By symmetry, we mean decompositions like $A-\sigma B = WDW^T$ (eigenvalue decomposition) or $A-\sigma B=LDL^T$ ($LDL^T$ decomposition).
 		\end{itemize}
 	\end{center}
 \end{frame}
 
-\begin{frame}
-	\frametitle{What is our approach?}
-	\begin{itemize}
-		\item Apply the Lanczos algorithm to the spectral problem
-		\item Investigate if the residuals for the computed eigenvalues follows the bounds for the direct methods in terms of the choice of shift.
-		\item Explore the effect of preserving symmetry in the decomposition of $A- \sigma B$ on residuals.
-	\end{itemize}
-\end{frame}
+%\begin{frame}
+%	\frametitle{What is our approach?}
+%	\begin{itemize}
+%		\item Apply the Lanczos algorithm to the spectral problem
+%		\item Investigate if the residuals for the computed eigenvalues follows the bounds for the direct methods in terms of the choice of shift.
+%		\item Explore the effect of preserving symmetry in the decomposition of $A- \sigma B$ on residuals.
+%	\end{itemize}
+%\end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
 	\frametitle{Spectral Transformation Lanczos Algorithm}
@@ -363,13 +364,12 @@
 		\State Choose an arbitrary vector $\mathbf{b}$ and set an initial vector $\mathbf{q_1} = \mathbf{b}/ \|\mathbf{b}\|_2$
 		\State Set $\beta_0 = 0$ and $\mathbf{q_0} = \mathbf{0}$
 		\State Set $Q = \text{zeros}(m, n+1)$
-		\State Precompute the $LU$ factorization of $A - \sigma B$: $LU = (A - \sigma B)$
+		\State Precompute the $LU$ or $WDW^T$ factorization of $A - \sigma B$: $LU = (A - \sigma B)$
 		\State Factor: $B = CC^T$
 		\For{$j = 1, 2, \dots, n$}
 		\State $Q[:, j] = \mathbf{q}_j$
 		\State $\mathbf{u} = C\mathbf{q}_j$
 		\State Solve: $(LU)\mathbf{v} = \mathbf{u}$ for $\mathbf{v}$
-		\pause
 		\State $\mathbf{v} = C^T \mathbf{v}$
 		\If{$j < n $}
 		\State $\alpha_j = \mathbf{q}_j^T \mathbf{v} $
@@ -425,10 +425,10 @@
       & \leq
       \left(1 + \frac{1}{|\sigma_0|}\right)
       \frac{\mu}{\min_i \left| 1 - \frac{\lambda_i}{\sigma}\right|} \\
-      & = 
-        (1 + |\sigma_0|)
-        \frac{\mu}
-        {\min_i \left|\frac{\|B\|_2}{\|A\|_2}\lambda_i - \sigma_0\right|}.
+      %& = 
+       % (1 + |\sigma_0|)
+        %\frac{\mu}
+        %{\min_i \left|\frac{\|B\|_2}{\|A\|_2}\lambda_i - \sigma_0\right|}.
     \end{align*}
   \end{lemma}
 \end{frame}
@@ -474,7 +474,7 @@
   \end{block}
 
   If $|\sigma_0|$ is not large and $\eta^2 \|X\|_2^2$ is not large, each
-  $(1+\sigma \theta_i, \theta_i)$ is an eigenvalue of a pair close to $(A,B)$.
+  $(1+\sigma \theta_i, \theta_i)$ is an eigenvalue of a pair close to $(A,B)$. Note, that $\tilde{\vec{v}}_i$ is not the computed eigenvector.
 \end{frame}
 
 \begin{frame}
@@ -528,7 +528,7 @@
 	\frametitle{Do these residual bounds applies to the ST Lanczos Algorithm?}
 	\begin{itemize}
 		\item We have previously reviewed the residual bounds for a direct method.
-		\item \textit{To what extent do these bounds carry over to the Spectral Transform Lanczos algorithm?}
+		\item \textbf{To what extent do these bounds carry over to the Spectral Transform Lanczos algorithm?}
 		\item Understanding how residual behaviour translates helps validate ST Lanczos in practice.
 		\item Guides us in accessing convergence and numerical stability.
 	\end{itemize}
@@ -537,19 +537,7 @@
 \begin{frame}
   \frametitle{Setting up a Generalized Eigenvalue Problem}
 
-	Given a diagonal matrix $D \in \mathbb{R}^{m \times m}$ with predefined eigenvalues, and a regularization hyperparameter $\delta$, the following algorithm sets up a generalized eigenvalue problem
-	\begin{algorithmic}[1]
-		\Function{\textsc{Generate\_Matrix}}{$D, \delta$}
-		\State Set $m$ = \texttt{size}($D$)
-		\State $Q$, \_\_ = \texttt{qr}(random.randn($m$, $m$))
-		\State $C = QDQ^T$
-		\State $L_{0}$ = \texttt{tril}(\texttt{random.randn}($m$, $m$))
-		\State $B = (L_0 L_0^T) + \delta I$
-		\State $L$ = \texttt{cholesky}($B$)
-		\State $A$ = $LCL^T$
-		\State \Return ($A$, $B$)
-		\EndFunction
-	\end{algorithmic}
+	Given a diagonal matrix $D \in \mathbb{R}^{m \times m}$ with predefined eigenvalues, and a regularization hyperparameter $\delta$ that controls the conditioning of the problem, we set up a generalized eigenvalue problem with symmetric matrices $A$ and $B$, with $B$ being positive definite and $\Lambda(A, B) = D$.
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
@@ -573,7 +561,7 @@
    \pagebreak
    \item Both matrices $A$ and $B$ are positive definite with their eigenvalues $\Lambda(A, B)$ equal to the diagonal elements of $D$.
    \item We run Lanczos algorithm for $n=2000$ iterations.
-   \item We use a tolerance of $10^{-9}$ for the Ritz pair convergence for all experiments.
+   \item We use a tolerance of $10^{-9}$ for the Ritz pair convergence for all experiments. Note that this is a loose tolerance. This is used so we can observe the behaviour of non-converged eigenvalues from the graphs.
   \end{itemize}
 \end{frame}
 
@@ -596,122 +584,71 @@
    
    \item Best Residuals
    \begin{equation*}
-   	 \frac{\| C_b^T(A - \sigma B)^{-1}C_b \mathbf{u}_i - \theta_i \mathbf{u}_i \| }{( \| C_b^T(A - \sigma B)^{-1}C_b \| + \lvert \theta_i \rvert)\|\mathbf{u}_i\| }
+   	\frac{\sigma_m(\beta_i A - \alpha_i B)}{(\lvert \beta_i \rvert \|A\| + \lvert \alpha_i \rvert \|B\|)}
    \end{equation*}
    
   \end{itemize}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Outline}
-  \frametitle{$LU$ Decomposition (Moderate Shift with ill-conditioning)}
-  
-  \begin{figure}
-  	\caption{Residual plot with moderate shift $\sigma=1.5 \times 10^3$ and  $\kappa_2(A- \sigma B) = 5.5\times 10^{12}$}
-  	\vspace{1ex}
-  	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
-  		\centering
-  		\includegraphics[scale=.25]{../code/plots/LU/gen_residual_mod_shift.png}
-  		\subcaption{}
-  	\end{minipage}%
-  	\hfill
-  	\begin{minipage}{0.45\textwidth}
-  		\centering
-  		\includegraphics[scale=.25]{../code/plots/LU/ritz_residual_mod_shift.png}
-  		\subcaption{}
-  	\end{minipage}
-  	
-  	\vspace{2ex}  % Adjust the space between rows of images
-  	
-  	\centering
-  	\includegraphics[scale=.25]{./Plots/LU/residual_lu_bs.png}
-  	\subcaption{}
-  \end{figure}
-  The computation gave a Lanczos decomposition residual of $1.30 \times 10^{-7}$. Plot ($a$) shows the generalized relative residual. The curve is approximation of the plot of $10^{-12}|1-\lambda_i/\sigma|$. Plot ($b$) is the relative Ritz residuals. Plot ($c$) is the best achievable residual for an idealized eigenvector.
-\end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
-	\frametitle{$LU$ Decomposition (Large Shift with ill-conditioning)}
+	\frametitle{Eigenvalue Decomposition (Moderate Shift with ill-conditioning)}
 	
-	 \begin{figure}
-		\caption{Residual plot with large shift $\sigma=1.5 \times 10^6$ and $\kappa_2(A- \sigma B) = 3.10\times 10^{8}$}
+	\begin{figure}
+		\caption{Residual plot with moderate scaled shift $\sigma_0 = 0.0017$ such that $\sigma=1.5 \times 10^3$ and  $\kappa_2(A- \sigma B) = 5.5\times 10^{12}$}
 		\vspace{1ex}
 		\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 			\centering
-			\includegraphics[scale=.25]{../code/plots/LU/gen_residual_large_shift.png}
+			\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_mod_shift.png}
 			\subcaption{}
 		\end{minipage}%
 		\hfill
 		\begin{minipage}{0.45\textwidth}
 			\centering
-			\includegraphics[scale=.25]{../code/plots/LU/ritz_residual_large_shift.png}
+			\includegraphics[scale=.25]{../code/plots/WDW/ritz_residual_mod_shift.png}
 			\subcaption{}
 		\end{minipage}
 		
 		\vspace{2ex}  % Adjust the space between rows of images
 		
-		\centering % 
-		\includegraphics[scale=.25]{./Plots/LU/residual_lu_bl.png}
+		\centering
+		\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bs.png}
 		\subcaption{}
 	\end{figure}
-	For a large shift, we obtain a Lanczos decomposition residual of as $6.14 \times 10^{-10}$. Plot ($a$) shows the generalized relative residual with the curve approximately given by
-	$10^{-14}|(1-\lambda_i/\sigma)(1-\sigma/\lambda_i)|$. Plot ($b$) is the relative Ritz residuals. Plot ($c$) shows that eigenvalues that several orders of magnitude smaller than the shift cannot achieve a small residuals, except for those close to the shift.
-\end{frame}
-  
-
-\begin{frame}[allowframebreaks]{Outline}
-  \frametitle{Eigenvalue Decomposition (Moderate Shift with ill-conditioning)}
-
-\begin{figure}
-	\caption{Residual plot with moderate shift $\sigma=1.5 \times 10^3$ and  $\kappa_2(A- \sigma B) = 5.5\times 10^{12}$}
-	\vspace{1ex}
-	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
-		\centering
-		\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_mod_shift.png}
-		\subcaption{}
-	\end{minipage}%
-	\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering
-		\includegraphics[scale=.25]{../code/plots/WDW/ritz_residual_mod_shift.png}
-		\subcaption{}
-	\end{minipage}
-	
-	\vspace{2ex}  % Adjust the space between rows of images
-	
-	\centering
-	\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bs.png}
-	\subcaption{}
-\end{figure}
-For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10^{-27}$ which is significantly lower than that of a non-symmetric decomposition.  Plot ($a$) shows the generalized relative residual. The curve is approximately a plot of $10^{-15}|1-\lambda_i/\sigma|$. Eigenvalues not much lower than the shift achieves a residual of unit precision ($ u \approx 10^{-16}$). Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows the best achievable residual for an idealized eigenvector.
+	For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10^{-27}$ which is significantly lower than that of a non-symmetric decomposition.  Plot ($a$) shows the generalized relative residual. The curve is approximately a plot of $10^{-15}|1-\lambda_i/\sigma|$. Eigenvalues not much lower than the shift achieves a residual of unit precision ($ u \approx 10^{-16}$). Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows the best achievable residual for an idealized eigenvector.
 \end{frame}
 
 
 \begin{frame}[allowframebreaks]{Outline}
 	\frametitle{Eigenvalue Decomposition (Large Shift with ill-conditioning}
 	
-\begin{figure}
-	\caption{Residual plot with large shift $\sigma=1.5 \times 10^6$ and $\kappa_2(A- \sigma B) = 3.10\times 10^{8}$}
-	\vspace{1ex}
-	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
+	\begin{figure}
+		\caption{Residual plot with a large scaled shift $\sigma_0 = 1.72$ such that $\sigma=1.5 \times 10^6$ and $\kappa_2(A- \sigma B) = 3.10\times 10^{8}$}
+		\vspace{1ex}
+		\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
+			\centering
+			\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_large_shift.png}
+			\subcaption{}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}{0.45\textwidth}
+			\centering
+			\includegraphics[scale=.25]{../code/plots/WDW/ritz_residual_large_shift.png}
+			\subcaption{}
+		\end{minipage}
+		
+		\vspace{2ex}  % Adjust the space between rows of images
+		
 		\centering
-		\includegraphics[scale=.25]{../code/plots/WDW/gen_residual_large_shift.png}
+		\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bl.png}
 		\subcaption{}
-	\end{minipage}%
-	\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering
-		\includegraphics[scale=.25]{../code/plots/WDW/ritz_residual_large_shift.png}
-		\subcaption{}
-	\end{minipage}
-	
-	\vspace{2ex}  % Adjust the space between rows of images
-	
-	\centering
-	\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bl.png}
-	\subcaption{}
-\end{figure}
+	\end{figure}
 	For a large shift, we obtain a Lanczos decomposition residual of order $10^{-32}$. Plot ($a$) shows the generalized relative residual. Eigenvalues of orders of magnitude smaller than the shift achieves large residuals, with those close to the shift achieving small residuals. Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows that eigenvalues that are several orders of magnitude smaller than the shift cannot achieve a large residual, except for those close to the shift.
 \end{frame}
+
+%========================================================================================================================================
+%========================================================================================================================================
+%========================================================================================================================================
 
 
 \begin{frame}
@@ -719,7 +656,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\begin{itemize}
 		\item Does conditioning affects stability for a symmetric decomposition and $LU$ decomposition?
 		\item Does conditioning affect the residual bounds?
-		\item  Set $\delta = 10^{-12}$ to increase the conditioning of $A-\sigma B$ and compare generalized residuals for a moderate shift $\sigma = 1.5\times 10^3$ with those obtained when $\delta = 10^{-3}$
+		\item  Set $\delta = 10^{-12}$ to increase the conditioning of $A-\sigma B$ and compare generalized residuals for a moderately scaled shift $\sigma_0 = 0.0017$.
 	\end{itemize}
 \end{frame}
 
@@ -727,7 +664,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\frametitle{Eigenvalue Decomposition \textemdash More Conditioning}
 	
 	\begin{figure}
-		\caption{Residual plot comparison with a moderate shift $\sigma = 1.5\times 10^3$}
+		\caption{Residual plot comparison with a moderate shift $\sigma_0 = 0.0017$ such that $\sigma = 1.5\times 10^3$}
 		\vspace{1ex}
 		\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 			\centering
@@ -749,7 +686,7 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\frametitle{$LU$ Decomposition \textemdash More Conditioning}
 	
 	\begin{figure}
-	\caption{Residual plot comparison with a moderate shift $\sigma = 1.5\times 10^3$}
+	\caption{Residual plot comparison with a moderately scaled shift $\sigma_0 = 0.0017$, such that $\sigma = 1.5\times 10^3$}
 	\vspace{1ex}
 	\begin{minipage}{0.45\textwidth} % Adjust the width to control spacing
 		\centering
@@ -779,25 +716,6 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 \end{frame}
 
 \begin{frame}
-  \frametitle{Pros and Cons}
-  
-  {\bf Pros:}
-  \begin{itemize}
-  \item The algorithm is fast for sparse matrices since it uses Lanczos
-    algorithm which is $O(nm^2 + n^2m)$.
-  \item It is efficient in computing a subset of eigenvalues, making it memory efficient.
-  \item With a little effort, it can be designed to handles the case of
-    semidefinite $B$ effectively.
-  \item Delivers really small residuals for symmetric decompositions.
-  \end{itemize}
-
-  {\bf Cons:}
-  \begin{itemize}
-  \item The generalized eigenvector computation is not unconditionally stable.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
 	\frametitle{Future work}
 	\begin{itemize}
 		\item Provide a mathematical justification for the improved stability of spectral transformation methods when a symmetric factorization of $A-\sigma B$ is used.
@@ -808,6 +726,22 @@ For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10
 	\begin{center}
 		\Huge{Thank you!}
 	\end{center}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Outline}
+	\frametitle{Appendix}
+		\begin{algorithmic}[1]
+		\Function{\textsc{Generate\_Matrix}}{$D, \delta$}
+		\State Set $m$ = \texttt{size}($D$)
+		\State $Q$, \_\_ = \texttt{qr}(random.randn($m$, $m$))
+		\State $C = QDQ^T$
+		\State $L_{0}$ = \texttt{tril}(\texttt{random.randn}($m$, $m$))
+		\State $B = (L_0 L_0^T) + \delta I$
+		\State $L$ = \texttt{cholesky}($B$)
+		\State $A$ = $LCL^T$
+		\State \Return ($A$, $B$)
+		\EndFunction
+	\end{algorithmic}
 \end{frame}
 
 \end{document}
