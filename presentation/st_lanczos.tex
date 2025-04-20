@@ -360,31 +360,28 @@
 	\frametitle{Spectral Transformation Lanczos Algorithm}
 	
 	\begin{algorithmic}[1]
-		\Function{\textsc{Spectral\_Lanczos}}{$A, B, m, n, \sigma, tol$}
-		\State Choose an arbitrary vector $\mathbf{b}$ and set an initial vector $\mathbf{q_1} = \mathbf{b}/ \|\mathbf{b}\|_2$
-		\State Set $\beta_0 = 0$ and $\mathbf{q_0} = \mathbf{0}$
-		\State Set $Q = \text{zeros}(m, n+1)$
-		\State Precompute the $LU$ or $WDW^T$ factorization of $A - \sigma B$: $LU = (A - \sigma B)$
-		\State Factor: $B = CC^T$
+		\Function{\textsc{Spectral\_Lanczos}}{$A, B, n, \sigma, tol$}
+		\State Choose an arbitrary vector $\mathbf{b}$; set $\mathbf{q}_1 = \mathbf{b}/ \|\mathbf{b}\|_2$
+		\State Initialize $Q_n = [\mathbf{q}_1]$, $\mathbf{q}_0 = \mathbf{0}$, $\delta_0 = 0$
+		\State Initialize $\gamma = [\,], \delta = [\,]$ \Comment{Arrays for $T_n$ entries}
+		\State $LU = (A - \sigma B)$ \Comment{Precompute the $LU$ factorization}
+		\State Factor: $B = CC^T$ \Comment{Cholesky factorization}
 		\For{$j = 1, 2, \dots, n$}
-		\State $Q[:, j] = \mathbf{q}_j$
-		\State $\mathbf{u} = C\mathbf{q}_j$
-		\State Solve: $(LU)\mathbf{v} = \mathbf{u}$ for $\mathbf{v}$
-		\State $\mathbf{v} = C^T \mathbf{v}$
-		\If{$j < n $}
-		\State $\alpha_j = \mathbf{q}_j^T \mathbf{v} $
-		\State $\mathbf{v} = \mathbf{v} - \beta_{j-1}\mathbf{q}_{j-1} - \alpha_j \mathbf{q}_j$
-		\State \textbf{Full reorthogonalization:} $\mathbf{v} = \mathbf{v} - \sum_{i \leq j} (\mathbf{q}_i^T \mathbf{v}) \mathbf{q}_i$
-		\State $\beta_{j} = \|\mathbf{v}\|_2$
-		\If{$\beta_{j} < tol $}
-		\State \textbf{restart} or \textbf{exit}
+		\State $\mathbf{u} = C\mathbf{q}_j$ \Comment{Matrix vector product}
+		\State $\mathbf{v} = \textsc{LinearSolve}(LU, \mathbf{u})$ \Comment{Forward/Backward substitution}
+		\State $\mathbf{v} = C^T \mathbf{v}$ \Comment{Matrix-vector product}
+		\State $\gamma_j = \mathbf{q}_j^T \mathbf{v} $ \Comment{Diagonal entry $\gamma_j$}
+		\State $\mathbf{v} = \mathbf{v} - \delta_{j-1}\mathbf{q}_{j-1} - \gamma_j \mathbf{q}_j$ \Comment{$3$-term recurrence}
+		\State $\mathbf{v} = \mathbf{v} - \sum_{i=1}^j (\mathbf{q}_i^T \mathbf{v})\mathbf{q}_i$ \Comment{Full reorthogonalization}
+		\State $\delta_{j} = \|\mathbf{v}\|_2$ \Comment{Off-diagonal entry $\delta_{j}$}
+		\If{$\delta_{j} < tol $}
+		\State \textbf{break}
 		\EndIf
-		\State $\mathbf{q}_{j+1} := \mathbf{v} / \beta_{j}$
-		\EndIf
+		\State $\mathbf{q}_{j+1} := \mathbf{v} / \delta_{j}$
+		\State Append $\mathbf{q}_{j+1}$ to $Q_n$ and $\gamma_j$, $\delta_{j}$ to $\gamma$, $\delta$
 		\EndFor
-		\State $Q = Q[:, 1:n]$
-		\State $\mathbf{q} = Q[:, n]$
-		\State \Return $(Q, T, \mathbf{q})$
+		\State Truncate $Q_n$ to first $n$ vectors: $Q_n = [\mathbf{q}_1, \dots, \mathbf{q}_n]$
+		\State \textbf{return} $Q_n$, $\gamma$, $\delta$, $\mathbf{q}_{n+1}$
 		\EndFunction
 	\end{algorithmic}
 \end{frame}
@@ -612,7 +609,7 @@
 		\vspace{2ex}  % Adjust the space between rows of images
 		
 		\centering
-		\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bs.png}
+		\includegraphics[scale=.25]{../code/plots/WDW/best_residual_mod_shift.png}
 		\subcaption{}
 	\end{figure}
 	For a symmetric decomposition, we obtain a Lanczos decomposition residual of $10^{-27}$ which is significantly lower than that of a non-symmetric decomposition.  Plot ($a$) shows the generalized relative residual. The curve is approximately a plot of $10^{-15}|1-\lambda_i/\sigma|$. Eigenvalues not much lower than the shift achieves a residual of unit precision ($ u \approx 10^{-16}$). Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows the best achievable residual for an idealized eigenvector.
@@ -640,7 +637,7 @@
 		\vspace{2ex}  % Adjust the space between rows of images
 		
 		\centering
-		\includegraphics[scale=.25]{./Plots/eigdecomp/residual_eig_bl.png}
+		\includegraphics[scale=.25]{../code/plots/WDW/best_residual_large_shift.png}
 		\subcaption{}
 	\end{figure}
 	For a large shift, we obtain a Lanczos decomposition residual of order $10^{-32}$. Plot ($a$) shows the generalized relative residual. Eigenvalues of orders of magnitude smaller than the shift achieves large residuals, with those close to the shift achieving small residuals. Plot ($b$) shows the relative Ritz residuals. Plot ($c$) shows that eigenvalues that are several orders of magnitude smaller than the shift cannot achieve a large residual, except for those close to the shift.

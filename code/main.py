@@ -6,6 +6,7 @@ import sys, time
 from spectral_lanczos import *
 from scipy.linalg import eigh
 from scipy.sparse import diags
+
 if __name__ == "__main__":
     start = time.time()
     m1, m2, m3 = 1000, 1000, 1000
@@ -14,12 +15,12 @@ if __name__ == "__main__":
     spread3 = (10**3, 10**7)
     shift = 1.5e3
     n=2000
-    tol = 1e-10
+    tol = 1e-9
 
     D = eigenvalue_distribution_groups(m1, m2, m3, spread1, spread2, spread3)
     D = np.diag(D)
 
-    A, B, L = generate_matrix(D, delta=1e1)
+    A, B, L = generate_matrix(D, delta=1e-3)
     L = la.cholesky(B)
     T, Q, q, x = spectral_lanczos(A, B, L, m=A.shape[0], n=n, shift=shift)
     
@@ -27,8 +28,12 @@ if __name__ == "__main__":
     decomp_res = compute_decomp_residual(A=A, B=B, L=L, T=T, Q=Q, q=q, x=x, shift=shift)
 
     print(f"Condition number of A: {la.cond(A)}\n")
+    print(f"Norm of A: {la.norm(A)}\n")
     print(f"Condition number of B: {la.cond(B)}\n")
-    print(f"Decomposition residual: {decomp_res}\n")
+    print(f"Norm of B: {la.norm(B)}\n")
+    print(f"Condition number of A-sigma*B: {la.cond(A - shift*B)}\n")
+    print(f"Norm of A-sigma*B: {la.norm(A-shift*B)}\n")
+    print(f"Lanczos decomposition residual: {decomp_res}\n")
 
     # Compute the converged ritz pairs and the (spectral transformation) relative ritz residuals
     U_converged, theta_converged, ritz_residuals = compute_ritz_residuals(A, B, L, T, Q, shift, tol)
@@ -36,17 +41,17 @@ if __name__ == "__main__":
     # Compute the generalized eigenvectors and eigenvalues and the residuals for the converged ritz pairs
     gen_residuals, v, alpha, beta = compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift)
 
-    # Compute the best relative residual
-    # res = compute_best_v(A, B, alpha, beta, tol=1e-10)
+    # Compute the best relative residual using inverse iteration
+    # best_res = compute_best_v(A, B, alpha, beta, tol=1e-10)
 
-    # Compute best relative res naive
-    # Uncomment to compute the best residuals for an idealized eigenvector.
-    #res = compute_best_v_naive(A, B, alpha, beta) 
+    # Compute best residuals for an idealized eigenvector using the smallest singular value
+    # best_res = compute_best_v_naive(A, B, alpha, beta) 
 
     print(f"Number of converged Ritz pairs: {theta_converged.shape[0]}")
 
-    plot_residuals(eigenvalues=alpha/beta, residuals=la.norm(gen_residuals, axis=0), label='g', save_path='lu_gs')
-    plot_residuals(eigenvalues=theta_converged, residuals=ritz_residuals, label='r', save_path='lu_rs')
+    # plot residuals
+    plot_residuals(eigenvalues=alpha/beta, residuals=la.norm(gen_residuals, axis=0), residual_type="gen", shift=shift)
+    plot_residuals(eigenvalues=theta_converged, residuals=ritz_residuals, residual_type="ritz", shift=shift)
     #plot_residuals(eigenvalues=alpha/beta, residuals=res, label ='b', save_path='lu_bl')
    
 

@@ -7,25 +7,6 @@ The numerical experiments in this thesis are performed using the Python programm
 
 For reproducibility, all code is written in Python $3.9.6$ and executed within a controlled environment using \texttt{virtualenv}. All numerical results have been validated by comparing different levels of precision where applicable and verifying consistency with analytical results when available. Code for the experiments is managed using version control with Git to ensure reproducibility and can be found in \href{https://github.com/AyobamiAdebesin/ayobami_thesis}{https://github.com/AyobamiAdebesin/ayobami\_thesis}
 
-\section{Experimental Setup}
-To evaluate the ST-Lanczos algorithm, we employ Algorithm~\ref{alg:problem_setup} to generate test matrices $A$ and $B$ with controlled eigenvalue distribution. For the purpose of this thesis, we will be testing with dense matrices. In practice, the ST-Lanczos method is typically applied to sparse matrices. However, we are experimenting with dense matrices, as they are easier to generate and more convenient for testing stability. The eigenvalues are divided into 3 distinct groups, each with a specified range (spread). For each of the three groups, a random set of eigenvalues was generated with a uniform distribution, ensuring that the eigenvalues are distributed evenly within their respective ranges.
-
-\begin{itemize}
-    \item[$\bullet$] Group $1$ contains $1000$ eigenvalues in the range $(10^{-3}, 10^{1})$
-    \item[$\bullet$] Group $2$ contains $1000$ eigenvalues in the range $(10^1, 10^3)$
-    \item[$\bullet$] Group $3$ contains $1000$ eigenvalues in the range $(10^3, 10^7)$
-\end{itemize}
-
-The three sets of eigenvalues are then concatenated into a single array $D \in \mathbb{R}^{3000 \times 3000}$, which is then used with a regularization hyperparameter $\delta = 10^{1}$, to generate $A$ and $B$ of size $3000 \times 3000$. Our shift is choosen to be $\sigma = 1.5 \times 10^3$. For this choice of $\delta$, the condition number of $A$ and $B$ are as follows:
-\begin{equation*}
-    \kappa(A) = 5.96 \times 10^{11}, \qquad \kappa(B) = 8.09 \times 10^2
-\end{equation*}
-As discussed in Section~\ref{sec:ProblemSetup}, $A$ and $B$ will be symmetric with $B$ being positive definite. The matrix $B$ is factored using the SciPy \texttt{cholesky} method which calls LAPACK \textbf{\texttt{xPOTRF}}. We chose to use this since $B$ was designed to be strictly positive definite, which does not require us to use  pivoted Cholesky factorization. If it were merely semidefinite, pivoting would be required. We run Algorithm~\ref{alg:spectral_lanczos_algorithm} for $n=2000$ iterations for the spectral problem
-\begin{equation}\label{eq:ShiftedInvertedProblem2}
-	C_b^T (A-\sigma B)^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
-\end{equation}
-to compute the lanczos decomposition using various decompositions techniques for $A - \sigma B$ that was discussed in Section~\ref{sec:StableDecompositions}. We explore these techniques, discuss the expected residual bounds and discuss the results in the following sections.
-
 \section{Residual and Error Analysis}
 
 To evaluate the efficiency of the ST-Lanczos algorithm for the given problem, we define some metrics and also review some of the residual bounds theorems given in \cite{stewart2024spectraltransformationdensesymmetric}.
@@ -67,14 +48,16 @@ We reference the following theorem(s) and lemma(s) from \cite{stewart2024spectra
 For context we define
 \begin{equation*}
   \eta = \frac{\|A-\sigma B\|^{1/2}}{\|B\|^{1/2}},\qquad
-  X = C_a^{-1} C_b,\eqand \mu = \frac{\|X\|}{\|X^T D_a X\|}.
+  X = C_a^{-1} C_b,\qquad \sigma_0 = \sigma \frac{\|B\|}{\|A\|}, \eqand \mu = \frac{\|X\|}{\|X^T D_a X\|},
 \end{equation*}
+where $\sigma_0$ is known as the ``\textit{scaled-shift}''.
+
 It is shown in \cite{stewart2024spectraltransformationdensesymmetric} that
 \begin{equation*}
   \eta^2 \|X\|_2^2 \leq \left( 1 + \frac{1}{\sigma_0} \right)
   \frac{\mu}{\min_i \left| 1 - \frac{\lambda_i}{\sigma}\right|}
 \end{equation*}
-where the minimum is taken over all generalized eigenvalues $\lambda_i$ and $\sigma_0$ is as in (\ref{eq:ScaledShift}).  Hence, if $\mu$ is not large, if $\sigma$ is not too close to a generalized eigenvalue, and if $\sigma_0$ is not too small, then $\eta^2 \|X\|_2^2$ is not large.  These conditions are easily satisfied in practice, so that the presence of $\eta^2 \|X\|^2$ in error bounds poses no problem.  It was also shown in \cite{stewart2024spectraltransformationdensesymmetric} that if the spectral transformation matrix is computed explicitly and then its eigenvalue decomposition is then computed, we obtain
+where the minimum is taken over all generalized eigenvalues $\lambda_i$ and $\sigma_0$ is as in (\ref{eq:ScaledShift}). Hence, if $\mu$ is not large, if $\sigma$ is not too close to a generalized eigenvalue, and if $\sigma_0$ is not too small, then $\eta^2 \|X\|_2^2$ is not large.  These conditions are easily satisfied in practice, so that the presence of $\eta^2 \|X\|^2$ in error bounds poses no problem.  It was also shown in \cite{stewart2024spectraltransformationdensesymmetric} that if the spectral transformation matrix is computed explicitly and then its eigenvalue decomposition is then computed, we obtain
 \begin{equation}
   \label{eq:mixed_errors}
   (C_b + F_1)^T (A+E - \sigma (B+F))^{-1} (C_b + F_1) 
@@ -132,98 +115,56 @@ The situation for the computed eigenvectors is not as satisfactory.
         where $\gamma = \|A\|_2/ \|A-\sigma B\|_2$ and $c_n$ does not grow quickly in $n$.
 \end{theorem}
 
-Theorem~\ref{thrm:ResidualBounds} covers two distinct cases. The first case is of primary interest when $\sigma_0$ is large. Again, assuming the $\sigma$ is not so close to an eigenvalue that $\eta \|X\|$ becomes large, in this case the residuals scale with $\lvert 1 - \sigma/ \lambda_i \rvert$ and $\lvert 1 - \lambda_i/\sigma\rvert$, ensuring accuracy when $\sigma$ aligns somewhat closely with $\lambda_i$ but suggesting a loss of accuracy if $\lambda_i$ is either much larger or smaller than $\sigma$. The second case includes $|\sigma_0|$ as a factor in the bounds and is more useful when the scaled shift is not too large.  In this case, the residuals scale with only with $\lvert 1 - \lambda_i/\sigma\rvert$, so that we do not expect a loss of accuracy when $\lambda_i$ is much smaller than $\sigma_0$.
+Theorem~\ref{thrm:ResidualBounds} covers two distinct cases. The first case is of primary interest when $\sigma_0$ is large. Again, assuming that $\sigma$ is not so close to an eigenvalue that $\eta \|X\|$ becomes large, in this case the residuals scale with $\lvert 1 - \sigma/ \lambda_i \rvert$ and $\lvert 1 - \lambda_i/\sigma\rvert$, ensuring accuracy when $\sigma$ aligns somewhat closely with $\lambda_i$ but suggesting a loss of accuracy if $\lambda_i$ is either much larger or smaller than $\sigma$. The second case includes $|\sigma_0|$ as a factor in the bounds and is more useful when the scaled shift is not too large.  In this case, the residuals scale with only with $\lvert 1 - \lambda_i/\sigma\rvert$, so that we do not expect a loss of accuracy when $\lambda_i$ is much smaller than $\sigma_0$.
 
-So the key takeaway useful for this thesis is, in order to ensure small residuals and stability, the shift $\sigma$ should not be too close to any generalized eigenvalue and should not be too large in magnitude. A moderate shift will guarantee small residuals for eigenvalues not much larger than $\sigma$ but a large shift will result in having small residuals only for eigenvalues near $\sigma$. The question that we will resolve in the experiments is whether this pattern holds for the Lanczos algorithm and not just for the direct method from \cite{stewart2024spectraltransformationdensesymmetric}.
+So the key takeaway useful for this thesis is, in order to ensure small residuals and stability, the shift $\sigma$ should not be too close to any generalized eigenvalue and the scaled shift $\sigma_0$ should not be too large in magnitude. A moderate shift $\sigma_0$ will guarantee small residuals for eigenvalues not much larger than $\sigma$ but a large shift will result in having small residuals only for eigenvalues near $\sigma$. The question that we will resolve in the experiments is whether this pattern holds for the Lanczos algorithm and not just for the direct method from \cite{stewart2024spectraltransformationdensesymmetric}. 
 
-\section{$LU$ decomposition}
+\section{Experimental Setup}\label{sec:Well-Conditioned}
+To evaluate the ST-Lanczos algorithm, we employ Algorithm~\ref{alg:problem_setup} to generate test matrices $A$ and $B$ with controlled eigenvalue distribution. For the purpose of this thesis, we will be testing with dense matrices. In practice, the ST-Lanczos method is typically applied to sparse matrices. However, we will experimenting with dense matrices, as they are easier to generate and more convenient for testing stability. The eigenvalues are divided into 3 distinct groups, each with a specified range (spread). For each of the three groups, a random set of eigenvalues was generated with a uniform distribution, ensuring that the eigenvalues are distributed evenly within their respective ranges.
 
-The $LU$ decomposition of $A - \sigma B$ is performed using the \texttt{linalg.lu\_factor} function in SciPy, which employs partial pivoting. With a moderately large shift $\sigma = 1.5 \times 10^3$ not close to a generalized eigenvalue and for $n = 2000$ iterations, the Krylov solution subspace has a dimension of $2000$, and the ST Lanczos algorithm achieves a decomposition residual, computed with (\ref{eq:DecompositionResidual}), to the order of $10^{-11}$, despite a full reorthogonalization. Using a tolerance of $10^{-10}$ for the Ritz pair residuals computed with (\ref{eq:STResidual}), approximately $78\%$ of the Ritz pairs converge to within an accuracy of order $10^{-14}$. The plot of this residuals are shown to the right in Fig~\ref{fig:LURitzResModerate}.
+\begin{itemize}
+	\item[$\bullet$] Group $1$ contains $1000$ eigenvalues in the range $(10^{-3}, 10^{1})$
+	\item[$\bullet$] Group $2$ contains $1000$ eigenvalues in the range $(10^1, 10^3)$
+	\item[$\bullet$] Group $3$ contains $1000$ eigenvalues in the range $(10^3, 10^7)$
+\end{itemize}
 
-On the other hand, the generalized residuals for these converged Ritz pairs are close to the order of machine precision $u=10^{-15}$ for generalized eigenvalues not much larger than the shift. As shown in Fig~\ref{fig:LUGenResModerate}, the residuals are small for eigenvalues that are close to or smaller in magnitude than the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds stated in Theorem~\ref{thrm:ResidualBounds} for a direct method, indicating that the residuals scale with $\lvert 1-\lambda_i/\sigma\rvert$. This scale factor appears in one of the error bounds in Theorem~\ref{thrm:ResidualBounds}. The third plot, Fig~\ref{fig:LUBestResModerate} shows the best possible relative residuals for some choice of $\mathbf{v}_i$. This is the best residuals described in (\ref{def:BestResidual}). This shows that every computed eigenvalue can result in a small residual, validating the bound given in Theorem~\ref{thrm:ResidualBoundsEigenvalues}.
+The three sets of eigenvalues are then concatenated into a single array $D \in \mathbb{R}^{3000 \times 3000}$, which is then used with a regularization hyperparameter $\delta = 10^{-3}$, to generate $A$ and $B$ of size $3000 \times 3000$. We used $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$. For our choice of $\delta$, the system is relatively well-conditioned as shown below:
+\begin{equation*}
+	\kappa(A) = 4.25 \times 10^{15}, \qquad \kappa(B) = 8.08 \times 10^6, \qquad \kappa(A-\sigma B) = 5.5 \times 10^{12}.
+\end{equation*}
+As discussed in Section~\ref{sec:ProblemSetup}, $A$ and $B$ will be symmetric with $B$ being positive definite. The matrix $B$ is factored using the SciPy \texttt{cholesky} method which calls LAPACK \textbf{\texttt{xPOTRF}}. We chose to use this since $B$ was designed to be strictly positive definite, which does not require us to use pivoted Cholesky factorization. If it were merely semidefinite, pivoting would be required. We run Algorithm~\ref{alg:spectral_lanczos_algorithm} with $n=2000$ iterations to solve spectral problem
+\begin{equation}\label{eq:ShiftedInvertedProblem2}
+	C_b^T (A-\sigma B)^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
+\end{equation}
+and compute the Lanczos decomposition using the decompositions techniques for $A - \sigma B$ discussed in Section~\ref{sec:StableDecompositions}. We explore these techniques and observe the behavior of the residual bounds in the following sections.
 
-\begin{figure}\label{fig:LUResidualsModShift}
-	\caption{Residuals plot with moderate shift $\sigma=1.5 \times 10^3$}
-	\centering
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/LU/residual_lu_gs.png}
-		\caption{}
-		\label{fig:LUGenResModerate}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/LU/residual_lu_rs.png}
-		\caption{}
-		\label{fig:LURitzResModerate}
-	\end{subfigure}
-	
-	\vspace{0.5cm}
-	
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/LU/residual_lu_bs.png}
-		\caption{}
-		\label{fig:LUBestResModerate}
-	\end{subfigure}
-\end{figure}
-
-
-For a shift that is large in magnitude, we consider $\sigma = 1.5 \times 10^5$. Running the algorithm with the same parameters as described for the moderate shift, it is observed that the computed eigenvalues and eigenvectors delivers small residuals for eigenvalues that are not too much larger or smaller in magnitude than $\sigma$. The plot of for this residual is shown in Fig~\ref{fig:LUGenResLarge} shows that for eigenvalues that are orders of magnitude smaller than the shift, the residuals are much smaller. Although, this might not be evident in the plot, but the fact that these residuals are not present implies that the Ritz values for these eigenvalues did not converge in the spectral problem. 
-
-\begin{figure}\label{fig:LUResidualsLargeShift}
-	\caption{Residuals plot with large shift $\sigma=1.5 \times 10^5$}
-	\centering
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/LU/residual_lu_gl.png}
-		\caption{}
-		\label{fig:LUGenResLarge}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/LU/residual_lu_rl.png}
-		\caption{}
-		\label{fig:LURitzResLarge}
-	\end{subfigure}
-	
-	\vspace{0.5cm}
-	
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/LU/residual_lu_bl.png}
-		\caption{}
-		\label{fig:LUBestResLarge}
-	\end{subfigure}
-\end{figure}
-%To examine the effect of conditioning, $\delta$ was increased to $\delta=10^2$ so that $\kappa(A) = 1.5 \times 10^{10}$ and $\kappa(B) = 81.8$. For this \textit{well-conditioned} problem, the Lanczos decomposition residual decreases to the order of $10^{-11}$, indicating that the accuracy of the Lanczos decomposition is influenced by the problem's conditioning. Additionally, for the same tolerance, $68\%$ of Ritz pairs converged, with a decrease in residuals to the order of $10^{-15}$ while a similar trend can be seen for the generalized eigenvalues as shown in Figure \ref{fig:LUResidualsWell}.
-
-
-\section{Eigenvalue Decomposition}
-Another decomposition technique we employed is the symmetric eigenvalue decomposition of $A-\sigma B$ given by
+\subsection{Eigenvalue Decomposition - Moderate Shift}
+We begin by considering the eigenvalue decomposition of $A-\sigma B$ given by
 \begin{equation}
-    A-\sigma B = WDW^T,
+	A-\sigma B = WDW^T,
 \end{equation}
 so that the spectral transformed problem is given by
 \begin{equation}\label{3.4}
 	C_b^T W^{-T}D^{-1}W^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
 \end{equation}
-This decomposition, done using \texttt{linalg.eigh} function in SciPy, uses the LAPACK \texttt{dsyevd} routine for real symmetric matrices, which in turn uses divide-and-conquer algorithms for efficiency. For a moderate shift, $\sigma = 1.5 \times 10$, the Lanczos decomposition residual was observed to be of the order $10^{-29}$, indicating a highly accurate decomposition.
-In Fig~\ref{fig:EigGenResModerate}, the residuals are close to the order of machine precision $u=10^{-15}$ for generalized eigenvalues not much larger than the shift. Similar to the $LU$ decomposition, the eigenvalue decomposition achieves small residuals for eigenvalues that are close to or smaller in magnitude than the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds stated in Theorem~\ref{thrm:ResidualBounds}. One the other hand, $78\%$ of the Ritz values converged to within an accuracy of machine precision. As shown in Fig~Fig~\ref{fig:EigRitzResModerate}, there is no apparent trend of increasing residuals for values larger than the shift. This maybe attributed to the use of a symmetric decomposition. Fig~\ref{fig:EigBestResModerate} also shows the best possible relative residuals for some choice of $\mathbf{v}_i$. This shows that every computed eigenvalue can result in a small residual, validating the bound given in Theorem~\ref{thrm:ResidualBoundsEigenvalues}.
+This decomposition, done using the \texttt{linalg.eigh} function in SciPy, uses the LAPACK \texttt{dsyevd} routine for real symmetric matrices, which in turn uses divide-and-conquer algorithms for efficiency. For a moderate shift $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$, the Lanczos decomposition residual was observed to be of the order $10^{-27}$, indicating a highly accurate Lanczos decomposition.
+As shown in Fig~\ref{fig:EigGenResModerate}, the eigenvalue decomposition achieves small residuals for eigenvalues close to or smaller in magnitude than the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds stated in Theorem~\ref{thrm:ResidualBounds}. We observe that these residuals approximately scale with $10^{-15}\lvert 1-\lambda_i/\sigma\rvert$. This scale factor appears in one of the error bounds in Theorem~\ref{thrm:ResidualBounds}. 
 
-\begin{figure}\label{fig:EigDecompResidualsLargeShift}
-	\caption{Residuals plot with moderate shift $\sigma=1.5 \times 10^3$}
+Fig~\ref{fig:EigRitzResModerate} shows a plot of the Ritz residuals converging with an accuracy of machine precision. Fig~\ref{fig:EigBestResModerate} also shows the best possible relative residuals for some choice of $\mathbf{v}_i$. This shows that every computed eigenvalue can result in a small residual, validating the bound given in Theorem~\ref{thrm:ResidualBoundsEigenvalues}.
+
+\begin{figure}
 	\centering
+	\captionsetup[subfigure]{font=small, width=0.8\linewidth}
 	\begin{subfigure}{.5\textwidth}
 		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/eigdecomp/residual_eig_gs.png}
-		\caption{}
+		\includegraphics[scale=.4]{./Plots/eigdecomp/gen_residual_mod_shift.png}
+		\caption{Residual vs Generalized Eigenvalues}
 		\label{fig:EigGenResModerate}
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
 		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/eigdecomp/residual_eig_rs.png}
-		\caption{}
+		\includegraphics[scale=.4]{./Plots/eigdecomp/ritz_residual_mod_shift.png}
+		\caption{Residuals vs Ritz values}
 		\label{fig:EigRitzResModerate}
 	\end{subfigure}
 	
@@ -231,11 +172,101 @@ In Fig~\ref{fig:EigGenResModerate}, the residuals are close to the order of mach
 	
 	\begin{subfigure}{.5\textwidth}
 		\centering
-		\includegraphics[width=.8\linewidth]{./Plots/eigdecomp/residual_eig_bs.png}
-		\caption{}
+		\includegraphics[scale=.4]{./Plots/eigdecomp/best_residual_mod_shift.png}
+		\caption{Best Residuals}
 		\label{fig:EigBestResModerate}
 	\end{subfigure}
+	
+	\caption{Residual plot with moderate shift}
 \end{figure}
+
+\subsection{Eigenvalue Decomposition - Large Shift}
+Next, we consider the effect of a large scaled shift on the eigenvalue decomposition. For a relatively large shift $\sigma_0 = 1.72$ corresponding to $\sigma=1.5 \times 10^6$, we have that $\kappa(A-\sigma B) = 3.10 \times 10^8$. In this case, the Lanczos decomposition residual is $10^{-32}$, also indicating a highly accurate Lanczos decomposition.
+We observe that eigenvalues with orders of magnitude smaller than the shift achieves large residuals, with those not too much smaller or larger in magnitude than the shift achieving small residuals as shown in Fig~\ref{fig:EigGenResLarge}. The theoretical bound (red line) is $10^{-16}|(1 - \lambda_i/\sigma)(1 - \sigma/\lambda_i)|$, which appears as a factor in one of the error terms in the second bound in Theorem~\ref{thrm:ResidualBounds}. This follows closely with what we expect from the error bounds. Infact, residuals for smaller eigenvalues do not appear to increase as much as the theoretical bound suggested. On the right, we have Fig~\ref{fig:EigRitzResLarge} which shows a plot of the Ritz residuals converging with an accuracy of machine precision. Fig~\ref{fig:EigBestResModerate} shows that eigenvalues that are several orders of magnitude smaller than the shift cannot achieve a large residual except for those close to the shift.
+
+\begin{figure}
+	\centering
+	\captionsetup[subfigure]{font=small, width=0.8\linewidth}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=.4]{./Plots/eigdecomp/gen_residual_large_shift.png}
+		\caption{Residual vs Generalized Eigenvalues}
+		\label{fig:EigGenResLarge}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=.4]{./Plots/eigdecomp/ritz_residual_large_shift.png}
+		\caption{Residuals vs Ritz values}
+		\label{fig:EigRitzResLarge}
+	\end{subfigure}
+	
+	\vspace{0.5cm}
+	
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=.4]{./Plots/eigdecomp/best_residual_large_shift.png}
+		\caption{Best Residuals}
+		\label{fig:EigBestResLarge}
+	\end{subfigure}
+	\caption{Residual plot with large shift}
+\end{figure}
+
+
+\section{Effect of Ill-conditioning on Stability}\label{sec:Ill-Conditioned}
+As seen in the previous section, a symmetric decomposition for $A-\sigma B$ for the ST-Lanczos algorithm gave residuals that corresponds to the error bounds given in Theorem~\ref{thrm:ResidualBounds}. However, the main advantage of the direct method given in \cite{stewart2024spectraltransformationdensesymmetric} is that its stability is not affected by the ill-conditioning of $A-\sigma B$. In this section, we explore the effect of ill-conditioning for the symmetric and non-symmetric decomposition of $A-\sigma B$. To do this, we shall consider the moderate scaled shift $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$, set $\delta = 10^{-12}$ and employ Algorithm~\ref{alg:problem_setup} to generate new $A$ and $B$, so that the system is even more ill-conditioned:
+\begin{equation*}
+	\kappa(A) = 4.17 \times 10^{18}, \qquad \kappa(B) = 3.91 \times 10^{17}, \qquad \kappa(A-\sigma B) = 3.75 \times 10^{18}.
+\end{equation*}
+We will be comparing the residual bounds for this problem with the well-conditioned problem in Section~\ref{sec:Well-Conditioned}.
+
+\subsection{Eigenvalue Decomposition}
+We ran Algorithm~\ref{alg:spectral_lanczos_algorithm} with the eigenvalue decomposition of $A- \sigma B$ on the ill-conditioned problem. Again, the algorithm ran to completion with a Lanczos decomposition residual of $1.02 \times 10^{-25}$. As shown in Fig~\ref{fig:Ill-Conditioned}, the computed eigenvalues and eigenvectors still achieves a residual close to machine precision for the ill-conditioned problem, similar to what we have with the well-conditioned problem in Fig~\ref{fig:Well-Conditioned}. This indicates that using a symmetric decomposition stabilizes the Lanczos process.
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{./Plots/eigdecomp/gen_residual_mod_shift_ill_cond.png}
+		\subcaption{Ill-Conditioned Problem}
+		\label{fig:Ill-Conditioned}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{./Plots/eigdecomp/gen_residual_mod_shift.png}
+		\subcaption{Well-Conditioned Problem}
+		\label{fig:Well-Conditioned}
+	\end{subfigure}
+	
+	\caption{Residual plot comparison with a moderate shift}
+	\label{fig:MainFigure}
+\end{figure}
+
+\subsection{$LU$ decomposition}
+Next, we consider the effect of ill-conditioning on stability for a non-symmetric decomposition like the $LU$ decomposition. The $LU$ decomposition of $A - \sigma B$ is performed using the \texttt{linalg.lu\_factor} function in SciPy, which employs partial pivoting. With a shift $\sigma = 1.5 \times 10^3$ not close to a generalized eigenvalue as before, we obtain small residuals for eigenvalues close to or smaller than the shift in magnitude in the case of the well-conditioned problem as shown in Fig~\ref{fig:LU-Well-Conditioned}. These small residuals are close to machine precision. The theoretical bound (red curve) is a plot of $10^{-12}\lvert 1-\lambda_i/\sigma\rvert$, indicating that the residuals scales with $\lvert 1-\lambda_i/\sigma\rvert$. Again, this factor occurs in the error bounds described in \ref{thrm:ResidualBounds}. 
+
+For the ill-conditioned problem, the eigenvalues do not converge as compared to the well-conditioned problem. As shown in Fig~\ref{fig:LU-Ill-Conditioned}, the residual bounds are greatly affected by the conditioning of the problem. This indicates that a non-symmetric factorization of $A-\sigma B$ does not stabilize the Lanczos process.
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{./Plots/LU/gen_residual_ill_cond.png}
+		\subcaption{Ill-Conditioned Problem}
+		\label{fig:LU-Ill-Conditioned}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[scale=.4]{./Plots/LU/gen_residual_well_cond.png}
+		\subcaption{Well-Conditioned Problem}
+		\label{fig:LU-Well-Conditioned}
+	\end{subfigure}
+	\caption{Residual plot comparison with a moderate shift}
+	\label{fig:MainFigureLU}
+\end{figure}
+
+
+
 %Overall, the extremely low decomposition residual confirms the robustness of using a decomposition that preserves symmetry, while the observed trends in residuals highlight the sensitivity of numerical accuracy to the spectrum of the problem.
 
 %%% Local Variables:

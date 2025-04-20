@@ -7,7 +7,6 @@ Generalized Eigenvalue problem Ax = lambda Bx
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import sys
 import numpy.linalg as la
 from scipy.linalg import lu_factor, lu_solve, qz, qr, eigh
@@ -265,45 +264,63 @@ def compute_generalized_residuals(A, B, L, U_converged, theta_converged, shift):
         sys.exit(1)
 
 
-def plot_residuals(eigenvalues, residuals, label=None, save_path=None):
+def plot_residuals(eigenvalues, residuals, residual_type=None, shift=None):
     """ Plot the residuals for both Generalized Eigenvalues and Ritz values in a single plot """
     fig, ax = plt.subplots(figsize=(8, 6))
 
     label_dict = {
-        'g': 'λ (Generalized)',
-        'r': 'θ (Ritz)',
-        'b': 'Best $v_{i}$'
+        'gen': 'λ (Generalized)',
+        'ritz': 'θ (Ritz)',
+        'best': 'Best $v_{i}$'
     }
     title_dict = {
-        'g': 'Residual vs Generalized Eigenvalues',
-        'r': 'Residual vs Ritz values',
-        'b': 'Best Residuals vs Generalized Eigenvalues'
+        'gen': 'Residual vs Generalized Eigenvalues',
+        'ritz': 'Residual vs Ritz values',
+        'best': 'Best Residuals vs Generalized Eigenvalues'
     }
 
     color_dict = {
-        'g': "blue",
-        'r': 'green',
-        'b': 'black'
+        'gen': "blue",
+        'ritz': 'green',
+        'best': 'black'
     }
-    x_label = r'$\theta$' if label=="r" else r'$\lambda$'
 
-    img_path = f"residual_{save_path}"
-    scatter_label = label_dict.get(label, 'Residuals')
-    scatter_title = title_dict.get(label, "Residual vs Eigenvalues")
-    color = color_dict.get(label, 'blue')
+    x_label = r'$\theta$' if residual_type=="ritz" else r'$\lambda$'
+    img_path = f"./plots/LU/{residual_type}_residual"
+    scatter_label = label_dict.get(residual_type, 'Residuals')
+    color = color_dict.get(residual_type, 'blue')
 
-    # Plot for the residuals
+    # plot for the residuals
     ax.scatter(eigenvalues, residuals, color=color, label=scatter_label, s=10)
 
+    if residual_type == "gen":
+        # compute and plot the theoretical bound for a moderately scaled shift
+        sorted_indices = np.argsort(eigenvalues)
+        sorted_eigenvalues = eigenvalues[sorted_indices]
+        curve_y = 10**-11.5 * np.abs(1-sorted_eigenvalues / shift)
+        ax.plot(sorted_eigenvalues, curve_y, color='red', linewidth=1, label="Theoretical Bound", zorder=3)
+        # ax.axvline(x=shift, color="purple", linestyle="--", linewidth=1.5, label=f"Shift = ${shift}$")
+
+        # compute and plot the theoretical bound for a large scaled shift
+        # sorted_indices = np.argsort(eigenvalues)
+        # sorted_eigenvalues = eigenvalues[sorted_indices]
+        # term1 = 1 - (sorted_eigenvalues / shift)
+        # term2 = 1 - (shift / sorted_eigenvalues)
+        # curve_y = 1e-12 * np.abs(term1 * term2)
+        # ax.plot(sorted_eigenvalues, curve_y, color="red", linewidth=1, label="Theoretical Bound")
+
+    # set log scales and labels
     ax.set_yscale('log')
     ax.set_xscale('log')
-    ax.set_xlabel(x_label, fontsize=12) 
-    ax.set_ylabel('Residual', fontsize=12)
-    ax.set_title(scatter_title, fontsize=12)
-    ax.legend()
-    plt.tight_layout()
+    ax.set_xlabel(x_label, fontsize=14) 
+    ax.set_ylabel('Residual', fontsize=14)
+    
 
-    if save_path:
-        plt.savefig(img_path, dpi=300, bbox_inches='tight')
-        print(f"Plot saved to {img_path}")
+    ax.tick_params(axis="both", which="major", labelsize=14)
+    ax.tick_params(axis="both", which="minor", labelsize=12)
+    ax.minorticks_off()
+    plt.tight_layout()
+    
+    plt.savefig(img_path, dpi=300, bbox_inches='tight')
+    print(f"Plot saved to {img_path}")
 

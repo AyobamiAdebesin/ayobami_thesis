@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.1)  8 APR 2025 12:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.1)  19 APR 2025 22:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1302,7 +1302,7 @@ thkerncmss.
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10.95> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 390.
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 387.
 
 [17
 
@@ -1310,7 +1310,7 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10.95> not available
 
 
 ]
-Overfull \hbox (7.18303pt too wide) detected at line 411
+Overfull \hbox (7.18303pt too wide) detected at line 408
 \OML/cmm/m/it/10.95 ^^Q \OT1/cmr/m/n/10.95 = []\OML/cmm/m/it/10.95 ;  ^^[[] \OT
 1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 ^^[[];  [] ^^M \OT1/cmr/m/n/10.95 = []\OM
 L/cmm/m/it/10.95 :
@@ -1325,7 +1325,7 @@ L/cmm/m/it/10.95 :
 ] [22
 
 ]
-Overfull \hbox (12.25159pt too wide) detected at line 503
+Overfull \hbox (12.25159pt too wide) detected at line 500
  []$[]\OML/cmm/m/it/10.95 O\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 u\OT1/cmr/m/
 n/10.95 )\OMS/cmsy/m/n/10.95 j\OT1/cmr/m/n/10.95 1 \OMS/cmsy/m/n/10.95 ^^@ \OML
 /cmm/m/it/10.95 ^^U[]=^^[\OMS/cmsy/m/n/10.95 jj\OML/cmm/m/it/10.95 ^^[[]\OMS/cm
@@ -1354,10 +1354,10 @@ sy/m/n/10.95 j [] \OT1/cmr/m/n/10.95 + \OML/cmm/m/it/10.95 O\OT1/cmr/m/n/10.95
 File: ../code/plots/WDW/gen_residual_mod_shift.png Graphic file (type png)
 <use ../code/plots/WDW/gen_residual_mod_shift.png>
 Package pdftex.def Info: ../code/plots/WDW/gen_residual_mod_shift.png  used on 
-input line 619.
+input line 616.
 (pdftex.def)             Requested size: 142.55222pt x 106.1764pt.
 
-Overfull \hbox (4.27272pt too wide) in paragraph at lines 619--619
+Overfull \hbox (4.27272pt too wide) in paragraph at lines 616--616
  [][] 
  []
 
@@ -1366,27 +1366,28 @@ Overfull \hbox (4.27272pt too wide) in paragraph at lines 619--619
 File: ../code/plots/WDW/ritz_residual_mod_shift.png Graphic file (type png)
 <use ../code/plots/WDW/ritz_residual_mod_shift.png>
 Package pdftex.def Info: ../code/plots/WDW/ritz_residual_mod_shift.png  used on
- input line 619.
+ input line 616.
 (pdftex.def)             Requested size: 142.55222pt x 106.1764pt.
 
-Overfull \hbox (4.27272pt too wide) in paragraph at lines 619--619
+Overfull \hbox (4.27272pt too wide) in paragraph at lines 616--616
  [][] 
  []
 
-<./Plots/eigdecomp/residual_eig_bs.png, id=251, 570.2103pt x 425.1885pt>
-File: ./Plots/eigdecomp/residual_eig_bs.png Graphic file (type png)
-<use ./Plots/eigdecomp/residual_eig_bs.png>
-Package pdftex.def Info: ./Plots/eigdecomp/residual_eig_bs.png  used on input l
-ine 619.
+<../code/plots/WDW/best_residual_mod_shift.png, id=251, 570.2103pt x 425.1885pt
+>
+File: ../code/plots/WDW/best_residual_mod_shift.png Graphic file (type png)
+<use ../code/plots/WDW/best_residual_mod_shift.png>
+Package pdftex.def Info: ../code/plots/WDW/best_residual_mod_shift.png  used on
+ input line 616.
 (pdftex.def)             Requested size: 142.55222pt x 106.29686pt.
 
 Package caption Warning: \setcaptionsubtype
-(caption)                outside box or environment on input line 619.
+(caption)                outside box or environment on input line 616.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 619.
+(caption)                outside box or environment on input line 616.
 See the caption package documentation for explanation.
 
 [30
@@ -1395,7 +1396,8 @@ See the caption package documentation for explanation.
 l_mod_shift.png>] [31
 
 
- <./Plots/eigdecomp/residual_eig_bs.png>] [32
+ <../code/plots/WDW/best_residual_mod_shift.png>]
+[32
 
 
 ]
@@ -1404,10 +1406,10 @@ t>
 File: ../code/plots/WDW/gen_residual_large_shift.png Graphic file (type png)
 <use ../code/plots/WDW/gen_residual_large_shift.png>
 Package pdftex.def Info: ../code/plots/WDW/gen_residual_large_shift.png  used o
-n input line 647.
+n input line 644.
 (pdftex.def)             Requested size: 142.55222pt x 106.1764pt.
 
-Overfull \hbox (4.27272pt too wide) in paragraph at lines 647--647
+Overfull \hbox (4.27272pt too wide) in paragraph at lines 644--644
  [][] 
  []
 
@@ -1416,27 +1418,28 @@ pt>
 File: ../code/plots/WDW/ritz_residual_large_shift.png Graphic file (type png)
 <use ../code/plots/WDW/ritz_residual_large_shift.png>
 Package pdftex.def Info: ../code/plots/WDW/ritz_residual_large_shift.png  used 
-on input line 647.
+on input line 644.
 (pdftex.def)             Requested size: 142.55222pt x 106.1764pt.
 
-Overfull \hbox (4.27272pt too wide) in paragraph at lines 647--647
+Overfull \hbox (4.27272pt too wide) in paragraph at lines 644--644
  [][] 
  []
 
-<./Plots/eigdecomp/residual_eig_bl.png, id=277, 570.2103pt x 425.1885pt>
-File: ./Plots/eigdecomp/residual_eig_bl.png Graphic file (type png)
-<use ./Plots/eigdecomp/residual_eig_bl.png>
-Package pdftex.def Info: ./Plots/eigdecomp/residual_eig_bl.png  used on input l
-ine 647.
+<../code/plots/WDW/best_residual_large_shift.png, id=277, 570.2103pt x 425.1885
+pt>
+File: ../code/plots/WDW/best_residual_large_shift.png Graphic file (type png)
+<use ../code/plots/WDW/best_residual_large_shift.png>
+Package pdftex.def Info: ../code/plots/WDW/best_residual_large_shift.png  used 
+on input line 644.
 (pdftex.def)             Requested size: 142.55222pt x 106.29686pt.
 
 Package caption Warning: \setcaptionsubtype
-(caption)                outside box or environment on input line 647.
+(caption)                outside box or environment on input line 644.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 647.
+(caption)                outside box or environment on input line 644.
 See the caption package documentation for explanation.
 
 [33
@@ -1445,21 +1448,20 @@ See the caption package documentation for explanation.
 ual_large_shift.png>] [34
 
 
- <./Plots/eigdecomp/residual_eig_bl.png>] [35
+ <../code/plots/WDW/best_residual_large_shift.png>] [35
 
 
-]
-[36
+] [36
 
 ]
 <../code/plots/WDW/gen_residual_ill_cond.png, id=307, 570.2103pt x 424.7067pt>
 File: ../code/plots/WDW/gen_residual_ill_cond.png Graphic file (type png)
 <use ../code/plots/WDW/gen_residual_ill_cond.png>
 Package pdftex.def Info: ../code/plots/WDW/gen_residual_ill_cond.png  used on i
-nput line 683.
+nput line 680.
 (pdftex.def)             Requested size: 142.55222pt x 106.1764pt.
 
-Overfull \hbox (4.27272pt too wide) in paragraph at lines 683--683
+Overfull \hbox (4.27272pt too wide) in paragraph at lines 680--680
  [][] 
  []
 
@@ -1468,10 +1470,10 @@ Overfull \hbox (4.27272pt too wide) in paragraph at lines 683--683
 File: ../code/plots/WDW/gen_residual_well_cond.png Graphic file (type png)
 <use ../code/plots/WDW/gen_residual_well_cond.png>
 Package pdftex.def Info: ../code/plots/WDW/gen_residual_well_cond.png  used on 
-input line 683.
+input line 680.
 (pdftex.def)             Requested size: 142.55222pt x 106.1764pt.
 
-Overfull \hbox (4.27272pt too wide) in paragraph at lines 683--683
+Overfull \hbox (4.27272pt too wide) in paragraph at lines 680--680
  [][] 
  []
 
@@ -1486,10 +1488,10 @@ well_cond.png>] [38
 File: ../code/plots/LU/gen_residual_ill-cond.png Graphic file (type png)
 <use ../code/plots/LU/gen_residual_ill-cond.png>
 Package pdftex.def Info: ../code/plots/LU/gen_residual_ill-cond.png  used on in
-put line 706.
+put line 703.
 (pdftex.def)             Requested size: 142.492pt x 106.1764pt.
 
-Overfull \hbox (4.21251pt too wide) in paragraph at lines 706--706
+Overfull \hbox (4.21251pt too wide) in paragraph at lines 703--703
  [][] 
  []
 
@@ -1497,10 +1499,10 @@ Overfull \hbox (4.21251pt too wide) in paragraph at lines 706--706
 File: ../code/plots/LU/gen_residual_mod_shift.png Graphic file (type png)
 <use ../code/plots/LU/gen_residual_mod_shift.png>
 Package pdftex.def Info: ../code/plots/LU/gen_residual_mod_shift.png  used on i
-nput line 706.
+nput line 703.
 (pdftex.def)             Requested size: 142.55222pt x 106.1764pt.
 
-Overfull \hbox (4.27272pt too wide) in paragraph at lines 706--706
+Overfull \hbox (4.27272pt too wide) in paragraph at lines 703--703
  [][] 
  []
 
@@ -1541,11 +1543,11 @@ L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 30136 strings out of 474486
- 602910 string characters out of 5745644
- 1942542 words of memory out of 5000000
- 51653 multiletter control sequences out of 15000+600000
- 588491 words of font info for 131 fonts, out of 8000000 for 9000
+ 30137 strings out of 474486
+ 603050 string characters out of 5745644
+ 1948542 words of memory out of 5000000
+ 51654 multiletter control sequences out of 15000+600000
+ 589093 words of font info for 133 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,15n,123p,529b,865s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx
@@ -1576,7 +1578,7 @@ e1/public/amsfonts/cm/cmsy7.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/f
 onts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/H/AppData/Local/Programs/MiK
 TeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on st_lanczos.pdf (44 pages, 1421219 bytes).
+Output written on st_lanczos.pdf (44 pages, 1422723 bytes).
 PDF statistics:
  498 PDF objects out of 1000 (max. 8388607)
  90 named destinations out of 1000 (max. 500000)
