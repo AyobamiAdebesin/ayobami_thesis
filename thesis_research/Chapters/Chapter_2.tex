@@ -2,10 +2,10 @@
 
 In this chapter, we shall present a detailed description of the methodologies and implementation of algorithms used in this thesis to solve the generalized eigenvalue problem. We begin by describing the problem setup, followed by a discussion of the algorithms used, together with their implementation details. This chapter aims to provide a comprehensive understanding of how these algorithms are applied to derive the solutions to the problem at hand. We shall also give a description of the numerical experiments we setup to investigate the efficiency of these algorithms.
 
-To compute the eigenvalues and eigenvectors that satisfy (\ref{eq:GenEigVal_Problem}) with spectral transformation Lanczos algorithm, our approach will be in two steps:
+To compute the eigenvalues and eigenvectors that satisfy (\ref{eq:GenEigVal_Problem}) with \added{the} spectral transformation Lanczos algorithm, our approach will be in two steps:
 \begin{itemize}
 	\item[$\bullet$] Transform the generalized problem into a spectral transformed standard eigenvalue problem.
-	\item[$\bullet$] Solve the spectral problem with Lanczos algorithm.
+	\item[$\bullet$] Solve the spectral problem with \added{the} Lanczos algorithm.
 \end{itemize}
 As described in Section~\ref{sec:SpectralTransformationDefinition}, 
 Lemma~\ref{lemma:SpectralTransLemma} gives us the relationship between the eigenvalues (\textit{resp.}\ eigenvectors) of the original problem and the eigenvalues (\textit{resp.}\ eigenvectors) of the spectral transformed problem. Recall that solving (\ref{eq:SpectralTransEquation}) relies on symmetric factorization of the $A - \sigma B$. The following section describes the possible ways of doing this.
@@ -74,7 +74,7 @@ The decomposition is given by
 \end{equation}
 In theory, the vectors $q_j$ should be orthonormal, but due to floating-point errors, there will be loss of orthogonality, hence the need for line $9$ in Algorithm~\ref{alg:lanczos_algorithm}.
 
-Let $\theta_i, i = 1,2, \ldots n$ (which can be computed by standard functions using any eigenvalue solver) be the eigenvalues of $T_n$, and $\{\mathbf{y}_i\}_{i = 1 : n}$ be the associated eigenvectors. The $\{\theta_i\}$ are called the \textit{Ritz values} and the vectors $\{Q_n\mathbf{y}_i\}_{i = 1 : n}$ are called the \textit{Ritz vectors}. Hence, the extreme eigenvalues of $A$ are typically well approximated by the extreme Ritz values derived from the Lanczos process, with the corresponding Ritz vectors serving as approximations to $A$'s associated eigenvectors.
+Let $\theta_i, i = 1,2, \ldots n$ (which can be computed by standard functions using any eigenvalue solver) be the eigenvalues of $T_n$, and $\{\mathbf{y}_i\}_{i = 1 : n}$ be the associated eigenvectors. The $\{\theta_i\}$ are called the \textit{Ritz values} and the vectors $\{Q_n\mathbf{y}_i\}_{i = 1 : n}$ are called the \textit{Ritz vectors}. \rep{The}{Hence, the} extreme eigenvalues of $A$ are typically well approximated by the extreme Ritz values derived from the Lanczos process, with the corresponding Ritz vectors serving as approximations to $A$'s associated eigenvectors.
 
 Since the generalized eigenvalue problem we started with has been reduced to a standard one as shown in equation (\ref{eq:SpectralTransEquation}), Algorithm~\ref{alg:lanczos_algorithm} can be applied to equation (\ref{eq:SpectralTransEquation}) with some slight modifications. The spectral form of Algorithm~\ref{alg:lanczos_algorithm} is given by Algorithm~\ref{alg:spectral_lanczos_algorithm}.
 \begin{algorithm}
@@ -114,7 +114,7 @@ After applying the Lanczos procedure to the spectral transformed problem (\ref{e
 
 \section{Problem Setup}\label{sec:ProblemSetup}
 
-To evaluate the performance and robustness of the spectral transformation Lanczos algorithm, we setup a problem with predetermined eigenvalues, use the algorithm to compute the eigenvalues, and show that the residuals follow closely with the bounds predicted for direct methods in \cite{stewart2024spectraltransformationdensesymmetric}. While there are other options of using matrices from open source repositories like Matrix Market\footnote{\href{https://math.nist.gov/MatrixMarket/index.html}{https://math.nist.gov/MatrixMarket/index.html}}, we choose to use this approach so that we can control the size, condition number and other properties of the matrix so as to observe the effect of this properties on the algorithm.
+To evaluate the performance and robustness of the spectral transformation Lanczos algorithm, we \rep{set up}{setup} a problem with predetermined eigenvalues, use the algorithm to compute the eigenvalues, and show that the residuals follow closely with the bounds predicted for direct methods in \cite{stewart2024spectraltransformationdensesymmetric}. While there are other options of using matrices from open source repositories like Matrix Market\footnote{\href{https://math.nist.gov/MatrixMarket/index.html}{https://math.nist.gov/MatrixMarket/index.html}}, we choose to use this approach so that we can control the size, condition number and other properties of the matrix so as to observe the effect of this properties on the algorithm.
 
 Starting with a diagonal matrix $D \in \mathbb{R}^{m \times m}$ with known eigenvalues, we generate a random matrix $P$ of size $m \times m $ with standard normal distribution. Since the $QR$ factorization is guaranteed to exist for any matrix, we take the $QR$ factorization of $P$ to obtain an orthogonal matrix $Q$, which is used to create a matrix $C$ using orthogonal transformation. Hence $C = QDQ^T$ is unitarily similar to $D$.
 
