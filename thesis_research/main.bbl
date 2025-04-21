@@ -9,6 +9,11 @@
 {\sc G.~H. Golub and C.~F. Van~Loan}, {\em Matrix Computations - 4th Edition},
   Johns Hopkins University Press, Philadelphia, PA, 2013.
 
+\bibitem{Lanczos:1950zz}
+{\sc C.~Lanczos}, {\em {An iteration method for the solution of the eigenvalue
+  problem of linear differential and integral operators}}, J. Res. Natl. Bur.
+  Stand. B, 45 (1950), pp.~255--282.
+
 \bibitem{5b3d5fb1-4813-3046-9331-a730b392f611}
 {\sc C.~B. Moler and G.~W. Stewart}, {\em An algorithm for generalized matrix
   eigenvalue problems}, SIAM Journal on Numerical Analysis, 10 (1973),

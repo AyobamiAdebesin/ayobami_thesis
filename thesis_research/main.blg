@@ -23,45 +23,45 @@ Illegal, another \bibstyle command---line 3 of file backmatter.aux
 I'm skipping whatever remains of this command
 Reallocating 'name_of_file' (item size: 1) to 13 items.
 Database file #1: bibliography.bib
-You've used 5 entries,
+You've used 6 entries,
             2030 wiz_defined-function locations,
-            534 strings with 4742 characters,
-and the built_in function-call counts, 1534 in all, are:
-= -- 139
-> -- 59
+            542 strings with 4939 characters,
+and the built_in function-call counts, 1898 in all, are:
+= -- 179
+> -- 66
 < -- 0
-+ -- 25
-- -- 18
-* -- 106
-:= -- 240
-add.period$ -- 5
-call.type$ -- 5
-change.case$ -- 22
++ -- 28
+- -- 20
+* -- 131
+:= -- 291
+add.period$ -- 6
+call.type$ -- 6
+change.case$ -- 26
 chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 75
-empty$ -- 130
-format.name$ -- 18
-if$ -- 330
+cite$ -- 6
+duplicate$ -- 94
+empty$ -- 159
+format.name$ -- 20
+if$ -- 412
 int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 6
-newline$ -- 18
-num.names$ -- 10
-pop$ -- 30
+int.to.str$ -- 6
+missing$ -- 7
+newline$ -- 21
+num.names$ -- 12
+pop$ -- 32
 preamble$ -- 1
-purify$ -- 19
+purify$ -- 22
 quote$ -- 0
-skip$ -- 63
+skip$ -- 82
 stack$ -- 0
-substring$ -- 95
-swap$ -- 28
+substring$ -- 132
+swap$ -- 38
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
+type$ -- 20
 warning$ -- 0
-while$ -- 15
-width$ -- 6
-write$ -- 45
+while$ -- 20
+width$ -- 7
+write$ -- 54
 (There was 1 error message)
