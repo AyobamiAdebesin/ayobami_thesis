@@ -9,7 +9,7 @@ To evaluate the efficiency of the ST-Lanczos algorithm for the given problem, we
 \begin{definition}[Lanczos Decomposition Residual]\label{def:DecompositionResidual}
 	Let equation (\ref{eq:Lanczos_Decomposition}) be the decomposition obtained from the completion of Algorithm~\ref{alg:spectral_lanczos_algorithm}. Then we define the relative residual as:
 	\begin{equation}\label{eq:DecompositionResidual}
-		\text{Relative Decomposition Residual} = \frac{\|C_b^T (A-\sigma B)^{-1} C_bQ_n - Q_nT_n - \delta_{n}\mathbf{q}_{n+1}\mathbf{e}_n^T\|}{\|C_b^T (A-\sigma B)^{-1} C_b\|},
+		\text{Relative Decomposition Residual} = \frac{\|C_b^T (A-\sigma B)^{-1} C_bQ_n - Q_nT_n - \delta_{n}\mathbf{q}_{n+1}\mathbf{e}_n^T\|}{\|C_b^T (A-\sigma B)^{-1} C_b\|}.
 	\end{equation}
 \end{definition}
 This residual measures how well the Lanczos algorithm has approximated the eigenvalues of $B$ through the tridiagonal matrix $T_n$.
@@ -17,7 +17,7 @@ This residual measures how well the Lanczos algorithm has approximated the eigen
 \begin{definition}[Generalized Relative Residual]\label{def:GeneralizedRelativeResidual}
 	Let $(\alpha_i, \beta_i)$ be the generalized eigenvalues of $A$ and $B$, and $\mathbf{v}_i \neq \mathbf{0}$ be the corresponding computed eigenvector obtained from computing the eigenvalues of $T_n$, such that $\mathbf{r}_i = (\beta_i A - \alpha_i B)\mathbf{v}_i$. Then we define the relative residual for each $i = 1, 2, \ldots n$ as:
 	\begin{equation}\label{eq:GeneralizedResidual}
-		\|\tilde{\mathbf{r}}_i\| = \frac{\| (\beta_i A - \alpha_i B)\mathbf{v}_i \| }{(\lvert \beta_i \rvert \|A\| + \lvert \alpha_i \rvert \|B\|)\|\mathbf{v}_i\| }
+		\|\tilde{\mathbf{r}}_i\| = \frac{\| (\beta_i A - \alpha_i B)\mathbf{v}_i \| }{(\lvert \beta_i \rvert \|A\| + \lvert \alpha_i \rvert \|B\|)\|\mathbf{v}_i\| }.
 	\end{equation}
 \end{definition}
 
@@ -25,14 +25,14 @@ This residual measures how well the Lanczos algorithm has approximated the eigen
 \label{def:SpectralTransformedResidual}
 	Let $(\theta_i, \mathbf{u}_i)$ be the Ritz-pair obtained from computing the eigenvalues and eigenvectors of $T_n$. Then we define the relative residual for each $i = 1, 2, \ldots n$ as:
 	\begin{equation}\label{eq:STResidual}
-		\text{ST Relative Residual} = \frac{\| C_b^T(A - \sigma B)^{-1}C_b \mathbf{u}_i - \theta_i \mathbf{u}_i \| }{( \| C_b^T(A - \sigma B)^{-1}C_b \| + \lvert \theta_i \rvert)\|\mathbf{u}_i\| }
+		\text{ST Relative Residual} = \frac{\| C_b^T(A - \sigma B)^{-1}C_b \mathbf{u}_i - \theta_i \mathbf{u}_i \| }{( \| C_b^T(A - \sigma B)^{-1}C_b \| + \lvert \theta_i \rvert)\|\mathbf{u}_i\| }.
 	\end{equation}
 \end{definition}
 
 \begin{definition}[Best Residuals]\label{def:BestResidual}
 	Let $(\alpha_i, \beta_i)$ be the computed generalized eigenvalues of $A$ and $B$. We define the ``best relative residuals'' for $(\alpha_i, \beta_i)$ as
 	\begin{equation}\label{eq:BestResiduals}
-		\|\tilde{\mathbf{r}}_i\| = \frac{\sigma_m(\beta_i A - \alpha_i B)}{(\lvert \beta_i \rvert \|A\| + \lvert \alpha_i \rvert \|B\|)}
+		\|\tilde{\mathbf{r}}_i\| = \frac{\sigma_m(\beta_i A - \alpha_i B)}{(\lvert \beta_i \rvert \|A\| + \lvert \alpha_i \rvert \|B\|)},
 	\end{equation}
 where $\sigma_m$ is the smallest singular value of the matrix pencil $(\beta_i A - \alpha_i B)$.
 \end{definition}
@@ -117,7 +117,7 @@ So the key takeaway useful for this thesis is, in order to ensure small residual
 \section{Software and Computational Environment}
 The numerical experiments in this thesis are performed using the Python programming language together with the NumPy $2.0.2$ and SciPy $1.13.1$ libraries which makes function calls to optimized and efficient LAPACK and BLAS routines for linear algebra computations. These libraries ensure high-performance matrix operations and numerical stability. All computations are performed in \textbf{double precision} (64 bit floating point, \texttt{float64}) to maintain numerical accuracy and consistency.
 
-For reproducibility, all code is written in Python $3.9.6$ and executed within a controlled environment using \texttt{virtualenv}. All numerical results have been validated by comparing different levels of precision where applicable and verifying consistency with analytical results when available. Code for the experiments is managed using version control with Git to ensure reproducibility and can be found in \href{https://github.com/AyobamiAdebesin/ayobami_thesis}{https://github.com/AyobamiAdebesin/ayobami\_thesis}
+For reproducibility, all code is written in Python $3.9.6$ and executed within a controlled environment using \texttt{virtualenv}. All numerical results have been validated by comparing different levels of precision where applicable and verifying consistency with analytical results when available. Code for the experiments is managed using version control with Git to ensure reproducibility and can be found in this repository.\footnote{\href{https://github.com/AyobamiAdebesin/ayobami_thesis}{https://github.com/AyobamiAdebesin/ayobami\_thesis}} 
 
 \section{Experimental Setup}\label{sec:Well-Conditioned}
 To evaluate the ST-Lanczos algorithm, we employ Algorithm~\ref{alg:problem_setup} to generate test matrices $A$ and $B$ with controlled eigenvalue distribution. For the purpose of this thesis, we will be testing with dense matrices. In practice, the ST-Lanczos method is typically applied to sparse matrices. However, we will experimenting with dense matrices, as they are easier to generate and more convenient for testing stability. The eigenvalues are divided into 3 distinct groups, each with a specified range (spread). For each of the three groups, a random set of eigenvalues was generated with a uniform distribution, ensuring that the eigenvalues are distributed evenly within their respective ranges.
@@ -128,11 +128,11 @@ To evaluate the ST-Lanczos algorithm, we employ Algorithm~\ref{alg:problem_setup
 	\item[$\bullet$] Group $3$ contains $1000$ eigenvalues in the range $(10^3, 10^7)$
 \end{itemize}
 
-The three sets of eigenvalues are then concatenated into a single array $D \in \mathbb{R}^{3000 \times 3000}$, which is then used with a regularization hyperparameter $\delta = 10^{-3}$, to generate $A$ and $B$ of size $3000 \times 3000$. We used $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$. For our choice of $\delta$, the system is relatively well-conditioned as shown below:
+The three sets of eigenvalues are then concatenated into a single array $D \in \mathbb{R}^{3000 \times 3000}$, which is then used with a regularization hyperparameter $\delta = 10^{-3}$, to generate $A$ and $B$ of size $3000 \times 3000$. We used a relatively moderate shift $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$. For our choice of $\delta$, the system is relatively well-conditioned as shown below:
 \begin{equation*}
 	\kappa(A) = 4.25 \times 10^{15}, \qquad \kappa(B) = 8.08 \times 10^6, \qquad \kappa(A-\sigma B) = 5.5 \times 10^{12}.
 \end{equation*}
-As discussed in Section~\ref{sec:ProblemSetup}, $A$ and $B$ will be symmetric with $B$ being positive definite. The matrix $B$ is factored using the SciPy \texttt{cholesky} method which calls LAPACK \textbf{\texttt{xPOTRF}}. We chose to use this since $B$ was designed to be strictly positive definite, which does not require us to use pivoted Cholesky factorization. If it were merely semidefinite, pivoting would be required. We run Algorithm~\ref{alg:spectral_lanczos_algorithm} with $n=2000$ iterations to solve spectral problem
+As discussed in Section~\ref{sec:ProblemSetup}, $A$ and $B$ will be symmetric with $B$ being positive definite. The matrix $B$ is factored using the SciPy \texttt{cholesky} method which calls LAPACK \textbf{\texttt{xPOTRF}}. We chose to use this since $B$ was designed to be strictly positive definite, which does not require us to use pivoted Cholesky factorization. If it were merely semidefinite, pivoting would be required. We run Algorithm~\ref{alg:spectral_lanczos_algorithm} with $n=2000$ iterations to solve the spectral problem
 \begin{equation}\label{eq:ShiftedInvertedProblem2}
 	C_b^T (A-\sigma B)^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
 \end{equation}
@@ -148,7 +148,7 @@ so that the spectral transformed problem is given by
 	C_b^T W^{-T}D^{-1}W^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
 \end{equation}
 This decomposition, done using the \texttt{linalg.eigh} function in SciPy, uses the LAPACK \texttt{dsyevd} routine for real symmetric matrices, which in turn uses divide-and-conquer algorithms for efficiency. For a moderate shift $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$, the Lanczos decomposition residual was observed to be of the order $10^{-27}$, indicating a highly accurate Lanczos decomposition.
-As shown in Fig~\ref{fig:EigGenResModerate}, the eigenvalue decomposition achieves small residuals for eigenvalues close to or smaller in magnitude than the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds stated in Theorem~\ref{thrm:ResidualBounds}. We observe that these residuals approximately scale with $10^{-15}\lvert 1-\lambda_i/\sigma\rvert$. This scale factor appears in one of the error bounds in Theorem~\ref{thrm:ResidualBounds}. 
+As shown in Fig~\ref{fig:EigGenResModerate}, using an eigenvalue decomposition achieves small residuals for eigenvalues close to or smaller in magnitude than the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds stated in Theorem~\ref{thrm:ResidualBounds}. We observe that these residuals approximately scale with $10^{-15}\lvert 1-\lambda_i/\sigma\rvert$. This scale factor appears in one of the error bounds in Theorem~\ref{thrm:ResidualBounds}. 
 
 Fig~\ref{fig:EigRitzResModerate} shows a plot of the Ritz residuals converging with an accuracy of machine precision. Fig~\ref{fig:EigBestResModerate} also shows the best possible relative residuals for some choice of $\mathbf{v}_i$. This shows that every computed eigenvalue can result in a small residual, validating the bound given in Theorem~\ref{thrm:ResidualBoundsEigenvalues}.
 

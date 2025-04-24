@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.1)  20 APR 2025 23:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.1)  24 APR 2025 07:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1363,21 +1363,21 @@ Chapter 3.
 
 
 ] [27] [28] [29] [30] [31] [32] [33]
-<./Plots/eigdecomp/gen_residual_mod_shift.png, id=501, 570.6921pt x 425.9112pt>
+<./Plots/eigdecomp/gen_residual_mod_shift.png, id=505, 570.6921pt x 425.9112pt>
 
 File: ./Plots/eigdecomp/gen_residual_mod_shift.png Graphic file (type png)
 <use ./Plots/eigdecomp/gen_residual_mod_shift.png>
 Package pdftex.def Info: ./Plots/eigdecomp/gen_residual_mod_shift.png  used on 
 input line 160.
 (pdftex.def)             Requested size: 228.27278pt x 170.36145pt.
-<./Plots/eigdecomp/ritz_residual_mod_shift.png, id=503, 570.6921pt x 425.9112pt
+<./Plots/eigdecomp/ritz_residual_mod_shift.png, id=507, 570.6921pt x 425.9112pt
 >
 File: ./Plots/eigdecomp/ritz_residual_mod_shift.png Graphic file (type png)
 <use ./Plots/eigdecomp/ritz_residual_mod_shift.png>
 Package pdftex.def Info: ./Plots/eigdecomp/ritz_residual_mod_shift.png  used on
  input line 166.
 (pdftex.def)             Requested size: 228.27278pt x 170.36145pt.
-<./Plots/eigdecomp/best_residual_mod_shift.png, id=504, 570.2103pt x 425.1885pt
+<./Plots/eigdecomp/best_residual_mod_shift.png, id=508, 570.2103pt x 425.1885pt
 >
 File: ./Plots/eigdecomp/best_residual_mod_shift.png Graphic file (type png)
 <use ./Plots/eigdecomp/best_residual_mod_shift.png>
@@ -1385,21 +1385,21 @@ Package pdftex.def Info: ./Plots/eigdecomp/best_residual_mod_shift.png  used on
  input line 175.
 (pdftex.def)             Requested size: 228.08008pt x 170.07237pt.
  [34]
-<./Plots/eigdecomp/gen_residual_large_shift.png, id=513, 570.6921pt x 425.9112p
+<./Plots/eigdecomp/gen_residual_large_shift.png, id=517, 570.6921pt x 425.9112p
 t>
 File: ./Plots/eigdecomp/gen_residual_large_shift.png Graphic file (type png)
 <use ./Plots/eigdecomp/gen_residual_large_shift.png>
 Package pdftex.def Info: ./Plots/eigdecomp/gen_residual_large_shift.png  used o
 n input line 192.
 (pdftex.def)             Requested size: 228.27278pt x 170.36145pt.
-<./Plots/eigdecomp/ritz_residual_large_shift.png, id=514, 570.4512pt x 425.9112
+<./Plots/eigdecomp/ritz_residual_large_shift.png, id=518, 570.4512pt x 425.9112
 pt>
 File: ./Plots/eigdecomp/ritz_residual_large_shift.png Graphic file (type png)
 <use ./Plots/eigdecomp/ritz_residual_large_shift.png>
 Package pdftex.def Info: ./Plots/eigdecomp/ritz_residual_large_shift.png  used 
 on input line 198.
 (pdftex.def)             Requested size: 228.17644pt x 170.36145pt.
-<./Plots/eigdecomp/best_residual_large_shift.png, id=515, 570.2103pt x 425.1885
+<./Plots/eigdecomp/best_residual_large_shift.png, id=519, 570.2103pt x 425.1885
 pt>
 File: ./Plots/eigdecomp/best_residual_large_shift.png Graphic file (type png)
 <use ./Plots/eigdecomp/best_residual_large_shift.png>
@@ -1410,7 +1410,7 @@ on input line 207.
 idual_mod_shift.png> <./Plots/eigdecomp/best_residual_mod_shift.png>] [36 <./Pl
 ots/eigdecomp/gen_residual_large_shift.png> <./Plots/eigdecomp/ritz_residual_la
 rge_shift.png> <./Plots/eigdecomp/best_residual_large_shift.png>]
-<./Plots/eigdecomp/gen_residual_mod_shift_ill_cond.png, id=537, 570.6921pt x 42
+<./Plots/eigdecomp/gen_residual_mod_shift_ill_cond.png, id=541, 570.6921pt x 42
 5.9112pt>
 File: ./Plots/eigdecomp/gen_residual_mod_shift_ill_cond.png Graphic file (type 
 png)
@@ -1442,7 +1442,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 244.
 
 [37 <./Plots/eigdecomp/gen_residual_mod_shift_ill_cond.png>]
-<./Plots/LU/gen_residual_ill_cond.png, id=546, 570.4512pt x 425.9112pt>
+<./Plots/LU/gen_residual_ill_cond.png, id=550, 570.4512pt x 425.9112pt>
 File: ./Plots/LU/gen_residual_ill_cond.png Graphic file (type png)
 <use ./Plots/LU/gen_residual_ill_cond.png>
 Package pdftex.def Info: ./Plots/LU/gen_residual_ill_cond.png  used on input li
@@ -1453,7 +1453,7 @@ Overfull \hbox (16.78812pt too wide) in paragraph at lines 253--254
  [][] 
  []
 
-<./Plots/LU/gen_residual_well_cond.png, id=547, 570.6921pt x 425.9112pt>
+<./Plots/LU/gen_residual_well_cond.png, id=551, 570.6921pt x 425.9112pt>
 File: ./Plots/LU/gen_residual_well_cond.png Graphic file (type png)
 <use ./Plots/LU/gen_residual_well_cond.png>
 Package pdftex.def Info: ./Plots/LU/gen_residual_well_cond.png  used on input l
@@ -1501,13 +1501,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: C53E4A12DEAF4E4D89F4A9FE3ACD81C2;5530.
  ) 
 Here is how much of TeX's memory you used:
- 29225 strings out of 474486
- 540197 string characters out of 5745644
+ 29228 strings out of 474486
+ 540237 string characters out of 5745644
  1946542 words of memory out of 5000000
- 50768 multiletter control sequences out of 15000+600000
+ 50769 multiletter control sequences out of 15000+600000
  570353 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,13n,131p,1488b,649s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,13n,131p,1489b,649s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx
 12.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmbxti10.pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
@@ -1528,9 +1528,9 @@ pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users
 Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/euler/eusm10.
 pfb><C:/Users/H/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbo
 ls/msbm10.pfb>
-Output written on main.pdf (51 pages, 1312816 bytes).
+Output written on main.pdf (51 pages, 1314083 bytes).
 PDF statistics:
- 674 PDF objects out of 1000 (max. 8388607)
- 138 named destinations out of 1000 (max. 500000)
+ 679 PDF objects out of 1000 (max. 8388607)
+ 140 named destinations out of 1000 (max. 500000)
  306 words of extra memory for PDF output out of 10000 (max. 10000000)
 
