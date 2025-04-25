@@ -52,7 +52,7 @@ It is shown in \cite{stewart2024spectraltransformationdensesymmetric} that
   \eta^2 \|X\|_2^2 \leq \left( 1 + \frac{1}{\sigma_0} \right)
   \frac{\mu}{\min_i \left| 1 - \frac{\lambda_i}{\sigma}\right|}
 \end{equation*}
-where the minimum is taken over all generalized eigenvalues $\lambda_i$ and $\sigma_0$ is as in (\ref{eq:ScaledShift}). Hence, if $\mu$ is not large, if $\sigma$ is not too close to a generalized eigenvalue, and if $\sigma_0$ is not too small, then $\eta^2 \|X\|_2^2$ is not large.  These conditions are easily satisfied in practice, so that the presence of $\eta^2 \|X\|^2$ in error bounds poses no problem.  It was also shown in \cite{stewart2024spectraltransformationdensesymmetric} that if the spectral transformation matrix is computed explicitly and then its eigenvalue decomposition is then computed, we obtain
+where the minimum is taken over all generalized eigenvalues $\lambda_i$ and $\sigma_0$ is as in (\ref{eq:ScaledShift}). Hence, if $\mu$ is not large, if $\sigma$ is not too close to a generalized eigenvalue, and if $\sigma_0$ is not too small, then $\eta^2 \|X\|_2^2$ is not large.  These conditions are easily satisfied in practice, so that the presence of $\eta^2 \|X\|^2$ in error bounds poses no problem.  It was also shown in \cite{stewart2024spectraltransformationdensesymmetric} that if the spectral transformation matrix is computed explicitly and its eigenvalue decomposition is then computed, we obtain
 \begin{equation}
   \label{eq:mixed_errors}
   (C_b + F_1)^T (A+E - \sigma (B+F))^{-1} (C_b + F_1) 
@@ -120,7 +120,7 @@ The numerical experiments in this thesis are performed using the Python programm
 For reproducibility, all code is written in Python $3.9.6$ and executed within a controlled environment using \texttt{virtualenv}. All numerical results have been validated by comparing different levels of precision where applicable and verifying consistency with analytical results when available. Code for the experiments is managed using version control with Git to ensure reproducibility and can be found in this repository.\footnote{\href{https://github.com/AyobamiAdebesin/ayobami_thesis}{https://github.com/AyobamiAdebesin/ayobami\_thesis}} 
 
 \section{Experimental Setup}\label{sec:Well-Conditioned}
-To evaluate the ST-Lanczos algorithm, we employ Algorithm~\ref{alg:problem_setup} to generate test matrices $A$ and $B$ with controlled eigenvalue distribution. For the purpose of this thesis, we will be testing with dense matrices. In practice, the ST-Lanczos method is typically applied to sparse matrices. However, we will experimenting with dense matrices, as they are easier to generate and more convenient for testing stability. The eigenvalues are divided into 3 distinct groups, each with a specified range (spread). For each of the three groups, a random set of eigenvalues was generated with a uniform distribution, ensuring that the eigenvalues are distributed evenly within their respective ranges.
+To evaluate the ST-Lanczos algorithm, we employ Algorithm~\ref{alg:problem_setup} to generate test matrices $A$ and $B$ with controlled eigenvalue distribution. For the purpose of this thesis, we will be testing with dense matrices. In practice, the ST-Lanczos method is typically applied to sparse matrices. However, we will be experimenting with dense matrices, as they are easier to generate and more convenient for testing stability. The eigenvalues are divided into 3 groups, each with a specified range (spread). For each of the three groups, a random set of eigenvalues was generated with a uniform distribution, ensuring that the eigenvalues are distributed evenly within their respective ranges.
 
 \begin{itemize}
 	\item[$\bullet$] Group $1$ contains $1000$ eigenvalues in the range $(10^{-3}, 10^{1})$
@@ -134,9 +134,9 @@ The three sets of eigenvalues are then concatenated into a single array $D \in \
 \end{equation*}
 As discussed in Section~\ref{sec:ProblemSetup}, $A$ and $B$ will be symmetric with $B$ being positive definite. The matrix $B$ is factored using the SciPy \texttt{cholesky} method which calls LAPACK \textbf{\texttt{xPOTRF}}. We chose to use this since $B$ was designed to be strictly positive definite, which does not require us to use pivoted Cholesky factorization. If it were merely semidefinite, pivoting would be required. We run Algorithm~\ref{alg:spectral_lanczos_algorithm} with $n=2000$ iterations to solve the spectral problem
 \begin{equation}\label{eq:ShiftedInvertedProblem2}
-	C_b^T (A-\sigma B)^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
+	C_b^T (A-\sigma B)^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0},
 \end{equation}
-and compute the Lanczos decomposition using the decompositions techniques for $A - \sigma B$ discussed in Section~\ref{sec:StableDecompositions}. We explore these techniques and observe the behavior of the residual bounds in the following sections.
+and compute the Lanczos decomposition using the decompositions techniques for $A - \sigma B$ discussed in Section~\ref{sec:StableDecompositions}. We explore the results obtained from using these techniques and observe the behavior of the residual bounds in the following sections.
 
 \subsection{Eigenvalue Decomposition - Moderate Shift}
 We begin by considering the eigenvalue decomposition of $A-\sigma B$ given by
@@ -145,7 +145,7 @@ We begin by considering the eigenvalue decomposition of $A-\sigma B$ given by
 \end{equation}
 so that the spectral transformed problem is given by
 \begin{equation}\label{3.4}
-	C_b^T W^{-T}D^{-1}W^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}
+	C_b^T W^{-T}D^{-1}W^{-1} C_b \mathbf{u} = \theta \mathbf{u}, \qquad \mathbf{u} \neq \mathbf{0}.
 \end{equation}
 This decomposition, done using the \texttt{linalg.eigh} function in SciPy, uses the LAPACK \texttt{dsyevd} routine for real symmetric matrices, which in turn uses divide-and-conquer algorithms for efficiency. For a moderate shift $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$, the Lanczos decomposition residual was observed to be of the order $10^{-27}$, indicating a highly accurate Lanczos decomposition.
 As shown in Fig~\ref{fig:EigGenResModerate}, using an eigenvalue decomposition achieves small residuals for eigenvalues close to or smaller in magnitude than the shift and gradually tends to increase for larger eigenvalues, consistent with the error bounds stated in Theorem~\ref{thrm:ResidualBounds}. We observe that these residuals approximately scale with $10^{-15}\lvert 1-\lambda_i/\sigma\rvert$. This scale factor appears in one of the error bounds in Theorem~\ref{thrm:ResidualBounds}. 
@@ -213,7 +213,7 @@ We observe that eigenvalues with orders of magnitude smaller than the shift achi
 
 
 \section{Effect of Ill-conditioning on Stability}\label{sec:Ill-Conditioned}
-As seen in the previous section, a symmetric decomposition for $A-\sigma B$ for the ST-Lanczos algorithm gave residuals that corresponds to the error bounds given in Theorem~\ref{thrm:ResidualBounds}. However, the main advantage of the direct method given in \cite{stewart2024spectraltransformationdensesymmetric} is that its stability is not affected by the ill-conditioning of $A-\sigma B$. In this section, we explore the effect of ill-conditioning for the symmetric and non-symmetric decomposition of $A-\sigma B$. To do this, we shall consider the moderate scaled shift $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$, set $\delta = 10^{-12}$ and employ Algorithm~\ref{alg:problem_setup} to generate new $A$ and $B$, so that the system is even more ill-conditioned:
+As seen in the previous section, a symmetric decomposition for $A-\sigma B$ for the ST-Lanczos algorithm gave residuals that corresponds to the error bounds given in Theorem~\ref{thrm:ResidualBounds}. However, the main advantage of the direct method given in \cite{stewart2024spectraltransformationdensesymmetric} is that its stability is not affected by the ill-conditioning of $A-\sigma B$. In this section, we explore the effect of ill-conditioning for the symmetric and non-symmetric decomposition of $A-\sigma B$. To do this, we shall consider the moderate scaled shift $\sigma_0 = 0.0017$ corresponding to $\sigma=1.5 \times 10^3$, set $\delta = 10^{-12}$, and employ Algorithm~\ref{alg:problem_setup} to generate new $A$ and $B$, so that the system is even more ill-conditioned:
 \begin{equation*}
 	\kappa(A) = 4.17 \times 10^{18}, \qquad \kappa(B) = 3.91 \times 10^{17}, \qquad \kappa(A-\sigma B) = 3.75 \times 10^{18}.
 \end{equation*}

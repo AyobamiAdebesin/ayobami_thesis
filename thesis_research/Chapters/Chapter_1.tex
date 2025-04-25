@@ -72,7 +72,7 @@ For any mathematical problem, we can associate a number called the \textit{condi
 
 For a matrix $A \in \mathbb{R}^{m\times n}$, the condition number with respect to a given norm is defined as
 \begin{equation}\label{eq:ConditionNoOfAMatrix}
-	\kappa(A) = \|A\| \cdot \|A\|^{-1}.
+	\kappa(A) = \|A\| \cdot \|A^{-1}\|.
 \end{equation}
 In simpler terms, the condition number quantifies how the relative error in the solution of a linear system $A\mathbf{x} = \mathbf{b}$ can be amplified when there is a small perturbation in the input vector $\mathbf{x}$. If $\kappa(A)$ is small, $A$ is said to be \textit{well-conditioned}; if $\kappa(A)$ is large, then $A$ is said to be \textit{ill-conditioned}. It should be noted that the notion of being ``small'' or ``large'' depends on the application or problem we are solving. If $\| \cdot\| = \| \cdot \|_2$ (spectral norm or $2$-norm), then $\|A\| = \sigma_1$ and $\| A^{-1} \| = 1/\sigma_m$, so that
 \begin{equation}\label{eq:ConditionNoWithSingularVal}
@@ -116,13 +116,13 @@ In this section, we shall consider the symmetric version of the generalized eige
 
 The symmetric-definite generalized eigenvalue problem is formally given by:
 \begin{equation}\label{eq:GenEigVal_Problem}
-	A\mathbf{v} = \lambda B\mathbf{v}, \qquad \mathbf{v} \neq 0
+	A\mathbf{v} = \lambda B\mathbf{v}, \qquad \mathbf{v} \neq 0,
 \end{equation}
 where $A \in \mathbb{R}^{m \times m}$ is symmetric and $B \in \mathbb{R}^{m \times m}$ is symmetric positive definite.
 
 Problem (\ref{eq:GenEigVal_Problem}) can be reformulated  as
 \begin{equation}\label{eq:ModifiedGeneralizedEigValProblem}
-	\beta A\mathbf{v} = \alpha B\mathbf{v}, \qquad \mathbf{v} \neq 0
+	\beta A\mathbf{v} = \alpha B\mathbf{v}, \qquad \mathbf{v} \neq 0.
 \end{equation}
 We have replaced $\lambda$ with $\alpha/\beta$ for convenience so that the generalized eigenvalues will be of the form $(\alpha, \beta)$. If $ \beta = 0$, then the infinite generalized eigenvalues will have the form $(\alpha, 0)$. The formulation using (\ref{eq:ModifiedGeneralizedEigValProblem}) is useful when describing the error bounds, as we shall later see. We shall alternate between (\ref{eq:GenEigVal_Problem}) and (\ref{eq:ModifiedGeneralizedEigValProblem}) when convenient.
 
@@ -134,7 +134,7 @@ so that
 \begin{equation}\label{eq:EquivalenceOfEigVals}
 	\Lambda(A, B) = \Lambda(P^{T}AP, P^{T}BP).
 \end{equation}
-Furthermore, for any symmetric-definite pair $(A, B)$, $A$ and $B$ can be simultaneously diagonalized by a non-singular matrix $P$ such that
+Furthermore, any symmetric-definite pair $(A, B)$, $A$ and $B$ can be simultaneously diagonalized by a non-singular matrix $P$ such that
 \begin{equation}\label{eq:SimultaneousDiag}
 	P^{T}AP = D_a \qquad \text{ and } \qquad P^TBP = D_b,
 \end{equation}
